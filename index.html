@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="dashboard.page_title">Ana Sayfa - Muhasebe Paneli</title>
+    <meta name="description" content="Muhasebe programı ana kontrol paneli - satış, alış, stok ve finans yönetimi">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="dashboard_modern.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+                            <header class="header">
+        <div class="header-left">
+            <div class="sidebar-toggle-box">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="logo-area">
+                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
+                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
+                <div class="header-lang-menu" id="header-lang-menu">
+                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
+                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
+                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
+                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
+                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
+                </div>
+            </div>
+            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
+            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
+            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
+            
+            <!-- Branch Switcher Dropdown -->
+            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
+                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
+                <div class="header-lang-menu" id="branch-dropdown-menu">
+                    <!-- Dynamic branches from JS -->
+                </div>
+            </div>
+
+            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
+            <div class="header-item user-item" onclick="toggleUserMenu(event)">
+                <i class="fa-solid fa-user"></i> 
+                <span>fevziye.mamak35@gmail.com</span>
+                <div class="user-dropdown-menu" id="user-dropdown-menu">
+                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
+                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
+                    <hr>
+                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Logo">
+            </a>
+        </div>
+        <ul class="sidebar-menu">
+
+            <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> <span
+                        data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
+            <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış
+                        Yap</span></a></li>
+            <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari
+                        Hesaplar</span></a></li>
+            <li><a href="stok_kartlari.html"><i class="fa-solid fa-boxes-stacked"></i> <span
+                        data-i18n="sidebar.stock">Stok Kartları</span></a></li>
+            <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span
+                        data-i18n="sidebar.invoices">Faturalar</span></a></li>
+            <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span
+                        data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
+            <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span
+                        data-i18n="sidebar.cash">Kasa</span></a></li>
+            <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span
+                        data-i18n="sidebar.bank">Banka</span></a></li>
+            <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span
+                        data-i18n="sidebar.checks">Çek Senet</span></a></li>
+            <li><a href="taksit_takip.html"><i class="fa-solid fa-calendar-days"></i> <span
+                        data-i18n="sidebar.installments">Taksit
+                        Takip</span></a></li>
+            <li><a href="teklif_siparis.html"><i class="fa-solid fa-file-contract"></i> <span
+                        data-i18n="sidebar.offers">Teklif
+                        Sipariş</span></a></li>
+            <li><a href="doviz_ayarlari.html" id="doviz_settings_link"><i class="fa-solid fa-dollar-sign"></i> <span data-i18n="sidebar.currency">Döviz Ayarları</span></a></li>
+            
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-file-lines"></i> <span
+                        data-i18n="sidebar.reports">Raporlar</span> <i
+                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
+                <ul class="submenu">
+                    <li><a href="cari_raporu.html"><i class="fa-solid fa-users"></i> <span data-i18n="report.cari">Cari</span></a></li>
+                    <li><a href="toplu_stok_raporu.html"><i class="fa-solid fa-box-open"></i> <span data-i18n="report.stok">Stok</span></a></li>
+                    <li><a href="taksit_rapor.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="report.taksit">Taksit</span></a></li>
+                    <li><a href="satis_raporu.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="report.satis">Satış</span></a></li>
+                    <li><a href="kasa_raporu.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="report.kasa">Kasa</span></a></li>
+                    <li><a href="banka_raporu.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="report.banka">Banka</span></a></li>
+                    <li><a href="cek_raporu.html"><i class="fa-solid fa-copy"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
+                    <li><a href="gun_sonu_raporu.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.gun_sonu">Gün Sonu Raporu</span></a></li>
+                    <li><a href="kar_zarar_analizi.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.kar_zarar">Kâr Zarar Analizi</span></a></li>
+                    <li><a href="gelir_gider.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
+                </ul>
+            </li>
+            <li><a href="mesajlar.html"><i class="fa-solid fa-envelope"></i> <span data-i18n="sidebar.messages">Mesajlar</span></a></li>
+            
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-layer-group"></i> <span
+                        data-i18n="sidebar.modules">Ek Modüller</span> <i
+                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
+                <ul class="submenu">
+                    <li><a href="personel_takip.html"><i class="fa-solid fa-user-clock"></i> <span data-i18n="word.personel_takip">Personel Takip</span></a></li>
+                    <li><a href="ajanda.html"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="word.ajanda">Ajanda</span></a></li>
+                    <li><a href="kisi_ekle.html"><i class="fa-solid fa-user-plus"></i> <span data-i18n="word.kisi_ekleme">Kişi Ekleme Paneli</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+                                        
+
+        <!-- Dashboard Content -->
+        <div class="dash-container">
+
+            <!-- Welcome Banner -->
+            <div class="dash-welcome-banner" id="welcomeBanner">
+                <div class="welcome-content">
+                    <div class="welcome-text">
+                        <h1 id="welcomeGreeting" data-i18n="dashboard.welcome">Ho&#351; Geldiniz!</h1>
+                        <p class="welcome-subtitle" id="welcomeDate"></p>
+                    </div>
+                    <div class="welcome-clock" id="welcomeClock"></div>
+                </div>
+                <div class="welcome-wave"></div>
+            </div>
+
+            <!-- Quick Access Module Cards -->
+        <div class="selection-section">
+            <div class="section-header">
+                <i class="fa-solid fa-grip"></i>
+                <span data-i18n="dashboard.quick_access">Hızlı Erişim</span>
+            </div>
+            <div class="content-box">
+                <div class="dash-modules-grid">
+                <a href="fatura_merkezi.html" class="dash-module-card mod-indigo" id="mod-fatura">
+                    <div class="mod-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div class="mod-label"><span data-i18n="sidebar.invoices">Faturalar</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="efatura.html" class="dash-module-card mod-violet" id="mod-efatura">
+                    <div class="mod-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="mod-label"><span data-i18n="sidebar.einvoice">E-Fatura</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="mesajlar.html" class="dash-module-card mod-blue" id="mod-mesaj">
+                    <div class="mod-icon"><i class="fa-solid fa-envelope"></i></div>
+                    <div class="mod-label"><span data-i18n="sidebar.messages">Mesajlar</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="kisi_ekle.html" class="dash-module-card mod-teal" id="mod-cariekle">
+                    <div class="mod-icon"><i class="fa-solid fa-user-plus"></i></div>
+                    <div class="mod-label"><span data-i18n="satis.new_customer">Cari Ekle</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="cari_hesaplar.html" class="dash-module-card mod-emerald" id="mod-yenicari">
+                    <div class="mod-icon"><i class="fa-solid fa-address-book"></i></div>
+                    <div class="mod-label"><span data-i18n="mega.customer_list">Yeni Cari</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="doviz_ayarlari.html" class="dash-module-card mod-slate" id="mod-doviz">
+                    <div class="mod-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+                    <div class="mod-label"><span data-i18n="sidebar.currency">Döviz Ayarları</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="kasa.html" class="dash-module-card mod-amber" id="mod-kasa">
+                    <div class="mod-icon"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="mod-label"><span data-i18n="sidebar.cash">Kasa</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+                <a href="gelir_gider_ekle.html" class="dash-module-card mod-rose" id="mod-gelirgider_ekle">
+                    <div class="mod-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    <div class="mod-label"><span data-i18n="word.gelir_gider_ekle">Gel/Gid. Ekle</span></div>
+                    <div class="mod-glow"></div>
+                </a>
+            </div>
+            </div>
+            <!-- Quick Stats Row -->
+            <div class="selection-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-chart-bar"></i>
+                    <span data-i18n="dashboard.quick_stats">Hızlı İstatistikler</span>
+                </div>
+                <div class="content-box">
+                    <div class="dash-stats-row">
+                        <div class="dash-stat-card stat-sales">
+                    <div class="stat-icon-wrap">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label" data-i18n="dashboard.last_30_sales">Last 30 Days Sales</span>
+                        <span class="stat-value total-sales-amount">0,00</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                </div>
+                <div class="dash-stat-card stat-purchase">
+                    <div class="stat-icon-wrap">
+                        <i class="fa-solid fa-truck"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label" data-i18n="dashboard.last_30_purchases">Last 30 Days Purchase</span>
+                        <span class="stat-value total-purchase-amount">0,00</span>
+                    </div>
+                    <div class="stat-trend down">
+                        <i class="fa-solid fa-arrow-trend-down"></i>
+                    </div>
+                </div>
+                <div class="dash-stat-card stat-profit">
+                    <div class="stat-icon-wrap">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label" data-i18n="dashboard.last_30_profit">Last 30 Days Profit</span>
+                        <span class="stat-value profit-amount">0,00</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <i class="fa-solid fa-arrow-trend-up"></i>
+                    </div>
+                </div>
+                <div class="dash-stat-card stat-kdv">
+                    <div class="stat-icon-wrap">
+                        <i class="fa-solid fa-percent"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-label" data-i18n="dashboard.last_30_kdv">Last 30 Days VAT</span>
+                        <span class="stat-value kdv-amount">0,00</span>
+                    </div>
+                    <div class="stat-trend neutral">
+                        <i class="fa-solid fa-minus"></i>
+                    </div>
+                </div>
+            </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Charts Section -->
+            <div class="selection-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span data-i18n="dashboard.monthly_charts">Aylık Grafikler</span>
+                </div>
+                <div class="content-box">
+            <div class="dash-charts-grid">
+                <div class="dash-chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-dot blue"></div>
+                        <h4 data-i18n="dashboard.sales_chart">Aylık Satış</h4>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+                <div class="dash-chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-dot emerald"></div>
+                        <h4 data-i18n="dashboard.purchase_chart">Ayl&#305;k Al&#305;&#351;</h4>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="purchaseChart"></canvas>
+                    </div>
+                </div>
+                <div class="dash-chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-dot amber"></div>
+                        <h4 data-i18n="dashboard.collection_chart">Aylık Tahsilat</h4>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="collectionChart"></canvas>
+                    </div>
+                </div>
+                <div class="dash-chart-card">
+                    <div class="chart-card-header">
+                        <div class="chart-dot rose"></div>
+                        <h4 data-i18n="dashboard.payment_chart">Ayl&#305;k &Ouml;deme</h4>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="paymentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+
+            <!-- Balance Section -->
+            <div class="selection-section">
+                <div class="section-header">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                    <span data-i18n="dashboard.balance_status">Bakiye Durumu</span>
+                </div>
+                <div class="content-box">
+            <div class="dash-balance-grid">
+                <div class="dash-balance-card">
+                    <div class="balance-card-header">
+                        <div class="balance-icon-wrap bank">
+                            <i class="fa-solid fa-building-columns"></i>
+                        </div>
+                        <h4><span data-i18n="dashboard.bank_balances">Banka Bakiyeleri</span></h4>
+                    </div>
+                    <div class="balance-chart-wrap">
+                        <canvas id="bankBalancesChart"></canvas>
+                    </div>
+                    <table class="dash-balance-table">
+                        <thead>
+                            <tr>
+                                <th><span data-i18n="dashboard.bank_account">Banka Hesap</span></th>
+                                <th><span data-i18n="dashboard.account_no">Hesap No</span></th>
+                                <th><span data-i18n="dashboard.balance">Bakiye</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="bankBalancesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="dash-balance-card">
+                    <div class="balance-card-header">
+                        <div class="balance-icon-wrap cash">
+                            <i class="fa-solid fa-cash-register"></i>
+                        </div>
+                        <h4><span data-i18n="dashboard.cash_balances">Kasa Bakiyeleri</span></h4>
+                    </div>
+                    <div class="balance-chart-wrap">
+                        <canvas id="cashBalancesChart"></canvas>
+                    </div>
+                    <table class="dash-balance-table">
+                        <thead>
+                            <tr>
+                                <th><span data-i18n="dashboard.cash">Kasa</span></th>
+                                <th><span data-i18n="dashboard.balance">Bakiye</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="cashBalancesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+    </footer>
+
+    <script src="translations.js?v=1776685628940"></script>
+    <script src="dashboard_charts.js?v=3"></script>
+    <script src="script.js?v=1776685628940"></script>
+    <script>
+        // Welcome banner: date, time
+        (function () {
+            function updateDateTime() {
+                const now = new Date();
+                const lang = localStorage.getItem('language') || 'en';
+                const localeMap = { 'tr': 'tr-TR', 'en': 'en-US', 'de': 'de-DE', 'ru': 'ru-RU', 'zh': 'zh-CN' };
+                const locale = localeMap[lang] || 'en-US';
+
+                // Update Date
+                const dateOptions = { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' };
+                const dateStr = now.toLocaleDateString(locale, dateOptions);
+                const dateEl = document.getElementById('welcomeDate');
+                if (dateEl) dateEl.textContent = dateStr;
+
+                // Update Time
+                const timeStr = now.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                const clockEl = document.getElementById('welcomeClock');
+                if (clockEl) clockEl.textContent = timeStr;
+            }
+            
+            updateDateTime();
+            setInterval(updateDateTime, 1000);
+            
+            // Listen for language changes to update immediately
+            window.addEventListener('languageChanged', updateDateTime);
+        })();
+
+        // Staggered animation for module cards
+        document.querySelectorAll('.dash-module-card').forEach((card, i) => {
+            card.style.animationDelay = `${i * 0.06}s`;
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F1') { e.preventDefault(); window.location.href = 'cari_hesaplar.html'; }
+        });
+    </script>
+
+<script src='excelExportUniversal.js'></script></body>
+
+</html>

@@ -1,0 +1,43 @@
+/* --- SCROLLING TABLE DROPDOWN STYLES --- */
+.action-dropdown-menu {
+    max-height: 150px !important;
+    /* Limit height to induce scrolling if needed */
+    overflow-y: auto !important;
+    /* Enable vertical scrolling */
+    border-collapse: collapse;
+    /* Table-like feel */
+    padding: 0 !important;
+    /* Remove padding to let items touch edges */
+}
+
+/* Scrollbar styling for webkit browsers */
+.action-dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.action-dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.action-dropdown-menu::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.action-dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Item Styling as Table Rows */
+.action-dropdown-item {
+    border-bottom: 1px solid #eee !important;
+    /* Separator lines */
+    padding: 10px 15px !important;
+    /* Row-like padding */
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.action-dropdown-item:last-child {
+    border-bottom: none !important;
+}

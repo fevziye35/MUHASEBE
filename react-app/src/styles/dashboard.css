@@ -1,0 +1,209 @@
+/* Dashboard Modern Styling - MAKFA Accounting */
+
+:root {
+    --dash-bg: #f8fafc;
+    --dash-card-bg: #ffffff;
+    --dash-primary: #6366f1;
+    --dash-primary-dark: #4338ca;
+    --dash-success: #10b981;
+    --dash-warning: #f59e0b;
+    --dash-danger: #ef4444;
+    --dash-indigo: #818cf8;
+}
+
+.dash-container {
+    width: 100%;
+    padding: 24px;
+    background: var(--dash-bg);
+}
+
+/* Premium Welcome Banner */
+.dash-welcome-banner {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-radius: 20px;
+    padding: 32px 40px;
+    color: white;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+}
+
+.dash-welcome-banner::after {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+}
+
+.welcome-text h1 {
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 0;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.welcome-clock {
+    font-size: 2.2rem;
+    font-weight: 900;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Premium Stat Cards */
+.dash-stat-card-premium {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    border: 1px solid #f1f5f9;
+}
+
+.dash-stat-card-premium:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+}
+
+.stat-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.stat-title {
+    display: block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 24px;
+    font-weight: 900;
+    color: #1e293b;
+}
+
+.stat-icon-box {
+    width: 54px;
+    height: 54px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.stat-sales .stat-icon-box { background: #eef2ff; color: #6366f1; }
+.stat-purchase .stat-icon-box { background: #fff1f2; color: #e11d48; }
+.stat-profit .stat-icon-box { background: #ecfdf5; color: #059669; }
+.stat-kdv .stat-icon-box { background: #fffbeb; color: #d97706; }
+
+.stat-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.trend-badge {
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.trend-badge.up { background: #dcfce7; color: #15803d; }
+.trend-badge.down { background: #fee2e2; color: #b91c1c; }
+.trend-badge.neutral { background: #f1f5f9; color: #475569; }
+
+/* Premium Module Cards */
+.dash-module-card-premium {
+    background: white;
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-decoration: none;
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.dash-module-card-premium:hover {
+    transform: scale(1.03);
+    border-color: #e2e8f0;
+    box-shadow: 0 15px 35px -10px rgba(0,0,0,0.08);
+}
+
+.module-icon-circle {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+}
+
+.mod-blue { background: #eff6ff; color: #3b82f6; }
+.mod-emerald { background: #ecfdf5; color: #10b981; }
+.mod-amber { background: #fffbeb; color: #f59e0b; }
+.mod-rose { background: #fff1f2; color: #f43f5e; }
+.mod-violet { background: #f5f3ff; color: #8b5cf6; }
+.mod-cyan { background: #ecfeff; color: #06b6d4; }
+.mod-teal { background: #f0fdfa; color: #14b8a6; }
+.mod-indigo { background: #eef2ff; color: #6366f1; }
+.mod-slate { background: #f8fafc; color: #475569; }
+.mod-orange { background: #fff7ed; color: #f97316; }
+
+.module-title {
+    display: block;
+    font-weight: 800;
+    color: #1e293b;
+    font-size: 15px;
+}
+
+.module-desc {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+/* Section Titles */
+.dash-section-title {
+    margin: 30px 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #1e293b;
+}
+
+.dash-section-title i { color: #6366f1; }
+
+@media (max-width: 1024px) {
+    .dash-container { padding: 20px; }
+    .dash-welcome-banner { padding: 40px; }
+    .welcome-text h1 { font-size: 2rem; }
+}

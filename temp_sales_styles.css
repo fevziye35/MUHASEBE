@@ -1,0 +1,9 @@
+/* Sales Page Specific Styles */
+.bg-gray-header {
+    background-color: #95a5a6 !important;
+    color: white !important;
+}
+
+.max-w-100 {
+    max-width: 100% !important;
+}

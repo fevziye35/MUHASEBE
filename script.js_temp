@@ -1,0 +1,266 @@
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Application Loaded');
+
+    // Simple interaction for buttons to show they are clickable
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // If it's a link, let it navigate
+            if (btn.tagName === 'A') return;
+
+            // Otherwise, mock action
+            if (!btn.classList.contains('action-btn')) {
+                // Don't alert for dropdowns to avoid annoyance in table
+                // console.log('Button clicked:', btn.innerText.trim());
+            }
+        });
+    });
+
+    // BABS Raporu functionality
+    const btnReport = document.querySelector('.btn-report');
+    if (btnReport) {
+        btnReport.addEventListener('click', () => {
+            // Check if we are on babs_raporu.html (simple check)
+            const yearSelect = document.getElementById('yearSelect');
+            if (yearSelect) {
+                const year = yearSelect.value;
+                const month = document.getElementById('monthSelect').options[document.getElementById('monthSelect').selectedIndex].text;
+                const type = document.getElementById('typeSelect').options[document.getElementById('typeSelect').selectedIndex].text;
+                alert(`${year} ${month} dönemi için ${type} oluşturuluyor...`);
+            }
+        });
+    }
+
+    // Excel Export Functionality
+    const btnExportExcel = document.getElementById('btnExportExcel');
+    if (btnExportExcel) {
+        btnExportExcel.addEventListener('click', () => {
+            // Sample data for 7 rows as requested
+            const sampleData = [
+                ["1", "01.01.2026", "01.02.2026", "ABC Teknoloji A.Ş.", "BEKLEME", "15.000,00 ₺", "Fatura No: 123"],
+                ["2", "05.01.2026", "05.03.2026", "XYZ İnşaat Ltd. Şti.", "BANKADA", "25.500,00 ₺", "Hakediş Ödemesi"],
+                ["3", "10.01.2026", "10.02.2026", "Delta Gıda Sanayi", "CİRO EDİLDİ", "8.250,00 ₺", "Mal Alımı"],
+                ["4", "12.01.2026", "12.04.2026", "Mega Lojistik A.Ş.", "BEKLEME", "42.000,00 ₺", "Nakliye Bedeli"],
+                ["5", "15.01.2026", "15.02.2026", "Ay-Yıldız Market", "ÖDENDİ", "3.000,00 ₺", "Kısmi Ödeme"],
+                ["6", "20.01.2026", "20.03.2026", "Kuzey Mobilya", "İADE", "12.750,00 ₺", "Hatalı Ürün"],
+                ["7", "28.01.2026", "28.02.2026", "Güney Tekstil", "BEKLEME", "19.900,00 ₺", "Kumaş Alımı"]
+            ];
+
+            const headers = ["#", "Tarih", "Vade", "Firma", "Durumu", "Tutar", "Detay"];
+            let csvContent = "\uFEFF"; // BOM for UTF-8
+
+            // Add Headers
+            csvContent += headers.join(";") + "\n";
+
+            // Add Sample Data
+            sampleData.forEach(rowArray => {
+                let row = rowArray.map(item => `"${item}"`).join(";");
+                csvContent += row + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute("href", url);
+            link.setAttribute("download", "cek_senet_listesi.csv");
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+
+    // Global click to close export dropdown
+    document.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('exportDropdown');
+        const btn = document.getElementById('btnExport');
+
+        if (dropdown && btn) {
+            if (!dropdown.contains(event.target) && !btn.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        }
+    });
+
+    // Toggle Export Dropdown
+    const btnExport = document.getElementById('btnExport');
+    if (btnExport) {
+        btnExport.addEventListener('click', function () {
+            const dropdown = document.getElementById('exportDropdown');
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+                // Position it near the button if needed, but absolute positioning in CSS relative to parent helps
+                const rect = btnExport.getBoundingClientRect();
+                // dropdown.style.top = rect.bottom + 'px'; // If fixed/absolute to body
+                // dropdown.style.left = rect.left + 'px';
+                dropdown.style.top = '30px'; // Relative to parent container
+                dropdown.style.left = '0px';
+            }
+        });
+    }
+
+    window.exportBakiyeCSV = function () {
+        // Close dropdown
+        const dropdown = document.getElementById('exportDropdown');
+        if (dropdown) dropdown.style.display = 'none';
+
+        // Sample data matching the table
+        const sampleData = [
+            ["Ziraat Bankası", "Merkez Şube", "1.500.000,00 ₺", "TL"],
+            ["Garanti BBVA", "Kadıköy Şubesi", "250.000,00 $", "USD"],
+            ["İş Bankası", "Levent Şubesi", "120.000,00 €", "EUR"],
+            ["Akbank", "Kızılay Şubesi", "45.000,00 ₺", "TL"],
+            ["Yapı Kredi", "Alsancak Şubesi", "10.000,00 £", "GBP"]
+        ];
+
+        const headers = ["Banka Adı", "Şube", "Bakiye", "Döviz"];
+        let csvContent = "\uFEFF"; // BOM for UTF-8
+
+        // Add Headers
+        csvContent += headers.join(";") + "\n";
+
+        // Add Sample Data
+        sampleData.forEach(rowArray => {
+            let row = rowArray.map(item => `"${item}"`).join(";");
+            csvContent += row + "\n";
+        });
+
+        // Add Footer
+        csvContent += "\n;;BANKA HESAPLARI TOPLAMI :;1.545.000,00 ₺";
+
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        const url = URL.createObjectURL(blob);
+
+        link.setAttribute("href", url);
+        link.setAttribute("download", "banka_bakiye_raporu.csv");
+        link.style.visibility = 'hidden';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    window.exportTo = function (format) {
+        // Close dropdown
+        const dropdown = document.getElementById('exportDropdown');
+        if (dropdown) dropdown.style.display = 'none';
+
+        // Map formats to extensions and MIME types
+        const formatMap = {
+            'Adobe Acrobat': { ext: 'pdf', type: 'application/pdf' },
+            'Excel 2007': { ext: 'xlsx', type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
+            'Microsoft Word 2007': { ext: 'docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+            'PowerPoint 2007': { ext: 'pptx', type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' },
+            'Text File': { ext: 'txt', type: 'text/plain' },
+            'Rich Text': { ext: 'rtf', type: 'application/rtf' },
+            'Microsoft XPS': { ext: 'xps', type: 'application/vnd.ms-xpsdocument' },
+            'OpenOffice Calc': { ext: 'ods', type: 'application/vnd.oasis.opendocument.spreadsheet' },
+            'OpenOffice Writer': { ext: 'odt', type: 'application/vnd.oasis.opendocument.text' },
+            'MHT': { ext: 'mht', type: 'message/rfc822' },
+            'XML Table': { ext: 'xml', type: 'application/xml' },
+            'DBF Table': { ext: 'dbf', type: 'application/dbase' }
+        };
+
+        const config = formatMap[format];
+        if (config) {
+            // Create dummy content
+            const content = `Demo content for ${format} file.`;
+            const blob = new Blob([content], { type: config.type });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+
+            link.setAttribute("href", url);
+            link.setAttribute("download", `banka_bakiye_raporu.${config.ext}`);
+            link.style.visibility = 'hidden';
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } else {
+            console.warn(`Format ${format} not supported for dummy download.`);
+        }
+    };
+
+    // Sidebar Toggle Functionality
+    const sidebarToggle = document.querySelector('.sidebar-toggle-box');
+    if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', () => {
+            document.body.classList.toggle('sidebar-collapsed');
+        });
+    }
+
+    // Back Button Functionality
+    const headerItems = document.querySelectorAll('.header-item');
+    headerItems.forEach(item => {
+        if (item.innerText.includes('Geri Dön')) {
+            item.addEventListener('click', () => {
+                window.history.back();
+            });
+        }
+    });
+
+    window.searchTable = function () {
+        const searchTerm = prompt("LÜTFEN ARAMA YAPMAK İSTEDİĞİNİZ KELİMEYİ GİRİN!");
+        if (searchTerm === null) return; // Cancelled
+
+        const lowerTerm = searchTerm.toLowerCase();
+        const rows = document.querySelectorAll('.bakiye-table tbody tr');
+        let visibleCount = 0;
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            if (text.includes(lowerTerm)) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        if (visibleCount === 0) {
+            alert("Eşleşen kayıt bulunamadı.");
+            // Reset to show all if none found (optional, but good UX usually)
+            // rows.forEach(row => row.style.display = '');
+        }
+    };
+});
+ 
+ / *   - - -   S H A R E D   T R A N S A C T I O N   U T I L I T Y   - - -   * /  
+ f u n c t i o n   a d d S t o c k T r a n s a c t i o n ( t r a n s a c t i o n D a t a )   {  
+         / *    
+             E x p e c t e d   t r a n s a c t i o n D a t a :  
+             {  
+                   s t o c k I d :   n u m b e r | s t r i n g ,   ( O p t i o n a l   i f   w e   w a n t   t o   f i l t e r   b y   s t o c k ,   b u t   c u r r e n t l y   s t o k _ d e t a y   j u s t   r e a d s   a l l .   W e   s h o u l d   a d d   s t o c k I d   i n   f u t u r e   b u t   f o r   n o w   f o l l o w   e x i s t i n g   p a t t e r n )  
+                   d a t e :   s t r i n g   ( Y Y Y Y - M M - D D ) ,  
+                   t y p e :   s t r i n g ,  
+                   d e s c :   s t r i n g ,  
+                   w a r e h o u s e :   s t r i n g ,  
+                   a m o u n t :   s t r i n g | n u m b e r  
+             }  
+         * /  
+         c o n s t   t r a n s a c t i o n s   =   J S O N . p a r s e ( l o c a l S t o r a g e . g e t I t e m ( ' s t o c k T r a n s a c t i o n s ' ) )   | |   [ ] ;  
+  
+         / /   A u t o - i n c r e m e n t   I D  
+         c o n s t   m a x I d   =   t r a n s a c t i o n s . l e n g t h   >   0   ?   M a t h . m a x ( . . . t r a n s a c t i o n s . m a p ( t   = >   t . i d ) )   :   0 ;  
+         c o n s t   n e w I d   =   m a x I d   +   1 ;  
+  
+         c o n s t   n e w T r a n s a c t i o n   =   {  
+                 i d :   n e w I d ,  
+                 d a t e :   t r a n s a c t i o n D a t a . d a t e   | |   n e w   D a t e ( ) . t o I S O S t r i n g ( ) . s p l i t ( ' T ' ) [ 0 ] ,  
+                 t y p e :   t r a n s a c t i o n D a t a . t y p e   | |   ' I S L E M ' ,  
+                 d e s c :   t r a n s a c t i o n D a t a . d e s c   | |   ' ' ,  
+                 w a r e h o u s e :   t r a n s a c t i o n D a t a . w a r e h o u s e   | |   ' - ' ,  
+                 a m o u n t :   t r a n s a c t i o n D a t a . a m o u n t   | |   ' 0 ' ,  
+                 s t o c k I d :   t r a n s a c t i o n D a t a . s t o c k I d   | |   n u l l   / /   G o o d   p r a c t i c e   t o   s t o r e   t h i s  
+         } ;  
+  
+         t r a n s a c t i o n s . p u s h ( n e w T r a n s a c t i o n ) ;  
+         l o c a l S t o r a g e . s e t I t e m ( ' s t o c k T r a n s a c t i o n s ' ,   J S O N . s t r i n g i f y ( t r a n s a c t i o n s ) ) ;  
+         c o n s o l e . l o g ( ' T r a n s a c t i o n   a d d e d : ' ,   n e w T r a n s a c t i o n ) ;  
+ }  
+ 

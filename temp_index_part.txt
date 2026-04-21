@@ -1,0 +1,41 @@
+                    <div class="icon"><i class="fa-solid fa-cart-plus"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="dashboard.purchase">Alış Yap</h3>
+                    </div>
+                </a>
+                <a href="satis_yap.html" class="module-card">
+                    <div class="icon"><i class="fa-solid fa-tags"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="dashboard.sales">Satış Yap</h3>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Module Cards - Row 2 -->
+            <div class="module-grid">
+                <a href="cek_senet.html" class="module-card">
+                    <div class="icon"><i class="fa-solid fa-money-check"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="sidebar.checks">Çek Senet</h3>
+                    </div>
+                </a>
+                <a href="banka_ozet.html" class="module-card">
+                    <div class="icon"><i class="fa-solid fa-landmark"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="sidebar.bank">Banka</h3>
+                    </div>
+                </a>
+                <a href="kasa.html" class="module-card">
+                    <div class="icon"><i class="fa-solid fa-wallet"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="sidebar.cash">Kasa</h3>
+                    </div>
+                </a>
+                <a href="faturalar.html" class="module-card">
+                    <div class="icon"><i class="fa-solid fa-receipt"></i></div>
+                    <div class="card-content">
+                        <h3 data-i18n="sidebar.invoices">Faturalar</h3>
+                    </div>
+                </a>
+            </div>
+

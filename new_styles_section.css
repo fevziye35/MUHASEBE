@@ -1,0 +1,98 @@
+/* --- STOCK TRANSACTIONS SECTION --- */
+.transactions-header {
+    background: none;
+    border: none;
+    padding-left: 0;
+}
+
+.transactions-title {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333;
+}
+
+.transactions-content {
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+.transactions-filter-row {
+    background: white;
+    border: none;
+    padding: 0;
+    margin-bottom: 20px;
+    align-items: flex-end;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.date-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.date-label {
+    font-weight: bold;
+    color: var(--btn-dark-blue);
+    font-size: 14px;
+}
+
+.date-input {
+    background-color: #f0f2f5;
+    width: 250px;
+}
+
+.filter-select {
+    width: 150px;
+    height: 38px;
+}
+
+.btn-icon-square {
+    height: 38px;
+    width: 40px;
+    justify-content: center;
+}
+
+.table-header-row {
+    border-bottom: 1px solid #eee;
+}
+
+.th-white {
+    background: white !important;
+}
+
+.th-actions {
+    width: 140px;
+    background: white !important;
+    border-right: 1px solid #eee;
+    color: #333;
+}
+
+.td-actions {
+    border-right: 1px solid #eee;
+}
+
+.td-action-btn {
+    padding: 5px 15px;
+    font-size: 13px;
+    background-color: #5d6d7e;
+}
+
+.desc-link {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.footer-label {
+    font-weight: bold;
+    color: var(--btn-dark-blue);
+}
+
+.footer-select {
+    width: 60px;
+}
