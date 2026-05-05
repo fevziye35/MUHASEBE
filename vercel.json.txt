@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "outputDirectory": "dist",
+  "rewrites": [
+    { "source": "/ajanda", "destination": "/ajanda.html" },
+    { "source": "/total_i18n.js", "destination": "/total_i18n.js" },
+    { "source": "/(.*).html", "destination": "/$1.html" },
+    { "source": "/(.*).js", "destination": "/$1.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stok Etiketi Bas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Toolbar */
+        .report-toolbar {
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            border-bottom: 1px solid #ced4da;
+            padding: 5px 10px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .toolbar-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .toolbar-btn:hover {
+            background-color: #dee2e6;
+        }
+
+        .toolbar-btn img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Report Content */
+        .report-content {
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: calc(100vh - 50px);
+        }
+
+        /* Label Design */
+        .stock-label {
+            width: 250px;
+            height: 150px;
+            border: 1px solid #000;
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .label-header {
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .label-price {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .barcode-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            .report-toolbar {
+                display: none;
+            }
+
+            /* Make label visible and positioned at top-left of the page */
+            .stock-label,
+            .stock-label * {
+                visibility: visible;
+            }
+
+            .stock-label {
+                position: absolute;
+                left: 0;
+                top: 0;
+                margin: 0;
+                box-shadow: none;
+                /* Ensure content colors are black/visible */
+                color: black;
+                background-color: white;
+            }
+        }
+
+        /* Search Modal Styles */
+        .modal-content-search {
+            max-width: 600px;
+        }
+
+        .search-header {
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .search-input-modal {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            /* Important for padding */
+        }
+
+        .stock-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .stock-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .stock-table thead {
+            background: #f8f9fa;
+            position: sticky;
+            top: 0;
+        }
+
+        .stock-table th {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .stock-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .no-data-cell {
+            padding: 15px;
+            text-align: center;
+            color: #666;
+        }
+
+        .select-btn {
+            padding: 5px 10px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .select-btn:hover {
+            background: #2980b9;
+        }
+
+        .top-sticky {
+            position: sticky;
+            top: 0;
+        }
+
+        .border-b-2-ddd {
+            border-bottom: 2px solid #ddd;
+        }
+    </style>
+</head>
+
+<body>
+                            <header class="header">
+        <div class="header-left">
+            <div class="sidebar-toggle-box">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="logo-area">
+                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
+                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
+                <div class="header-lang-menu" id="header-lang-menu">
+                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
+                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
+                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
+                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
+                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
+                </div>
+            </div>
+            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
+            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
+            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
+            
+            <!-- Branch Switcher Dropdown -->
+            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
+                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
+                <div class="header-lang-menu" id="branch-dropdown-menu">
+                    <!-- Dynamic branches from JS -->
+                </div>
+            </div>
+
+            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
+            <div class="header-item user-item" onclick="toggleUserMenu(event)">
+                <i class="fa-solid fa-user"></i> 
+                <span>fevziye.mamak35@gmail.com</span>
+                <div class="user-dropdown-menu" id="user-dropdown-menu">
+                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
+                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
+                    <hr>
+                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="report-toolbar">
+        <button class="toolbar-btn" id="btnSavePdf" title="Kaydet"><i
+                class="fa-solid fa-floppy-disk toolbar-icon"></i></button>
+        <button class="toolbar-btn" onclick="window.print()" title="Yazdır"><i
+                class="fa-solid fa-print toolbar-icon"></i></button>
+        <button class="toolbar-btn" title="Ara"><i class="fa-solid fa-magnifying-glass toolbar-icon"></i></button>
+        <button class="toolbar-btn" onclick="window.location.reload()" title="Yenile"><i
+                class="fa-solid fa-rotate-right toolbar-icon"></i></button>
+    </div>
+
+    <!-- html2pdf Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- JsBarcode Library -->
+    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+
+    <script>
+        document.getElementById('btnSavePdf').addEventListener('click', function () {
+            const element = document.getElementById('labelContainer');
+
+            const opt = {
+                margin: 1,
+                filename: 'Stok_Etiketi.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        });
+    </script>
+
+    <div class="report-content">
+        <div class="stock-label" id="labelContainer">
+            <div class="label-header" id="lblName">Yükleniyor...</div>
+            <div class="label-price" id="lblPrice">Fiyat: 0,00 ₺</div>
+            <div class="barcode-container">
+                <svg id="barcode"></svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="searchModal" class="modal">
+        <div class="modal-content modal-content-search">
+            <span class="close-modal">&times;</span>
+            <h3 class="search-header">Stok Ara</h3>
+            <input type="text" id="searchInput" placeholder="Stok adı veya barkod ara..." class="search-input-modal">
+            <div class="stock-list-container">
+                <table class="stock-table">
+                    <thead>
+                        <tr>
+                            <th>Stok Adı</th>
+                            <th>Barkod</th>
+                            <th class="text-right">Fiyat</th>
+                            <th class="text-center"><span data-i18n="word.islem">İşlem</span></th>
+                        </tr>
+                    </thead>
+                    <tbody id="stockListBody">
+                        <!-- Dynamic Content -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const stockId = urlParams.get('id');
+
+            // --- Barcode & Label Logic ---
+            if (stockId) {
+                const stockCards = JSON.parse(localStorage.getItem('stockCards')) || [];
+                const stock = stockCards.find(s => s.id == stockId);
+
+                if (stock) {
+                    document.getElementById('lblName').textContent = stock.stockName || stock.name || 'Stok Adı Yok';
+                    const price = stock.sellPrice || stock.salesPrice || '0.00';
+                    document.getElementById('lblPrice').textContent = `Fiyat: ${parseFloat(price).toLocaleString('tr-TR', { minimumFractionDigits: 2 })} ₺`;
+
+                    // Generate Barcode
+                    JsBarcode("#barcode", stock.barcode || "000000", {
+                        format: "CODE128",
+                        width: 2,
+                        height: 40,
+                        displayValue: true,
+                        margin: 0,
+                        fontSize: 14
+                    });
+
+                } else {
+                    document.getElementById('lblName').textContent = 'Stok Bulunamadı';
+                }
+            } else {
+                document.getElementById('lblName').textContent = 'ID Eksik';
+            }
+
+            // --- Search Modal Logic ---
+            const modal = document.getElementById('searchModal');
+            const searchBtn = document.querySelector('.toolbar-btn[title="Ara"]');
+            const closeBtn = document.querySelector('.close-modal');
+            const searchInput = document.getElementById('searchInput');
+            const tbody = document.getElementById('stockListBody');
+
+            // Open Modal
+            searchBtn.addEventListener('click', () => {
+                modal.style.display = 'block';
+                loadStockList();
+                searchInput.focus();
+            });
+
+            // Close Modal
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (event) => {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            });
+
+            // Filter Logic
+            searchInput.addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const rows = tbody.querySelectorAll('tr');
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(term) ? '' : 'none';
+                });
+            });
+
+            function loadStockList() {
+                const stocks = JSON.parse(localStorage.getItem('stockCards')) || [];
+                tbody.innerHTML = '';
+
+                if (stocks.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="no-data-cell">Kayıtlı stok bulunamadı.</td></tr>';
+                    return;
+                }
+
+                stocks.forEach(stock => {
+                    const tr = document.createElement('tr');
+
+                    const name = stock.stockName || stock.name || '-';
+                    const barcode = stock.barcode || '-';
+                    const price = parseFloat(stock.sellPrice || stock.salesPrice || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2 });
+
+                    tr.innerHTML = `
+                        <td>${name}</td>
+                        <td>${barcode}</td>
+                        <td class="text-right">${price} ₺</td>
+                        <td class="text-center">
+                            <button class="select-btn" data-id="${stock.id}">Seç</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Attach click handlers to new buttons
+                document.querySelectorAll('.select-btn').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const id = this.getAttribute('data-id');
+                        window.location.href = `stok_etiketi.html?id=${id}`;
+                    });
+                });
+            }
+        });
+    </script>
+
+<script src='excelExportUniversal.js'></script>
+<script src="translations.js?v=1776685628940"></script>
+<script src="script.js?v=1776685628940"></script>
+</body>
+
+</html>
