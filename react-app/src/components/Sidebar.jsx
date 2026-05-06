@@ -20,14 +20,20 @@ const Sidebar = ({ isCollapsed }) => {
 
   const menuItems = [
     { path: '/', label: t('home'), icon: 'fa-house' },
-    { path: '/satis-yap', label: t('sales'), icon: 'fa-shopping-bag' },
+    { path: '/satis-yap', label: t('sales'), icon: 'fa-cart-shopping' },
     { path: '/cari-hesaplar', label: t('customers'), icon: 'fa-users' },
-    { path: '/stok-kartlari', label: t('stocks'), icon: 'fa-box-open' },
+    { path: '/stok-kartlari', label: t('stocks'), icon: 'fa-boxes-stacked' },
     { path: '/faturalar', label: t('invoices'), icon: 'fa-file-invoice' },
-    { path: '/efatura', label: 'E-Fatura', icon: 'fa-code' },
-    { path: '/gelir-gider', label: t('income_expense'), icon: 'fa-receipt' },
-    { path: '/kasa', label: t('cash'), icon: 'fa-vault' },
-    { path: '/banka', label: t('bank'), icon: 'fa-landmark' },
+    { path: '/gelir-gider', label: t('income_expense'), icon: 'fa-chart-line' },
+    { path: '/kasa', label: t('cash'), icon: 'fa-cash-register' },
+    { path: '/banka', label: t('bank'), icon: 'fa-building-columns' },
+    { path: '/cek-senet', label: t('checks'), icon: 'fa-money-check' },
+    { path: '/taksit-takip', label: t('installments'), icon: 'fa-calendar-days' },
+    { path: '/teklif-siparis', label: t('quotes'), icon: 'fa-file-contract' },
+    { path: '/doviz-ayarlari', label: t('currency'), icon: 'fa-dollar-sign' },
+    { path: '/raporlar', label: t('reports'), icon: 'fa-file-lines' },
+    { path: '/mesajlar', label: t('messages'), icon: 'fa-envelope' },
+    { path: '/moduller', label: t('modules'), icon: 'fa-layer-group' },
   ];
 
   return (
