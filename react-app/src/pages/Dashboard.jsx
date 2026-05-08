@@ -5,9 +5,9 @@ import { useBranch } from '../context/BranchContext';
 import '../styles/global.css';
 
 const Dashboard = () => {
-    const { t, lang } = useLanguage();
+    const [lang, setLang] = useState(localStorage.getItem('language') || 'tr'); // We already have lang from useLanguage, wait
+    const { t, lang: currentLang } = useLanguage();
     const { currentBranch } = useBranch();
-    const [greeting, setGreeting] = useState('');
     const [currentDate, setCurrentDate] = useState('');
     const [currentTime, setCurrentTime] = useState('');
     const [stats, setStats] = useState({ sales30: '0,00 ₺', purchase30: '0,00 ₺', profit30: '0,00 ₺', kdv30: '0,00 ₺' });
@@ -17,15 +17,7 @@ const Dashboard = () => {
     useEffect(() => {
         const updateTime = () => {
             const now = new Date();
-            const hour = now.getHours();
-            let greetKey = 'greeting_day';
-            if (hour < 6) greetKey = 'greeting_night';
-            else if (hour < 12) greetKey = 'greeting_morning';
-            else if (hour < 18) greetKey = 'greeting_day';
-            else greetKey = 'greeting_evening';
-            setGreeting(t(greetKey));
-            
-            const months = lang === 'tr' ? ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'] : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const months = currentLang === 'tr' ? ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'] : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             setCurrentDate(`${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`);
             setCurrentTime(now.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }));
         };
@@ -33,7 +25,17 @@ const Dashboard = () => {
         const interval = setInterval(updateTime, 1000);
         loadData();
         return () => clearInterval(interval);
-    }, [lang, t]);
+    }, [currentLang, t]);
+
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+        let greetKey = 'greeting_day';
+        if (hour < 6) greetKey = 'greeting_night';
+        else if (hour < 12) greetKey = 'greeting_morning';
+        else if (hour < 18) greetKey = 'greeting_day';
+        else greetKey = 'greeting_evening';
+        return t(greetKey);
+    };
 
     const loadData = () => {
         const sales = JSON.parse(localStorage.getItem('salesInvoices')) || [];
@@ -83,7 +85,7 @@ const Dashboard = () => {
                     <div>
                         <p style={{ margin: '0 0 8px', color: 'rgba(255,255,255,0.7)', fontSize: '14px', fontWeight: '500' }}>{currentDate}</p>
                         <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '800', color: '#fff' }}>
-                            {greeting} 👋
+                            {getGreeting()} 👋
                         </h1>
                         <p style={{ margin: '8px 0 0', color: 'rgba(255,255,255,0.75)', fontSize: '14px' }}>
                             {t('welcome_subtitle')}
@@ -126,8 +128,8 @@ const Dashboard = () => {
                                 <i className="fa-solid fa-building-columns" style={{ color: '#4f46e5', fontSize: '14px' }}></i>
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#1a2332' }}>Banka Hesapları</h3>
-                                <p style={{ margin: 0, fontSize: '12px', color: '#6b7a8d' }}>Son 30 günlük bakiyeler</p>
+                                <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#1a2332' }}>{t('bank_balances')}</h3>
+                                <p style={{ margin: 0, fontSize: '12px', color: '#6b7a8d' }}>{t('last_30_days_balances')}</p>
                             </div>
                         </div>
                         <table className="premium-table">
@@ -160,8 +162,8 @@ const Dashboard = () => {
                                 <i className="fa-solid fa-vault" style={{ color: '#10b981', fontSize: '14px' }}></i>
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#1a2332' }}>Kasa Hesapları</h3>
-                                <p style={{ margin: 0, fontSize: '12px', color: '#6b7a8d' }}>Nakit bakiyeler</p>
+                                <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#1a2332' }}>{t('cash_balances')}</h3>
+                                <p style={{ margin: 0, fontSize: '12px', color: '#6b7a8d' }}>{t('cash_balances_subtitle')}</p>
                             </div>
                         </div>
                         <table className="premium-table">

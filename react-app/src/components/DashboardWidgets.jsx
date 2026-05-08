@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 export const StatCard = ({ title, value, icon, trend, color }) => {
+  const { t } = useLanguage();
   const trendColor = trend === 'up' ? '#10b981' : trend === 'down' ? '#ef4444' : '#9ca3af';
   const trendBg = trend === 'up' ? '#ecfdf5' : trend === 'down' ? '#fef2f2' : '#f3f4f6';
-  const trendLabel = trend === 'up' ? '▲ Artış' : trend === 'down' ? '▼ Düşüş' : '● Sabit';
+  const trendLabel = trend === 'up' ? `▲ ${t('trend_up')}` : trend === 'down' ? `▼ ${t('trend_down')}` : `● ${t('trend_stable')}`;
   const iconBg = color ? color + '15' : '#eef2ff';
   const iconColor = color || '#4f46e5';
 
@@ -36,6 +38,7 @@ export const StatCard = ({ title, value, icon, trend, color }) => {
 };
 
 export const ModuleCard = ({ title, icon, link, color }) => {
+  const { t } = useLanguage();
   const iconBg = color ? color + '15' : '#eef2ff';
   const iconColor = color || '#4f46e5';
 
@@ -53,7 +56,7 @@ export const ModuleCard = ({ title, icon, link, color }) => {
           {title}
         </div>
         <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '500', marginTop: '1px' }}>
-          Modüle git
+          {t('go_to_module')}
         </div>
       </div>
       <i className="fa-solid fa-chevron-right" style={{ fontSize: '11px', color: '#cbd5e1', flexShrink: 0 }}></i>

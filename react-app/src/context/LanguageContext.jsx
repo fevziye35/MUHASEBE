@@ -58,6 +58,14 @@ const translations = {
     profit_loss: 'Kâr Zarar Analizi',
     welcome_subtitle: 'İşletme tablonuza hoş geldiniz',
     system_time: 'Sistem Saati',
+    trend_up: 'Artış',
+    trend_down: 'Düşüş',
+    trend_stable: 'Sabit',
+    go_to_module: 'Modüle git',
+    bank_balances: 'Banka Hesapları',
+    last_30_days_balances: 'Son 30 günlük bakiyeler',
+    cash_balances: 'Kasa Hesapları',
+    cash_balances_subtitle: 'Nakit bakiyeler',
   },
   en: {
     // Header
@@ -114,6 +122,14 @@ const translations = {
     profit_loss: 'Profit/Loss',
     welcome_subtitle: 'Welcome to your business dashboard',
     system_time: 'System Time',
+    trend_up: 'Increase',
+    trend_down: 'Decrease',
+    trend_stable: 'Stable',
+    go_to_module: 'Go to module',
+    bank_balances: 'Bank Accounts',
+    last_30_days_balances: 'Last 30 days balances',
+    cash_balances: 'Cash Registers',
+    cash_balances_subtitle: 'Cash balances',
   },
   de: {
     // Header
