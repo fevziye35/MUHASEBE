@@ -38,7 +38,7 @@ const translations = {
     // Dashboard
     greeting_night: 'İyi Geceler!',
     greeting_morning: 'Günaydın!',
-    greeting_day: 'TEST_HELLO',
+    greeting_day: 'İyi Günler!',
     greeting_evening: 'İyi Akşamlar!',
     stat_sales: 'Son 30 Gün Satış',
     stat_purchase: 'Son 30 Gün Alış',
@@ -281,25 +281,35 @@ const translations = {
 
 export const LanguageProvider = ({ children }) => {
   const [lang, setLang] = useState(() => {
-    return localStorage.getItem('language') || localStorage.getItem('app_lang') || 'tr';
+    let saved = localStorage.getItem('language') || localStorage.getItem('app_lang') || 'tr';
+    if (saved.toLowerCase().startsWith('tr')) return 'tr';
+    if (saved.toLowerCase().startsWith('en')) return 'en';
+    return saved;
   });
 
   const t = (key) => {
-    const activeLang = translations[lang] ? lang : 'tr';
+    let activeLang = lang;
+    if (activeLang.toLowerCase().startsWith('tr')) activeLang = 'tr';
+    if (activeLang.toLowerCase().startsWith('en')) activeLang = 'en';
+    
+    if (!translations[activeLang]) activeLang = 'tr';
     
     // 1. Internal React translations
     let translated = translations[activeLang][key];
     if (translated) return translated;
 
-    // 2. Legacy window.translations fallback
-    if (window.translations && window.translations[activeLang]) {
-      const dict = window.translations[activeLang];
-      if (dict[key]) return dict[key];
-      
-      // Try legacy prefixes
-      if (dict[`sidebar.${key}`]) return dict[`sidebar.${key}`];
-      if (dict[`word.${key}`]) return dict[`word.${key}`];
-      if (dict[`dashboard.${key}`]) return dict[`dashboard.${key}`];
+    // 2. Legacy window.translations fallback (very important!)
+    if (window.translations) {
+        const dict = window.translations[activeLang] || window.translations['tr'];
+        if (dict) {
+            if (dict[key]) return dict[key];
+            
+            // Try common legacy prefixes if not already prefixed
+            const prefixes = ['sidebar.', 'word.', 'dashboard.', 'report.', 'header.', 'user.'];
+            for (const p of prefixes) {
+                if (dict[p + key]) return dict[p + key];
+            }
+        }
     }
     
     // 3. Fallback to Turkish internal
