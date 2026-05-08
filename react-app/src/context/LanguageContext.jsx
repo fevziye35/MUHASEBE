@@ -38,7 +38,7 @@ const translations = {
     // Dashboard
     greeting_night: 'İyi Geceler!',
     greeting_morning: 'Günaydın!',
-    greeting_day: 'İyi Günler!',
+    greeting_day: 'TEST_HELLO',
     greeting_evening: 'İyi Akşamlar!',
     stat_sales: 'Son 30 Gün Satış',
     stat_purchase: 'Son 30 Gün Alış',
