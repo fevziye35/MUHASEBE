@@ -280,15 +280,29 @@ const translations = {
 };
 
 export const LanguageProvider = ({ children }) => {
-  const [lang, setLang] = useState(localStorage.getItem('language') || 'tr');
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem('language') || localStorage.getItem('app_lang') || 'tr';
+  });
 
   const t = (key) => {
     const activeLang = translations[lang] ? lang : 'tr';
-    const translated = translations[activeLang][key];
     
+    // 1. Internal React translations
+    let translated = translations[activeLang][key];
     if (translated) return translated;
+
+    // 2. Legacy window.translations fallback
+    if (window.translations && window.translations[activeLang]) {
+      const dict = window.translations[activeLang];
+      if (dict[key]) return dict[key];
+      
+      // Try legacy prefixes
+      if (dict[`sidebar.${key}`]) return dict[`sidebar.${key}`];
+      if (dict[`word.${key}`]) return dict[`word.${key}`];
+      if (dict[`dashboard.${key}`]) return dict[`dashboard.${key}`];
+    }
     
-    // Fallback to Turkish if key missing in current lang
+    // 3. Fallback to Turkish internal
     if (activeLang !== 'tr' && translations['tr'][key]) {
       return translations['tr'][key];
     }
@@ -299,13 +313,13 @@ export const LanguageProvider = ({ children }) => {
   const changeLanguage = (newLang) => {
     setLang(newLang);
     localStorage.setItem('language', newLang);
-    // Sync with legacy app if needed
+    localStorage.setItem('app_lang', newLang);
     window.dispatchEvent(new Event('languageChanged'));
   };
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const currentLang = localStorage.getItem('language') || 'tr';
+      const currentLang = localStorage.getItem('language') || localStorage.getItem('app_lang') || 'tr';
       if (currentLang !== lang) {
         setLang(currentLang);
       }
