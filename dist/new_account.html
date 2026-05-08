@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="word.yeni_cari_ekle">Yeni Cari Ekle</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+                            <header class="header">
+        <div class="header-left">
+            <div class="sidebar-toggle-box">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="logo-area">
+                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
+                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
+                <div class="header-lang-menu" id="header-lang-menu">
+                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
+                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
+                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
+                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
+                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
+                </div>
+            </div>
+            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
+            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
+            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
+            
+            <!-- Branch Switcher Dropdown -->
+            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
+                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
+                <div class="header-lang-menu" id="branch-dropdown-menu">
+                    <!-- Dynamic branches from JS -->
+                </div>
+            </div>
+
+            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
+            <div class="header-item user-item" onclick="toggleUserMenu(event)">
+                <i class="fa-solid fa-user"></i> 
+                <span>fevziye.mamak35@gmail.com</span>
+                <div class="user-dropdown-menu" id="user-dropdown-menu">
+                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
+                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
+                    <hr>
+                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <a href="index.html">
+                <img src="logo.png" alt="Logo">
+            </a>
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="sidebar-menu">
+
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span
+                        data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
+            <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış
+                        Yap</span></a></li>
+            <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari
+                        Hesaplar</span></a></li>
+            <li><a href="stok_kartlari.html"><i class="fa-solid fa-boxes-stacked"></i> <span
+                        data-i18n="sidebar.stock">Stok Kartları</span></a></li>
+            <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span
+                        data-i18n="sidebar.invoices">Faturalar</span></a></li>
+            <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span
+                        data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
+            <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span
+                        data-i18n="sidebar.cash">Kasa</span></a></li>
+            <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span
+                        data-i18n="sidebar.bank">Banka</span></a></li>
+            <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span
+                        data-i18n="sidebar.checks">Çek Senet</span></a></li>
+            <li><a href="taksit_takip.html"><i class="fa-solid fa-calendar-days"></i> <span
+                        data-i18n="sidebar.installments">Taksit
+                        Takip</span></a></li>
+            <li><a href="teklif_siparis.html"><i class="fa-solid fa-file-contract"></i> <span
+                        data-i18n="sidebar.offers">Teklif
+                        Sipariş</span></a></li>
+            <li><a href="doviz_ayarlari.html" id="doviz_settings_link"><i class="fa-solid fa-dollar-sign"></i> <span data-i18n="sidebar.currency">Döviz Ayarları</span></a></li>
+            
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-file-lines"></i> <span
+                        data-i18n="sidebar.reports">Raporlar</span> <i
+                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
+                <ul class="submenu">
+                    <li><a href="cari_raporu.html"><i class="fa-solid fa-users"></i> <span data-i18n="report.cari">Cari</span></a></li>
+                    <li><a href="toplu_stok_raporu.html"><i class="fa-solid fa-box-open"></i> <span data-i18n="report.stok">Stok</span></a></li>
+                    <li><a href="taksit_rapor.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="report.taksit">Taksit</span></a></li>
+                    <li><a href="satis_raporu.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="report.satis">Satış</span></a></li>
+                    <li><a href="kasa_raporu.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="report.kasa">Kasa</span></a></li>
+                    <li><a href="banka_raporu.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="report.banka">Banka</span></a></li>
+                    <li><a href="cek_raporu.html"><i class="fa-solid fa-copy"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
+                    <li><a href="gun_sonu_raporu.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.gun_sonu">Gün Sonu Raporu</span></a></li>
+                    <li><a href="kar_zarar_analizi.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.kar_zarar">Kâr Zarar Analizi</span></a></li>
+                    <li><a href="gelir_gider.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
+                </ul>
+            </li>
+            <li><a href="mesajlar.html"><i class="fa-solid fa-envelope"></i> <span data-i18n="sidebar.messages">Mesajlar</span></a></li>
+            
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-layer-group"></i> <span
+                        data-i18n="sidebar.modules">Ek Modüller</span> <i
+                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
+                <ul class="submenu">
+                    <li><a href="personel_takip.html"><i class="fa-solid fa-user-clock"></i> <span data-i18n="word.personel_takip">Personel Takip</span></a></li>
+                    <li><a href="ajanda.html"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="word.ajanda">Ajanda</span></a></li>
+                    <li><a href="kisi_ekle.html"><i class="fa-solid fa-user-plus"></i> <span data-i18n="word.kisi_ekleme">Kişi Ekleme Paneli</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <!-- Header -->
+                                    
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="form-layout">
+            <!-- Left Column -->
+            <div class="left-col">
+                <h3 class="form-section-title" id="sectionTitle"><span data-i18n="mega.cari_bilgileri">Account Information</span></h3>
+                <div class="form-group">
+                    <input type="text" id="cariAdi" class="form-control" placeholder="Account/Company Name" data-i18n-placeholder="contact.company_name">
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label><span data-i18n="contact.group_name">Group Name</span></label>
+                            <select id="cariGrubu" class="form-control">
+                                <option data-i18n="contact.customers_group">CUSTOMERS</option>
+                                <option data-i18n="contact.suppliers_group">SUPPLIERS</option>
+                                <option data-i18n="contact.wholesalers_group">WHOLESALERS</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label><span data-i18n="contact.authorized">Authorized Person</span></label>
+                            <input type="text" id="yetkili" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label><span data-i18n="contact.default_cash">Default Cash Register</span></label>
+                            <select id="varsayilanKasa" class="form-control">
+                                <option data-i18n="word.merkez_kasa">Center Cash Register</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label><span data-i18n="contact.opening_balance">Opening Balance</span></label>
+                                    <input type="text" id="acilisBakiyesi" class="form-control" value="0">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label><span data-i18n="contact.debt_credit">Debt / Credit</span></label>
+                                    <select id="borcAlacak" class="form-control">
+                                        <option data-i18n="word.borc">Debt</option>
+                                        <option data-i18n="word.alacak">Credit</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-20">
+                    <h3 class="form-section-title"><span data-i18n="contact.risk_limit_def">Risk Limit Definition</span></h3>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label><span data-i18n="contact.risk_limit_amount">Risk Limit Amount</span></label>
+                                <input type="text" id="riskLimiti" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label><span data-i18n="contact.risk_currency">Risk Limit Currency</span></label>
+                                <select id="riskDoviz" class="form-control">
+                                    <option>TRY</option>
+                                    <option>USD</option>
+                                    <option>EUR</option>
+                                    <option>GBP</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><span data-i18n="contact.due_days">Due Days</span></label>
+                        <input type="text" id="vadeGunu" class="form-control" value="30">
+                    </div>
+                    <div class="form-group">
+                        <label><span data-i18n="contact.risk_action_exceed">When Risk Limit Exceeded</span></label>
+                        <div class="risk-options">
+                            <label><input type="radio" name="risk_action" value="islem_yaptirma"> <span data-i18n="contact.risk_no_action">Do Not Allow Action</span></label>
+                            <label><input type="radio" name="risk_action" value="islem_yaptir" checked> <span data-i18n="contact.risk_do_action">Allow Action</span></label>
+                            <label><input type="radio" name="risk_action" value="onay_al"> <span data-i18n="contact.risk_ask_approval">Ask for Approval</span></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-col">
+                <h3 class="form-section-title"><span data-i18n="contact.communication_info">Communication Information</span></h3>
+                <div class="row">
+                    <div class="col"><input type="text" id="telefon" class="form-control" placeholder="Phone" data-i18n-placeholder="contact.phone"></div>
+                    <div class="col"><input type="text" id="ulke" class="form-control" placeholder="Country" data-i18n-placeholder="contact.country"></div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="fax" class="form-control" placeholder="Fax" data-i18n-placeholder="contact.fax"></div>
+                    <div class="col"><input type="text" id="il" class="form-control" placeholder="City" data-i18n-placeholder="contact.city"></div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="cepTelefonu" class="form-control"
+                            placeholder="Mobile Phone" data-i18n-placeholder="contact.mobile"></div>
+                    <div class="col"><input type="text" id="ilce" class="form-control" placeholder="District" data-i18n-placeholder="contact.district"></div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="email" class="form-control" placeholder="E-Mail" data-i18n-placeholder="contact.email"></div>
+                    <div class="col"><input type="text" id="adres" class="form-control" placeholder="Address" data-i18n-placeholder="contact.address"></div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="webAdresi" class="form-control" placeholder="Web Address" data-i18n-placeholder="contact.web_address">
+                    </div>
+                    <div class="col"><input type="text" id="sevkAdresi" class="form-control" placeholder="Shipping Address" data-i18n-placeholder="contact.shipping_address">
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="postaKodu" class="form-control" placeholder="Zip Code" data-i18n-placeholder="contact.zip_code">
+                    </div>
+                    <div class="col"><input type="text" id="cariKod" class="form-control" placeholder="Account Code" data-i18n-placeholder="contact.current_code"></div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="vergiAdresi" class="form-control"
+                            placeholder="Tax Office" data-i18n-placeholder="contact.tax_address"></div>
+                    <div class="col"><input type="text" id="aciklama" class="form-control" placeholder="Description" data-i18n-placeholder="contact.description"></div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col">
+                        <div class="input-group">
+                            <input type="text" id="vergiNo" class="form-control" placeholder="Tax No" data-i18n-placeholder="contact.tax_no">
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="d-flex gap-10 justify-content-end">
+                            <button id="btnDelete" class="btn btn-danger d-none"><i class="fa-solid fa-trash"></i>
+                                <span data-i18n="word.sil">Delete</span></button>
+
+                            <button id="btnKaydet" class="btn btn-dark"><i class="fa-solid fa-save"></i>
+                                <span data-i18n="mega.kaydet">Save</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col"><input type="text" id="ticaretSicilNo" class="form-control"
+                            placeholder="Trade Registry No" data-i18n-placeholder="contact.trade_reg_no"></div>
+                    <div class="col"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Address Modal -->
+    <div id="shippingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 class="form-section-title"><span data-i18n="contact.add_shipping">Add New Shipping Address</span></h3>
+            <div class="form-group">
+                <label>Address Title</label>
+                <input type="text" id="modalAdresBaslik" class="form-control">
+            </div>
+            <div class="form-group">
+                <label><span data-i18n="mega.adres">Address</span></label>
+                <textarea id="modalAdres" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label><span data-i18n="mega.il">City</span></label>
+                        <input type="text" id="modalIl" class="form-control">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label><span data-i18n="mega.ilce">District</span></label>
+                        <input type="text" id="modalIlce" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions text-center mt-20">
+                <button id="modalSaveBtn" class="btn btn-success"><span data-i18n="mega.kaydet">Save</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="translations.js?v=1776685628940"></script>
+    <script src="script.js?v=1776685628940"></script>
+    <script>
+        // Helper to get URL params
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        const mode = getUrlParameter('mode');
+        const customerId = getUrlParameter('id');
+        let customers = JSON.parse(localStorage.getItem('customers') || '[]');
+
+        // Functions to populate form
+        function populateForm(customer) {
+            document.getElementById('cariAdi').value = customer.cariAdi || '';
+            document.getElementById('cariGrubu').value = customer.cariGrubu || 'MÜŞTERİLER';
+            document.getElementById('yetkili').value = customer.yetkili || '';
+            document.getElementById('telefon').value = customer.telefon || '';
+            document.getElementById('email').value = customer.email || '';
+            document.getElementById('vergiNo').value = customer.vergiNo || '';
+            document.getElementById('vergiAdresi').value = customer.vergiAdresi || '';
+            document.getElementById('adres').value = customer.adres || '';
+            document.getElementById('il').value = customer.il || '';
+            document.getElementById('ilce').value = customer.ilce || '';
+            document.getElementById('aciklama').value = customer.aciklama || '';
+
+            // Try to parse bakiye if raw values not present (backward compatibility)
+            if (customer.rawBakiye !== undefined) {
+                document.getElementById('acilisBakiyesi').value = customer.rawBakiye;
+                document.getElementById('borcAlacak').value = customer.rawBorcAlacak;
+            } else if (customer.bakiye) {
+                // Simple parser for "100 TL (B)" format
+                const parts = customer.bakiye.split(' TL (');
+                if (parts.length > 0) document.getElementById('acilisBakiyesi').value = parts[0].trim();
+                if (parts.length > 1) {
+                    const type = parts[1].replace(')', '');
+                    document.getElementById('borcAlacak').value = (type === 'B' ? 'Borç' : 'Alacak');
+                }
+            }
+
+            if (customer.varsayilanKasa) document.getElementById('varsayilanKasa').value = customer.varsayilanKasa;
+            if (customer.riskLimiti) document.getElementById('riskLimiti').value = customer.riskLimiti;
+            if (customer.riskDoviz) document.getElementById('riskDoviz').value = customer.riskDoviz;
+            if (customer.vadeGunu) document.getElementById('vadeGunu').value = customer.vadeGunu;
+            if (customer.ulke) document.getElementById('ulke').value = customer.ulke;
+            if (customer.fax) document.getElementById('fax').value = customer.fax;
+            if (customer.cepTelefonu) document.getElementById('cepTelefonu').value = customer.cepTelefonu;
+            if (customer.webAdresi) document.getElementById('webAdresi').value = customer.webAdresi;
+            if (customer.sevkAdresi) document.getElementById('sevkAdresi').value = customer.sevkAdresi;
+            if (customer.postaKodu) document.getElementById('postaKodu').value = customer.postaKodu;
+            if (customer.cariKod) document.getElementById('cariKod').value = customer.cariKod;
+            if (customer.ticaretSicilNo) document.getElementById('ticaretSicilNo').value = customer.ticaretSicilNo;
+
+            if (customer.riskAction) {
+                const radio = document.querySelector(`input[name="risk_action"][value="${customer.riskAction}"]`);
+                if (radio) radio.checked = true;
+            }
+        }
+
+        if (customerId) {
+            const customer = customers.find(c => c.id == customerId);
+            if (customer) {
+                populateForm(customer);
+
+                if (mode === 'view') {
+                    document.title = 'Account Details';
+                    document.getElementById('sectionTitle').innerHTML = '<span data-i18n="contact.customer_details">Account Details</span>';
+                    // Disable all inputs
+                    const inputs = document.querySelectorAll('input, select, textarea, button:not(.sidebar-toggle-box i):not(.header-item i)');
+                    inputs.forEach(input => {
+                        if (input.classList.contains('form-control') || input.name === 'risk_action') {
+                            input.disabled = true;
+                        }
+                    });
+                    // Hide save button
+                    const btnKaydet = document.getElementById('btnKaydet');
+                    if (btnKaydet) btnKaydet.style.display = 'none';
+
+                } else {
+                    document.title = 'Edit Account';
+                    const sectionTitle = document.getElementById('sectionTitle');
+                    sectionTitle.innerHTML = '<span data-i18n="contact.edit_customer">EDIT ACCOUNT</span><br><span style="font-size: 13px; font-weight: normal; color: #666;" data-i18n="contact.customer_details">Account Information</span>';
+
+                    // Show Delete Button
+                    document.getElementById('btnDelete').classList.remove('d-none');
+                }
+            }
+        }
+
+        // Delete Button Logic
+        const btnDelete = document.getElementById('btnDelete');
+        if (btnDelete) {
+            btnDelete.addEventListener('click', function (e) {
+                e.preventDefault();
+                const lang = localStorage.getItem('language') || 'en';
+                const msg = (translations[lang] && translations[lang]['confirm_delete']) || 'Are you sure you want to delete this item?';
+                if (confirm(msg)) {
+                    const index = customers.findIndex(c => c.id == customerId);
+                    if (index !== -1) {
+                        customers.splice(index, 1);
+                        localStorage.setItem('customers', JSON.stringify(customers));
+                        window.location.href = 'cari_hesaplar.html';
+                    }
+                }
+            });
+        }
+
+        document.getElementById('btnKaydet').addEventListener('click', function (e) {
+            e.preventDefault();
+
+            if (mode === 'view') return;
+
+            // 1. Gather Data
+            const cariAdi = document.getElementById('cariAdi').value;
+            const cariGrubu = document.getElementById('cariGrubu').value;
+            const bakiyeTutar = document.getElementById('acilisBakiyesi').value;
+            const borcAlacak = document.getElementById('borcAlacak').value;
+
+            // 2. Validate
+            if (!cariAdi) {
+                alert('Please enter a company name!');
+                return;
+            }
+
+            // 3. Create/Update Object
+            const customerData = {
+                id: customerId ? parseInt(customerId) : Date.now(),
+                cariAdi: cariAdi,
+                cariGrubu: cariGrubu,
+                yetkili: document.getElementById('yetkili').value,
+                telefon: document.getElementById('telefon').value,
+                email: document.getElementById('email').value,
+                vergiNo: document.getElementById('vergiNo').value,
+                vergiAdresi: document.getElementById('vergiAdresi').value,
+                adres: document.getElementById('adres').value,
+                il: document.getElementById('il').value,
+                ilce: document.getElementById('ilce').value,
+                bakiye: bakiyeTutar + ' TL (' + (borcAlacak === 'Borç' ? 'B' : 'A') + ')',
+                rawBakiye: bakiyeTutar,
+                rawBorcAlacak: borcAlacak,
+                aciklama: document.getElementById('aciklama').value,
+                varsayilanKasa: document.getElementById('varsayilanKasa').value,
+                riskLimiti: document.getElementById('riskLimiti').value,
+                riskDoviz: document.getElementById('riskDoviz').value,
+                vadeGunu: document.getElementById('vadeGunu').value,
+                ulke: document.getElementById('ulke').value,
+                fax: document.getElementById('fax').value,
+                cepTelefonu: document.getElementById('cepTelefonu').value,
+                webAdresi: document.getElementById('webAdresi').value,
+                sevkAdresi: document.getElementById('sevkAdresi').value,
+                postaKodu: document.getElementById('postaKodu').value,
+                cariKod: document.getElementById('cariKod').value,
+                ticaretSicilNo: document.getElementById('ticaretSicilNo').value,
+                riskAction: document.querySelector('input[name="risk_action"]:checked')?.value
+            };
+
+            // 4. Save to LocalStorage
+            if (customerId) {
+                const index = customers.findIndex(c => c.id == customerId);
+                if (index !== -1) {
+                    customers[index] = customerData;
+                } else {
+                    customers.push(customerData);
+                }
+            } else {
+                customers.push(customerData);
+            }
+
+            localStorage.setItem('customers', JSON.stringify(customers));
+
+            // 5. Feedback and Redirect
+            window.location.href = 'cari_hesaplar.html';
+        });
+    </script>
+
+<script src='excelExportUniversal.js'></script></body>
+
+</html>

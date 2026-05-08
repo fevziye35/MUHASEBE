@@ -56,6 +56,8 @@ const translations = {
     cash_balances: 'Kasa Bakiyeleri',
     day_end: 'Gün Sonu',
     profit_loss: 'Kâr Zarar Analizi',
+    welcome_subtitle: 'İşletme tablonuza hoş geldiniz',
+    system_time: 'Sistem Saati',
   },
   en: {
     // Header
@@ -110,6 +112,8 @@ const translations = {
     cash_balances: 'Cash Balances',
     day_end: 'Day End',
     profit_loss: 'Profit/Loss',
+    welcome_subtitle: 'Welcome to your business dashboard',
+    system_time: 'System Time',
   },
   de: {
     // Header
@@ -276,16 +280,43 @@ const translations = {
 };
 
 export const LanguageProvider = ({ children }) => {
-  const [lang, setLang] = useState(localStorage.getItem('app_lang') || 'tr');
+  const [lang, setLang] = useState(localStorage.getItem('language') || 'tr');
 
   const t = (key) => {
-    return translations[lang][key] || key;
+    const activeLang = translations[lang] ? lang : 'tr';
+    const translated = translations[activeLang][key];
+    
+    if (translated) return translated;
+    
+    // Fallback to Turkish if key missing in current lang
+    if (activeLang !== 'tr' && translations['tr'][key]) {
+      return translations['tr'][key];
+    }
+    
+    return key;
   };
 
   const changeLanguage = (newLang) => {
     setLang(newLang);
-    localStorage.setItem('app_lang', newLang);
+    localStorage.setItem('language', newLang);
+    // Sync with legacy app if needed
+    window.dispatchEvent(new Event('languageChanged'));
   };
+
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const currentLang = localStorage.getItem('language') || 'tr';
+      if (currentLang !== lang) {
+        setLang(currentLang);
+      }
+    };
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('languageChanged', handleStorageChange);
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('languageChanged', handleStorageChange);
+    };
+  }, [lang]);
 
   return (
     <LanguageContext.Provider value={{ lang, t, changeLanguage }}>

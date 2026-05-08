@@ -472,8 +472,7 @@
             let csvContent = '\uFEFF';
 
             const headers = ['#', 'Banka Hesabı', 'Hesap Numarası', 'Bakiye', 'Döviz Türü'];
-            csvContent += headers.join(';') + '
-';
+            csvContent += headers.join(';') + '\n';
 
             const dataRows = table.querySelectorAll('tbody tr');
             dataRows.forEach(row => {
@@ -482,8 +481,7 @@
                 for (let i = 0; i < 5 && i < cells.length; i++) {
                     rowData.push(cells[i].textContent.trim());
                 }
-                csvContent += rowData.join(';') + '
-';
+                csvContent += rowData.join(';') + '\n';
             });
 
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

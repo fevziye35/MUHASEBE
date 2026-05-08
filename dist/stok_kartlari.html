@@ -1,0 +1,349 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title data-i18n="word.stok_kartlari">Stock Cards</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .sidebar-logo img { max-width: 100%; height: auto; }
+        .sidebar-logo .fa-bars { color: #555555; margin-left: auto; cursor: pointer; }
+
+        .toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .search-input {
+            padding: 8px 14px;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 220px;
+            outline: none;
+        }
+        .search-input:focus { border-color: #2563eb; }
+        .footer-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        .text-red  { color: #e74c3c; font-weight: 700; }
+        .text-blue { color: #3498db; font-weight: 700; }
+        .mt-20 { margin-top: 20px; }
+        #stokTable { width: 100%; border-collapse: collapse; }
+        #stokTable th, #stokTable td { padding: 10px 12px; text-align: left; }
+        #stokTable thead tr { background: #f0f4ff; }
+        #stokTable thead th { border-bottom: 2px solid #dde3f0; font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; }
+        #stokTable tbody tr { border-bottom: 1px solid #f1f5f9; transition: background 0.15s; }
+        #stokTable tbody tr:hover { background: #f8faff; }
+        .price-cell { font-weight: 600; color: #1a2d4c; }
+        .stock-name { font-weight: 500; }
+        .group-cell { font-size: 12px; color: #64748b; }
+        .fab-help {
+            position: fixed; bottom: 28px; right: 28px;
+            width: 44px; height: 44px; border-radius: 50%;
+            background: #2563eb; color: white; border: none;
+            cursor: pointer; font-size: 18px;
+            box-shadow: 0 4px 12px rgba(37,99,235,0.3);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 999;
+        }
+    </style>
+</head>
+
+<body>
+                            <header class="header">
+        <div class="header-left">
+            <div class="sidebar-toggle-box">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            <div class="logo-area">
+                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
+                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
+                <div class="header-lang-menu" id="header-lang-menu">
+                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
+                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
+                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
+                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
+                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
+                </div>
+            </div>
+            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
+            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
+            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
+            
+            <!-- Branch Switcher Dropdown -->
+            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
+                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
+                <div class="header-lang-menu" id="branch-dropdown-menu">
+                    <!-- Dynamic branches from JS -->
+                </div>
+            </div>
+
+            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
+            <div class="header-item user-item" onclick="toggleUserMenu(event)">
+                <i class="fa-solid fa-user"></i> 
+                <span>fevziye.mamak35@gmail.com</span>
+                <div class="user-dropdown-menu" id="user-dropdown-menu">
+                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
+                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
+                    <hr>
+                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <a href="index.html"><img src="logo.png" alt="Logo"></a>
+            <i class="fa-solid fa-bars"></i>
+        </div>
+        <ul class="sidebar-menu">
+
+            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span
+                        data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
+            <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış
+                        Yap</span></a></li>
+            <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari
+                        Hesaplar</span></a></li>
+            <li><a href="stok_kartlari.html" class="active"><i class="fa-solid fa-boxes-stacked"></i> <span
+                        data-i18n="sidebar.stock">Stok Kartları</span></a></li>
+            <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span
+                        data-i18n="sidebar.invoices">Faturalar</span></a></li>
+            <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span
+                        data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
+            <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span
+                        data-i18n="sidebar.cash">Kasa</span></a></li>
+            <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span
+                        data-i18n="sidebar.bank">Banka</span></a></li>
+            <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span
+                        data-i18n="sidebar.checks">Çek Senet</span></a></li>
+            <li><a href="taksit_takip.html"><i class="fa-solid fa-calendar-days"></i> <span
+                        data-i18n="sidebar.installments">Taksit
+                        Takip</span></a></li>
+            <li><a href="teklif_siparis.html"><i class="fa-solid fa-file-contract"></i> <span
+                        data-i18n="sidebar.offers">Teklif
+                        Sipariş</span></a></li>
+            <li><a href="doviz_ayarlari.html" id="doviz_settings_link"><i class="fa-solid fa-dollar-sign"></i> <span data-i18n="sidebar.currency">Döviz Ayarları</span></a></li>
+            
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-file-lines"></i> <span
+                        data-i18n="sidebar.reports">Raporlar</span> <i
+                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
+                <ul class="submenu">
+                    <li><a href="cari_raporu.html"><i class="fa-solid fa-users"></i> <span data-i18n="report.cari">Cari</span></a></li>
+                    <li><a href="toplu_stok_raporu.html"><i class="fa-solid fa-box-open"></i> <span data-i18n="report.stok">Stok</span></a></li>
+                    <li><a href="taksit_rapor.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="report.taksit">Taksit</span></a></li>
+                    <li><a href="satis_raporu.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="report.satis">Satış</span></a></li>
+                    <li><a href="kasa_raporu.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="report.kasa">Kasa</span></a></li>
+                    <li><a href="banka_raporu.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="report.banka">Banka</span></a></li>
+                    <li><a href="cek_raporu.html"><i class="fa-solid fa-copy"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
+                    <li><a href="gun_sonu_raporu.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.gun_sonu">Gün Sonu Raporu</span></a></li>
+                    <li><a href="kar_zarar_analizi.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.kar_zarar">Kâr Zarar Analizi</span></a></li>
+                    <li><a href="gelir_gider.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
+                </ul>
+            </li>
+            <li><a href="mesajlar.html"><i class="fa-solid fa-envelope"></i> <span data-i18n="sidebar.messages">Mesajlar</span></a></li>
+            
+            <li class="has-submenu">
+                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-layer-group"></i> <span
+                        data-i18n="sidebar.modules">Ek Modüller</span> <i
+                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
+                <ul class="submenu">
+                    <li><a href="personel_takip.html"><i class="fa-solid fa-user-clock"></i> <span data-i18n="word.personel_takip">Personel Takip</span></a></li>
+                    <li><a href="ajanda.html"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="word.ajanda">Ajanda</span></a></li>
+                    <li><a href="kisi_ekle.html"><i class="fa-solid fa-user-plus"></i> <span data-i18n="word.kisi_ekleme">Kişi Ekleme Paneli</span></a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+                                    
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h2><span data-i18n="word.stok_kartlari">Stok Kartları</span></h2>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <a href="stok_yeni.html" class="btn btn-primary" id="btnYeniStok">
+                <i class="fa-solid fa-plus"></i> <span data-i18n="word.yeni_stok_plain">Yeni Stok (F5)</span>
+            </a>
+            <a href="stok_gruplari.html" class="btn btn-secondary">
+                <i class="fa-solid fa-layer-group"></i> <span data-i18n="word.gruplar">Gruplar</span>
+            </a>
+            <a href="stok_markalari.html" class="btn btn-secondary">
+                <i class="fa-solid fa-tag"></i> <span data-i18n="word.markalar">Markalar</span>
+            </a>
+            <a href="stok_birimleri.html" class="btn btn-secondary">
+                <i class="fa-solid fa-ruler"></i> <span data-i18n="word.birimler">Birimler</span>
+            </a>
+            <a href="stok_depolari.html" class="btn btn-secondary">
+                <i class="fa-solid fa-warehouse"></i> <span data-i18n="word.depolar">Depolar</span>
+            </a>
+            <button class="btn btn-secondary" id="exportExcelBtn">
+                <i class="fa-solid fa-file-excel"></i> <span data-i18n="word.excel_aktar">Excel'e Aktar</span>
+            </button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Stok Ara..." data-i18n-placeholder="word.stok_ara">
+            <button class="btn btn-dark" onclick="doSearch()">
+                <i class="fa-solid fa-search"></i>
+            </button>
+        </div>
+
+        <!-- Stock Table -->
+        <div class="content-box mt-20">
+            <table id="stokTable">
+                <thead>
+                    <tr>
+                        <th><span data-i18n="mega.kodu">Kodu</span></th>
+                        <th><span data-i18n="mega.barkod">Barkod</span></th>
+                        <th><span data-i18n="mega.stok_adi">Stok Adı</span></th>
+                        <th><span data-i18n="mega.satis_fiyati">Satış Fiyatı</span></th>
+                        <th><span data-i18n="mega.bakiye">Bakiye</span></th>
+                        <th><span data-i18n="mega.marka">Marka</span></th>
+                        <th><span data-i18n="mega.grup">Grup</span></th>
+                        <th><span data-i18n="mega.detay">Detay</span></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+            <div class="footer-info">
+                <div></div>
+                <div id="footerText">Toplam <span class="text-red">0</span> Kayıt <span class="text-blue">Bulundu</span>.</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="fab-help" aria-label="Yardım"><i class="fa-solid fa-question"></i></button>
+
+    <script src="translations.js?v=1776685628940"></script>
+    <script src="script.js?v=1776685628940"></script>
+    <script>
+        // ---- Stock Data ----
+        function initializeStockData() {
+            if (!localStorage.getItem('stockCards')) {
+                const initialData = [
+                    { id: 1, code: '-', barcode: '5', name: 'Brown',           salesPrice: 0.75,  buyPrice: 0.50,  stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 1, unit: 'Adet', shelf: '' },
+                    { id: 2, code: '-', barcode: '2', name: 'Buğday Ekmek',    salesPrice: 3.00,  buyPrice: 2.00,  stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 1, unit: 'Adet', shelf: '' },
+                    { id: 3, code: '-', barcode: '3', name: 'Çamlıca Beyaz',   salesPrice: 3.50,  buyPrice: 2.50,  stock: 0, brand: 'Bilsoft', group: 'BİTKİSEL ÜRÜN', currency: 'TRY', kdv: 8, unit: 'Adet', shelf: '' },
+                    { id: 4, code: '-', barcode: '4', name: 'Çaykur Çiçek',   salesPrice: 22.50, buyPrice: 18.00, stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 8, unit: 'Adet', shelf: '' },
+                    { id: 5, code: '-', barcode: '6', name: 'Çubuk Kraker',   salesPrice: 0.50,  buyPrice: 0.40,  stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 8, unit: 'Adet', shelf: '' },
+                    { id: 6, code: '-', barcode: '7', name: 'Domates',         salesPrice: 2.50,  buyPrice: 1.50,  stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 1, unit: 'Kg',   shelf: '' },
+                    { id: 7, code: '-', barcode: '8', name: 'Dondurma',        salesPrice: 1.00,  buyPrice: 0.75,  stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 8, unit: 'Adet', shelf: '' },
+                    { id: 8, code: '-', barcode: '1', name: 'İçim Peynir',    salesPrice: 12.50, buyPrice: 10.00, stock: 0, brand: 'Bilsoft', group: 'TEMEL GIDA',     currency: 'TRY', kdv: 8, unit: 'Adet', shelf: '' }
+                ];
+                localStorage.setItem('stockCards', JSON.stringify(initialData));
+            }
+        }
+
+        function formatCurrency(value) {
+            const lang = localStorage.getItem('language') || 'en';
+            const currency = lang === 'tr' ? 'TRY' : 'USD';
+            const symbol = lang === 'tr' ? ' ₺' : ' $';
+            return parseFloat(value).toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + symbol;
+        }
+
+        function t(key, fallback) {
+            try {
+                const lang = localStorage.getItem('language') || 'tr';
+                if (typeof translations !== 'undefined' && translations[lang] && translations[lang][key]) {
+                    return translations[lang][key];
+                }
+            } catch(e) {}
+            return fallback;
+        }
+
+        function renderTable(stocks) {
+            const tbody = document.querySelector('#stokTable tbody');
+            tbody.innerHTML = '';
+            stocks.forEach(stock => {
+                const unit = stock.unit && stock.unit !== 'Adet'
+                    ? stock.unit
+                    : t('word.adet', 'Adet');
+                const row = `
+                    <tr>
+                        <td>${stock.code || '-'}</td>
+                        <td>${stock.barcode}</td>
+                        <td class="stock-name">${stock.name}</td>
+                        <td class="price-cell">${formatCurrency(stock.salesPrice)}</td>
+                        <td>${stock.stock} ${unit}</td>
+                        <td>${stock.brand || '-'}</td>
+                        <td class="group-cell">${stock.group || '-'}</td>
+                        <td>
+                            <a href="stok_detay.html?id=${stock.id}" class="btn btn-grey action-btn" aria-label="Detay">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </a>
+                        </td>
+                    </tr>`;
+                tbody.insertAdjacentHTML('beforeend', row);
+            });
+            const toplam  = t('word.toplam_kayit',  'Toplam');
+            const kayit   = t('word.kayit',          'Kayıt');
+            const bulundu = t('word.bulundu',        'Bulundu');
+            document.getElementById('footerText').innerHTML =
+                `${toplam} <span class="text-red">${stocks.length}</span> ${kayit} <span class="text-blue">${bulundu}</span>.`;
+        }
+
+        function doSearch() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const stocks = JSON.parse(localStorage.getItem('stockCards')) || [];
+            const filtered = term
+                ? stocks.filter(s => s.name.toLowerCase().includes(term) || s.barcode.toLowerCase().includes(term))
+                : stocks;
+            renderTable(filtered);
+        }
+
+        // Excel export
+        document.getElementById('exportExcelBtn').addEventListener('click', function () {
+            const table = document.getElementById('stokTable');
+            let csv = [];
+            table.querySelectorAll('tr').forEach(row => {
+                const cols = row.querySelectorAll('td, th');
+                csv.push(Array.from(cols).map(c => c.innerText).join(','));
+            });
+            const csvContent = 'data:text/csv;charset=utf-8,' + csv.join('
+');
+            const link = document.createElement('a');
+            link.setAttribute('href', encodeURI(csvContent));
+            link.setAttribute('download', 'stok_listesi.csv');
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Live search
+        document.getElementById('searchInput').addEventListener('input', doSearch);
+
+        // Keyboard shortcut F5
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'F5') { e.preventDefault(); window.location.href = 'stok_yeni.html'; }
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeStockData();
+            const stocks = JSON.parse(localStorage.getItem('stockCards')) || [];
+            renderTable(stocks);
+        });
+    </script>
+<script src='excelExportUniversal.js'></script></body>
+
+</html>

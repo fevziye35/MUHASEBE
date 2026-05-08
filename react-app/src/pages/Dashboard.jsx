@@ -86,12 +86,12 @@ const Dashboard = () => {
                             {greeting} 👋
                         </h1>
                         <p style={{ margin: '8px 0 0', color: 'rgba(255,255,255,0.75)', fontSize: '14px' }}>
-                            İşletme tablonuza hoş geldiniz
+                            {t('welcome_subtitle')}
                         </p>
                     </div>
                     <div style={{ textAlign: 'right' }}>
                         <div style={{ fontSize: '42px', fontWeight: '800', color: '#fff', lineHeight: 1 }}>{currentTime}</div>
-                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', fontWeight: '600', marginTop: '4px' }}>Sistem Saati</div>
+                        <div style={{ fontSize: '12px', color: 'rgba(255,255,255,0.6)', fontWeight: '600', marginTop: '4px' }}>{t('system_time')}</div>
                     </div>
                 </div>
 
@@ -105,7 +105,7 @@ const Dashboard = () => {
 
                 {/* Modules */}
                 <div style={{ marginBottom: '32px' }}>
-                    <h2 className="section-heading">Modüller</h2>
+                    <h2 className="section-heading">{t('modules')}</h2>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
                         <ModuleCard title={t('customers')} icon="fa-users" link="/cari-hesaplar" color="#4f46e5" />
                         <ModuleCard title={t('stocks')} icon="fa-boxes-stacked" link="/stok-kartlari" color="#0ea5e9" />
