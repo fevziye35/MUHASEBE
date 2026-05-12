@@ -4,357 +4,267 @@ const LanguageContext = createContext();
 
 const translations = {
   tr: {
-    // Header
     back: 'Geri Dön',
     lock: 'Ekranı Kilitle',
-    branch: 'Merkez',
-    logout_confirm: 'Sistemden çıkış yapmak istediğinize emin misiniz?',
-    logout_success: 'Çıkış yapıldı. Giriş ekranına yönlendiriliyorsunuz.',
-
-    // Sidebar
+    branch: 'Merkez Şube',
+    logout_confirm: 'Çıkış yapmak istediğinize emin misiniz?',
     home: 'Giriş Ekranı',
     sales: 'Satış Yap',
     customers: 'Cari Hesaplar',
     stocks: 'Stok Kartları',
     invoices: 'Faturalar',
-    efatura: 'E-Fatura',
-    ewaybill: 'E-İrsaliye',
-    esmm: 'E-Smm',
-    income_expense: 'Gelir Gider',
-    cash: 'Kasa',
-    bank: 'Banka',
-    checks: 'Çek Senet',
-    installments: 'Taksit Takip',
-    quotes: 'Teklif Sipariş',
-    currency: 'Döviz Ayarları',
-    reports: 'Raporlar',
-    messages: 'Mesajlar',
-    modules: 'Ek Modüller',
-    personnel: 'Personel Takip',
-    agenda: 'Ajanda',
-    user_management: 'Kişi Ekleme Paneli',
-    logout: 'Çıkış Yap',
-
-    // Dashboard
-    greeting_night: 'İyi Geceler!',
-    greeting_morning: 'Günaydın!',
     greeting_day: 'İyi Günler!',
+    greeting_morning: 'Günaydın!',
+    greeting_night: 'İyi Geceler!',
     greeting_evening: 'İyi Akşamlar!',
-    stat_sales: 'Son 30 Gün Satış',
-    stat_purchase: 'Son 30 Gün Alış',
-    purchase: 'Alış Yap',
-    stat_profit: 'Son 30 Gün Kâr',
-    stat_kdv: 'Son 30 Gün KDV',
-    quick_access: 'Hızlı Erişim',
-    monthly_charts: 'Aylık Grafikler',
-    chart_sales: 'Aylık Satış',
-    chart_purchase: 'Aylık Alış',
-    chart_collection: 'Aylık Tahsilat',
-    chart_payment: 'Aylık Ödeme',
-    balance_status: 'Bakiye Durumu',
-    bank_balances: 'Banka Bakiyeleri',
-    cash_balances: 'Kasa Bakiyeleri',
-    day_end: 'Gün Sonu',
-    profit_loss: 'Kâr Zarar Analizi',
     welcome_subtitle: 'İşletme tablonuza hoş geldiniz',
     system_time: 'Sistem Saati',
+    logout: 'Güvenli Çıkış',
+    oturum_acik: 'Oturum Açık',
+    yonetici: 'Yönetici',
+    stat_sales: 'SON 30 GÜN SATIŞ',
+    stat_purchase: 'SON 30 GÜN ALIŞ',
+    stat_profit: 'SON 30 GÜN KÂR',
+    stat_kdv: 'SON 30 GÜN KDV',
+    modules: 'MODÜLLER',
+    efatura: 'E-Fatura',
+    bank: 'Banka',
+    cash: 'Kasa',
+    agenda: 'Ajanda',
+    bank_balances: 'Banka Bakiyeleri',
+    cash_balances: 'Kasa Bakiyeleri',
+    last_30_days_balances: 'Son 30 günlük bakiye durumu',
+    cash_balances_subtitle: 'Güncel kasa durumları',
+    account_name: 'Hesap Adı',
+    cash_name: 'Kasa Adı',
+    balance: 'Bakiye',
+    no_records_found: 'Kayıt bulunamadı',
     trend_up: 'Artış',
     trend_down: 'Düşüş',
     trend_stable: 'Sabit',
-    go_to_module: 'Modüle git',
-    bank_balances: 'Banka Hesapları',
-    last_30_days_balances: 'Son 30 günlük bakiyeler',
-    cash_balances: 'Kasa Hesapları',
-    cash_balances_subtitle: 'Nakit bakiyeler',
+    go_to_module: 'Modüle git'
   },
   en: {
-    // Header
     back: 'Back',
     lock: 'Lock Screen',
     branch: 'Main Branch',
     logout_confirm: 'Are you sure you want to logout?',
-    logout_success: 'Logged out. Redirecting to login screen.',
-
-    // Sidebar
     home: 'Home',
-    sales: 'Create Sales',
-    customers: 'Current Accounts',
-    stocks: 'Stock Cards',
+    sales: 'Sales',
+    customers: 'Customers',
+    stocks: 'Stocks',
     invoices: 'Invoices',
-    efatura: 'E-Invoice',
-    ewaybill: 'E-Waybill',
-    esmm: 'E-SMM',
-    income_expense: 'Income Expense',
-    cash: 'Cash Box',
-    bank: 'Bank Management',
-    checks: 'Check & Notes',
-    installments: 'Installment Tracking',
-    quotes: 'Quotes & Orders',
-    currency: 'Currency Settings',
-    reports: 'Reports',
-    messages: 'Messages',
-    modules: 'Extra Modules',
-    personnel: 'Staff Tracking',
-    agenda: 'Agenda',
-    user_management: 'Add Person Panel',
-    logout: 'Logout',
-
-    // Dashboard
-    greeting_night: 'Good Night!',
-    greeting_morning: 'Good Morning!',
     greeting_day: 'Good Day!',
+    greeting_morning: 'Good Morning!',
+    greeting_night: 'Good Night!',
     greeting_evening: 'Good Evening!',
-    stat_sales: 'Last 30 Days Sales',
-    stat_purchase: 'Last 30 Days Purchase',
-    purchase: 'Create Purchase',
-    stat_profit: 'Last 30 Days Profit',
-    stat_kdv: 'Last 30 Days Tax',
-    quick_access: 'Quick Access',
-    monthly_charts: 'Monthly Charts',
-    chart_sales: 'Monthly Sales',
-    chart_purchase: 'Monthly Purchases',
-    chart_collection: 'Monthly Collections',
-    chart_payment: 'Monthly Payments',
-    balance_status: 'Balance Status',
+    welcome_subtitle: 'Welcome to your dashboard',
+    system_time: 'System Time',
+    logout: 'Logout',
+    oturum_acik: 'Session Active',
+    yonetici: 'Administrator',
+    stat_sales: 'LAST 30 DAYS SALES',
+    stat_purchase: 'LAST 30 DAYS PURCHASE',
+    stat_profit: 'LAST 30 DAYS PROFIT',
+    stat_kdv: 'LAST 30 DAYS VAT',
+    modules: 'MODULES',
+    efatura: 'E-Invoice',
+    bank: 'Bank',
+    cash: 'Cash',
+    agenda: 'Agenda',
     bank_balances: 'Bank Balances',
     cash_balances: 'Cash Balances',
-    day_end: 'Day End',
-    profit_loss: 'Profit/Loss',
-    welcome_subtitle: 'Welcome to your business dashboard',
-    system_time: 'System Time',
+    last_30_days_balances: 'Last 30 days balance status',
+    cash_balances_subtitle: 'Current cash statuses',
+    account_name: 'Account Name',
+    cash_name: 'Cash Name',
+    balance: 'Balance',
+    no_records_found: 'No records found',
     trend_up: 'Increase',
     trend_down: 'Decrease',
     trend_stable: 'Stable',
-    go_to_module: 'Go to module',
-    bank_balances: 'Bank Accounts',
-    last_30_days_balances: 'Last 30 days balances',
-    cash_balances: 'Cash Registers',
-    cash_balances_subtitle: 'Cash balances',
+    go_to_module: 'Go to module'
   },
   de: {
-    // Header
     back: 'Zurück',
-    lock: 'Bildschirm sperren',
-    branch: 'Hauptfiliale',
-    logout_confirm: 'Sind Sie sicher, dass Sie sich abmelden möchten?',
-    logout_success: 'Abgemeldet. Weiterleitung zum Anmeldebildschirm.',
-
-    // Sidebar
+    lock: 'Sperren',
+    branch: 'Filiale',
     home: 'Startseite',
-    sales: 'Verkauf Erstellen',
-    customers: 'Kontokorrent',
-    stocks: 'Lagerkarten',
+    sales: 'Verkauf',
+    customers: 'Kunden',
+    stocks: 'Lager',
     invoices: 'Rechnungen',
-    efatura: 'E-Rechnung',
-    ewaybill: 'E-Lieferschein',
-    esmm: 'E-SMM',
-    income_expense: 'Einnahmen Ausgaben',
-    cash: 'Kasse',
-    bank: 'Bankverwaltung',
-    checks: 'Schecks & Wechsel',
-    installments: 'Ratenzahlung',
-    quotes: 'Angebote & Aufträge',
-    currency: 'Währungseinstellungen',
-    reports: 'Berichte',
-    messages: 'Nachrichten',
-    modules: 'Zusatzmodule',
-    personnel: 'Personalverfolgung',
-    agenda: 'Agenda',
-    user_management: 'Benutzer Panel',
-    logout: 'Abmelden',
-
-    // Dashboard
-    greeting_night: 'Gute Nacht!',
-    greeting_morning: 'Guten Morgen!',
     greeting_day: 'Guten Tag!',
+    greeting_morning: 'Guten Morgen!',
+    greeting_night: 'Gute Nacht!',
     greeting_evening: 'Guten Abend!',
-    stat_sales: 'Umsatz letzte 30 Tage',
-    stat_purchase: 'Einkauf letzte 30 Tage',
-    purchase: 'Einkauf tätigen',
-    stat_profit: 'Gewinn letzte 30 Tage',
-    stat_kdv: 'MwSt letzte 30 Tage',
-    quick_access: 'Schnellzugriff',
-    monthly_charts: 'Monatliche Diagramme',
-    chart_sales: 'Monatsumsatz',
-    chart_purchase: 'Monatseinkauf',
-    chart_collection: 'Monatliche Einnahmen',
-    chart_payment: 'Monatliche Zahlungen',
-    balance_status: 'Kontostand',
+    welcome_subtitle: 'Willkommen im Dashboard',
+    system_time: 'Systemzeit',
+    logout: 'Abmelden',
+    oturum_acik: 'Sitzung Aktiv',
+    yonetici: 'Administrator',
+    stat_sales: 'VERKÄUFE LETZTE 30 TAGE',
+    stat_purchase: 'EINKÄUFE LETZTE 30 TAGE',
+    stat_profit: 'GEWINN LETZTE 30 TAGE',
+    stat_kdv: 'MWST LETZTE 30 TAGE',
+    modules: 'MODULE',
+    efatura: 'E-Rechnung',
+    bank: 'Bank',
+    cash: 'Kasse',
+    agenda: 'Agenda',
     bank_balances: 'Bankguthaben',
-    cash_balances: 'Kassenbestände',
-    day_end: 'Tagesabschluss',
-    profit_loss: 'Gewinn und Verlust',
+    cash_balances: 'Kassenguthaben',
+    last_30_days_balances: 'Kontostand der letzten 30 Tage',
+    cash_balances_subtitle: 'Aktuelle Kassenstände',
+    account_name: 'Kontoname',
+    cash_name: 'Kassenname',
+    balance: 'Saldo',
+    no_records_found: 'Keine Datensätze gefunden',
+    trend_up: 'Anstieg',
+    trend_down: 'Rückgang',
+    trend_stable: 'Stabil',
+    go_to_module: 'Zum Modul'
   },
   ru: {
-    // Header
     back: 'Назад',
-    lock: 'Заблокировать экран',
-    branch: 'Главный филиал',
-    logout_confirm: 'Вы уверены, что хотите выйти?',
-    logout_success: 'Вы вышли из системы. Перенаправление на страницу входа.',
-
-    // Sidebar
+    lock: 'Заблокировать',
+    branch: 'Филиал',
     home: 'Главная',
-    sales: 'Продажа',
-    customers: 'Контрагенты',
-    stocks: 'Карточки товаров',
+    sales: 'Продажи',
+    customers: 'Клиенты',
+    stocks: 'Склады',
     invoices: 'Счета',
-    efatura: 'Э-Счет',
-    ewaybill: 'Э-Накладная',
-    esmm: 'Э-SMM',
-    income_expense: 'Доходы и расходы',
-    cash: 'Касса',
-    bank: 'Банк',
-    checks: 'Чеки и векселя',
-    installments: 'Рассрочка',
-    quotes: 'Предложения и заказы',
-    currency: 'Настройки валюты',
-    reports: 'Отчеты',
-    messages: 'Сообщения',
-    modules: 'Доп. модули',
-    personnel: 'Персонал',
-    agenda: 'Повестка дня',
-    user_management: 'Управление пользователями',
-    logout: 'Выйти',
-
-    // Dashboard
-    greeting_night: 'Доброй ночи!',
-    greeting_morning: 'Доброе утро!',
     greeting_day: 'Добрый день!',
+    greeting_morning: 'Доброе утро!',
+    greeting_night: 'Доброй ночи!',
     greeting_evening: 'Добрый вечер!',
-    stat_sales: 'Продажи за 30 дней',
-    stat_purchase: 'Закупки за 30 дней',
-    purchase: 'Закупка',
-    stat_profit: 'Прибыль за 30 дней',
-    stat_kdv: 'НДС за 30 дней',
-    quick_access: 'Быстрый доступ',
-    monthly_charts: 'Месячные графики',
-    chart_sales: 'Месячные продажи',
-    chart_purchase: 'Месячные закупки',
-    chart_collection: 'Месячные сборы',
-    chart_payment: 'Месячные платежи',
-    balance_status: 'Состояние баланса',
+    welcome_subtitle: 'Добро пожаловать',
+    system_time: 'Системное время',
+    logout: 'Выход',
+    oturum_acik: 'Сессия активна',
+    yonetici: 'Администратор',
+    stat_sales: 'ПРОДАЖИ ЗА 30 ДНЕЙ',
+    stat_purchase: 'ЗАКУПКИ ЗА 30 ДНЕЙ',
+    stat_profit: 'ПРИБЫЛЬ ЗА 30 ДНЕЙ',
+    stat_kdv: 'НДС ЗА 30 ДНЕЙ',
+    modules: 'МОДУЛИ',
+    efatura: 'Э-Счет',
+    bank: 'Банк',
+    cash: 'Касса',
+    agenda: 'Повестка дня',
     bank_balances: 'Банковские балансы',
-    cash_balances: 'Остатки в кассе',
-    day_end: 'Отчет за день',
-    profit_loss: 'Прибыль и убытки',
+    cash_balances: 'Балансы касс',
+    last_30_days_balances: 'Состояние баланса за 30 дней',
+    cash_balances_subtitle: 'Текущее состояние касс',
+    account_name: 'Имя счета',
+    cash_name: 'Имя кассы',
+    balance: 'Баланс',
+    no_records_found: 'Записей не найдено',
+    trend_up: 'Увеличение',
+    trend_down: 'Снижение',
+    trend_stable: 'Стабильно',
+    go_to_module: 'Перейти к модулю'
   },
   zh: {
-    // Header
     back: '返回',
-    lock: '锁定屏幕',
-    branch: '总公司',
-    logout_confirm: '您确定要退出登录吗？',
-    logout_success: '已退出登录。正在返回登录界面。',
-
-    // Sidebar
+    lock: '锁定',
+    branch: '分行',
     home: '首页',
-    sales: '销售管理',
-    customers: '往来账户',
-    stocks: '库存管理',
-    invoices: '发票管理',
-    efatura: '电子发票',
-    ewaybill: '电子运单',
-    esmm: '电子SMM',
-    income_expense: '收支管理',
-    cash: '现金管理',
-    bank: '银行管理',
-    checks: '支票票据',
-    installments: '分期付款',
-    quotes: '报价订单',
-    currency: '货币设置',
-    reports: '报表中心',
-    messages: '消息通知',
-    modules: '附加模块',
-    personnel: '人员管理',
-    agenda: '日程安排',
-    user_management: '用户管理',
-    logout: '退出登录',
-
-    // Dashboard
-    greeting_night: '晚安！',
+    sales: '销售',
+    customers: '客户',
+    stocks: '库存',
+    invoices: '发票',
+    greeting_day: '日安！',
     greeting_morning: '早上好！',
-    greeting_day: '您好！',
+    greeting_night: '晚安！',
     greeting_evening: '晚上好！',
-    stat_sales: '最近30天销售额',
-    stat_purchase: '最近30天采购额',
-    purchase: '新增采购',
-    stat_profit: '最近30天利润',
-    stat_kdv: '最近30天税额',
-    quick_access: '快速访问',
-    monthly_charts: '月度统计图',
-    chart_sales: '月度销售',
-    chart_purchase: '月度采购',
-    chart_collection: '月度收款',
-    chart_payment: '月度付款',
-    balance_status: '余额状态',
+    welcome_subtitle: '欢迎来到仪表板',
+    system_time: '系统时间',
+    logout: '退出',
+    oturum_acik: '会话激活',
+    yonetici: '管理员',
+    stat_sales: '最近 30 天销售额',
+    stat_purchase: '最近 30 天采购额',
+    stat_profit: '最近 30 天利润',
+    stat_kdv: '最近 30 天增值税',
+    modules: '模块',
+    efatura: '电子发票',
+    bank: '银行',
+    cash: '现金',
+    agenda: '议程',
     bank_balances: '银行余额',
     cash_balances: '现金余额',
-    day_end: '日终报告',
-    profit_loss: '损益分析',
+    last_30_days_balances: '最近 30 天的余额状态',
+    cash_balances_subtitle: '当前现金状态',
+    account_name: '账户名称',
+    cash_name: '现金名称',
+    balance: '余额',
+    no_records_found: '未找到记录',
+    trend_up: '增长',
+    trend_down: '下降',
+    trend_stable: '稳定',
+    go_to_module: '转到模块'
   }
 };
 
 export const LanguageProvider = ({ children }) => {
   const [lang, setLang] = useState(() => {
-    let saved = localStorage.getItem('language') || localStorage.getItem('app_lang') || 'tr';
-    if (saved.toLowerCase().startsWith('tr')) return 'tr';
-    if (saved.toLowerCase().startsWith('en')) return 'en';
-    return saved;
+    return localStorage.getItem('language') || 'tr';
   });
 
   const t = (key) => {
     let activeLang = lang;
-    if (activeLang.toLowerCase().startsWith('tr')) activeLang = 'tr';
-    if (activeLang.toLowerCase().startsWith('en')) activeLang = 'en';
-    
     if (!translations[activeLang]) activeLang = 'tr';
-    
-    // 1. Internal React translations
-    let translated = translations[activeLang][key];
-    if (translated) return translated;
 
-    // 2. Legacy window.translations fallback (very important!)
-    if (window.translations) {
-        const dict = window.translations[activeLang] || window.translations['tr'];
-        if (dict) {
-            if (dict[key]) return dict[key];
-            
-            // Try common legacy prefixes if not already prefixed
-            const prefixes = ['sidebar.', 'word.', 'dashboard.', 'report.', 'header.', 'user.'];
-            for (const p of prefixes) {
-                if (dict[p + key]) return dict[p + key];
-            }
-        }
+    // 1. Internal React translations
+    if (translations[activeLang] && translations[activeLang][key]) {
+      return translations[activeLang][key];
     }
-    
+
+    // 2. Legacy window.translations fallback
+    if (window.translations && window.translations[activeLang]) {
+      const dict = window.translations[activeLang];
+      if (dict[key]) return dict[key];
+      
+      // Auto-prefix search
+      const prefixes = ['sidebar.', 'word.', 'dashboard.', 'header.', 'contact.', 'mega.'];
+      for (const p of prefixes) {
+        if (dict[p + key]) return dict[p + key];
+      }
+    }
+
     // 3. Fallback to Turkish internal
     if (activeLang !== 'tr' && translations['tr'][key]) {
       return translations['tr'][key];
     }
-    
+
     return key;
   };
 
   const changeLanguage = (newLang) => {
     setLang(newLang);
     localStorage.setItem('language', newLang);
-    localStorage.setItem('app_lang', newLang);
+    localStorage.setItem('app_lang', newLang); // Sync with legacy
     window.dispatchEvent(new Event('languageChanged'));
+    
+    // If we have an applyTranslations function in global scope, call it
+    if (typeof window.applyTranslations === 'function') {
+      window.applyTranslations();
+    }
   };
 
   useEffect(() => {
-    const handleStorageChange = () => {
-      const currentLang = localStorage.getItem('language') || localStorage.getItem('app_lang') || 'tr';
+    const handleLanguageChange = () => {
+      const currentLang = localStorage.getItem('language') || 'tr';
       if (currentLang !== lang) {
         setLang(currentLang);
       }
     };
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('languageChanged', handleStorageChange);
+    window.addEventListener('storage', handleLanguageChange);
+    window.addEventListener('languageChanged', handleLanguageChange);
     return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('languageChanged', handleStorageChange);
+      window.removeEventListener('storage', handleLanguageChange);
+      window.removeEventListener('languageChanged', handleLanguageChange);
     };
   }, [lang]);
 
