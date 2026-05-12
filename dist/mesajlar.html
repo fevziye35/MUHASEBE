@@ -1,601 +1,0 @@
-﻿<!DOCTYPE html>
-<html lang="tr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><span data-i18n="word.mesajlar">Mesajlar</span></title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Square/Geometric Font -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Modern Mesajlaşma Arayüzü İçin Özel CSS */
-        .messaging-container {
-            display: flex;
-            height: calc(100vh - 80px); /* Header yüksekliğini çıkararak tam ekran doldurma */
-            background: #ffffff;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-            margin: 20px;
-            overflow: hidden;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* --- Sol Taraf: Chat Listesi --- */
-        .chat-sidebar {
-            width: 350px;
-            background: #f8fafc;
-            border-right: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-sidebar-header {
-            padding: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            background: #ffffff;
-        }
-
-        .chat-sidebar-header h2 {
-            margin: 0 0 15px 0;
-            font-size: 1.25rem;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .new-message-btn {
-            background-color: #3b82f6;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .new-message-btn:hover {
-            background-color: #2563eb;
-        }
-
-        .chat-search {
-            position: relative;
-        }
-
-        .chat-search input {
-            width: 100%;
-            padding: 10px 10px 10px 35px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .chat-search input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-
-        .chat-search i {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-        }
-
-        .chat-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .chat-item {
-            display: flex;
-            padding: 15px 20px;
-            border-bottom: 1px solid #f1f5f9;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .chat-item:hover {
-            background: #f1f5f9;
-        }
-
-        .chat-item.active {
-            background: #e0f2fe;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .chat-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #cbd5e1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-right: 15px;
-            position: relative;
-        }
-
-        .chat-avatar.status-online::after {
-            content: '';
-            position: absolute;
-            bottom: 2px;
-            right: 2px;
-            width: 12px;
-            height: 12px;
-            background: #22c55e;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-        }
-
-        .chat-info {
-            flex: 1;
-            min-width: 0; /* for text truncation */
-        }
-
-        .chat-name-time {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .chat-name {
-            font-weight: 600;
-            color: #1e293b;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .chat-time {
-            font-size: 0.8rem;
-            color: #64748b;
-        }
-
-        .chat-preview-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-preview {
-            font-size: 0.9rem;
-            color: #64748b;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .chat-badge {
-            background: #ef4444;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 2px 6px;
-            border-radius: 10px;
-        }
-
-        /* --- Sağ Taraf: Aktif Mesajlaşma --- */
-        .chat-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: #ffffff;
-        }
-
-        .chat-header {
-            padding: 20px;
-            border-bottom: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #ffffff;
-        }
-
-        .chat-active-user {
-            display: flex;
-            align-items: center;
-        }
-
-        .chat-active-info h3 {
-            margin: 0 0 3px 0;
-            font-size: 1.1rem;
-            color: #1e293b;
-        }
-
-        .chat-active-status {
-            font-size: 0.85rem;
-            color: #22c55e;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .chat-actions button {
-            background: none;
-            border: none;
-            color: #64748b;
-            font-size: 1.2rem;
-            margin-left: 15px;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .chat-actions button:hover {
-            color: #3b82f6;
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .message-bubble {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 15px;
-            font-size: 0.95rem;
-            line-height: 1.4;
-            position: relative;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .message-incoming {
-            background: #ffffff;
-            color: #334155;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        .message-outgoing {
-            background: #3b82f6;
-            color: #ffffff;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .message-time {
-            display: block;
-            font-size: 0.75rem;
-            margin-top: 5px;
-            opacity: 0.7;
-            text-align: right;
-        }
-        
-        .message-outgoing .message-time {
-            color: #e2e8f0;
-        }
-
-        .chat-input-area {
-            padding: 20px;
-            background: #ffffff;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .chat-input-wrapper {
-            flex: 1;
-            background: #f1f5f9;
-            border-radius: 20px;
-            padding: 5px 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .chat-input-wrapper input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 10px;
-            font-size: 1rem;
-            outline: none;
-            color: #1e293b;
-        }
-
-        .chat-input-icons button {
-            background: none;
-            border: none;
-            color: #64748b;
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 5px;
-            transition: color 0.2s;
-        }
-        
-        .chat-input-icons button:hover {
-            color: #3b82f6;
-        }
-
-        .send-btn {
-            background: #3b82f6;
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-        }
-
-        .send-btn:hover {
-            background: #2563eb;
-            transform: scale(1.05);
-        }
-
-        .send-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Avatar Colors */
-        .bg-blue { background: #3b82f6; }
-        .bg-purple { background: #8b5cf6; }
-        .bg-orange { background: #f97316; }
-        .bg-teal { background: #14b8a6; }
-
-    </style>
-</head>
-
-<body>
-                            <header class="header">
-        <div class="header-left">
-            <div class="sidebar-toggle-box">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="logo-area">
-                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
-                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
-                <div class="header-lang-menu" id="header-lang-menu">
-                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
-                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
-                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
-                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
-                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
-                </div>
-            </div>
-            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
-            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
-            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
-            
-            <!-- Branch Switcher Dropdown -->
-            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
-                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
-                <div class="header-lang-menu" id="branch-dropdown-menu">
-                    <!-- Dynamic branches from JS -->
-                </div>
-            </div>
-
-            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
-            <div class="header-item user-item" onclick="toggleUserMenu(event)">
-                <i class="fa-solid fa-user"></i> 
-                <span>fevziye.mamak35@gmail.com</span>
-                <div class="user-dropdown-menu" id="user-dropdown-menu">
-                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
-                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
-                    <hr>
-                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sidebar (TAMAMEN INDEX.HTML İLE AYNI) -->
-    <nav class="sidebar">
-        <div class="sidebar-logo">
-            <a href="index.html">
-                <img src="logo.png" alt="Logo">
-            </a>
-        </div>
-        <ul class="sidebar-menu">
-
-            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span
-                        data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
-            <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış
-                        Yap</span></a></li>
-            <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari
-                        Hesaplar</span></a></li>
-            <li><a href="stok_kartlari.html"><i class="fa-solid fa-boxes-stacked"></i> <span
-                        data-i18n="sidebar.stock">Stok Kartları</span></a></li>
-            <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span
-                        data-i18n="sidebar.invoices">Faturalar</span></a></li>
-            <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span
-                        data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-            <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span
-                        data-i18n="sidebar.cash">Kasa</span></a></li>
-            <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span
-                        data-i18n="sidebar.bank">Banka</span></a></li>
-            <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span
-                        data-i18n="sidebar.checks">Çek Senet</span></a></li>
-            <li><a href="taksit_takip.html"><i class="fa-solid fa-calendar-days"></i> <span
-                        data-i18n="sidebar.installments">Taksit
-                        Takip</span></a></li>
-            <li><a href="teklif_siparis.html"><i class="fa-solid fa-file-contract"></i> <span
-                        data-i18n="sidebar.offers">Teklif
-                        Sipariş</span></a></li>
-            <li><a href="doviz_ayarlari.html" id="doviz_settings_link"><i class="fa-solid fa-dollar-sign"></i> <span data-i18n="sidebar.currency">Döviz Ayarları</span></a></li>
-            
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-file-lines"></i> <span
-                        data-i18n="sidebar.reports">Raporlar</span> <i
-                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
-                <ul class="submenu">
-                    <li><a href="cari_raporu.html"><i class="fa-solid fa-users"></i> <span data-i18n="report.cari">Cari</span></a></li>
-                    <li><a href="toplu_stok_raporu.html"><i class="fa-solid fa-box-open"></i> <span data-i18n="report.stok">Stok</span></a></li>
-                    <li><a href="taksit_rapor.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="report.taksit">Taksit</span></a></li>
-                    <li><a href="satis_raporu.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="report.satis">Satış</span></a></li>
-                    <li><a href="kasa_raporu.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="report.kasa">Kasa</span></a></li>
-                    <li><a href="banka_raporu.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="report.banka">Banka</span></a></li>
-                    <li><a href="cek_raporu.html"><i class="fa-solid fa-copy"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
-                    <li><a href="gun_sonu_raporu.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.gun_sonu">Gün Sonu Raporu</span></a></li>
-                    <li><a href="kar_zarar_analizi.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.kar_zarar">Kâr Zarar Analizi</span></a></li>
-                    <li><a href="gelir_gider.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-                </ul>
-            </li>
-            <li><a href="mesajlar.html" class="active"><i class="fa-solid fa-envelope"></i> <span data-i18n="sidebar.messages">Mesajlar</span></a></li>
-            
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-layer-group"></i> <span
-                        data-i18n="sidebar.modules">Ek Modüller</span> <i
-                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
-                <ul class="submenu">
-                    <li><a href="personel_takip.html"><i class="fa-solid fa-user-clock"></i> <span data-i18n="word.personel_takip">Personel Takip</span></a></li>
-                    <li><a href="ajanda.html"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="word.ajanda">Ajanda</span></a></li>
-                    <li><a href="kisi_ekle.html"><i class="fa-solid fa-user-plus"></i> <span data-i18n="word.kisi_ekleme">Kişi Ekleme Paneli</span></a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Header -->
-                                        
-
-        <!-- Mesajlaşma Arayüzü -->
-        <div class="messaging-container">
-            
-            <!-- Sol Chat Listesi -->
-            <div class="chat-sidebar">
-                <div class="chat-sidebar-header">
-                    <h2><span data-i18n="word.mesajlar">Mesajlar</span> <button class="new-message-btn"><i class="fa-solid fa-plus"></i> Yeni</button></h2>
-                    <div class="chat-search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Kişi veya mesaj ara...">
-                    </div>
-                </div>
-
-                <div class="chat-list">
-                    <!-- Aktif Chat -->
-                    <div class="chat-item active">
-                        <div class="chat-avatar bg-blue status-online">AE</div>
-                        <div class="chat-info">
-                            <div class="chat-name-time">
-                                <span class="chat-name">AYDIN ERTOP</span>
-                                <span class="chat-time">11:32</span>
-                            </div>
-                            <div class="chat-preview-box">
-                                <span class="chat-preview">aydinertop@gmail.com</span>
-                                <span class="chat-badge">1</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chat-item">
-                        <div class="chat-avatar bg-purple">FM</div>
-                        <div class="chat-info">
-                            <div class="chat-name-time">
-                                <span class="chat-name">FEVZİYE MAMAK</span>
-                                <span class="chat-time">Dün</span>
-                            </div>
-                            <div class="chat-preview-box">
-                                <span class="chat-preview">fevziye.mamak35@gmail.com</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chat-item">
-                        <div class="chat-avatar bg-orange status-online">AM</div>
-                        <div class="chat-info">
-                            <div class="chat-name-time">
-                                <span class="chat-name">ALİ MAMAK</span>
-                                <span class="chat-time">Dün</span>
-                            </div>
-                            <div class="chat-preview-box">
-                                <span class="chat-preview">amamak1980@gmail.com</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Sağ Aksiyon Alanı -->
-            <div class="chat-main">
-                
-                <div class="chat-header">
-                    <div class="chat-active-user">
-                        <div class="chat-avatar bg-blue status-online">AE</div>
-                        <div class="chat-active-info">
-                            <h3>AYDIN ERTOP</h3>
-                            <span class="chat-active-status"><i class="fa-solid fa-circle" style="font-size: 8px;"></i> aydinertop@gmail.com</span>
-                        </div>
-                    </div>
-                    <div class="chat-actions">
-                        <button title="Ara"><i class="fa-solid fa-phone"></i></button>
-                        <button title="Görüntülü Ara"><i class="fa-solid fa-video"></i></button>
-                        <button title="Daha Fazla"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                    </div>
-                </div>
-
-                <div class="chat-messages">
-                    <div class="message-bubble message-incoming">
-                        Merhabalar, yeni sisteme giriş yaptım.
-                        <span class="message-time">11:15</span>
-                    </div>
-
-                    <div class="message-bubble message-outgoing">
-                        Hoş geldiniz Aydın Bey.
-                        <span class="message-time">11:20 <i class="fa-solid fa-check-double text-blue-300"></i></span>
-                    </div>
-
-                    <div class="message-bubble message-outgoing">
-                        Bütün yetkilendirmeleriniz yapıldı.
-                        <span class="message-time">11:22 <i class="fa-solid fa-check-double text-blue-300"></i></span>
-                    </div>
-
-                    <div class="message-bubble message-incoming">
-                        Teşekkür ederim, kolay gelsin.
-                        <span class="message-time">11:32</span>
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <button style="background:none; border:none; color:#64748b; font-size:1.5rem; cursor:pointer;" title="Dosya Ekle"><i class="fa-solid fa-paperclip"></i></button>
-                    <div class="chat-input-wrapper">
-                        <input type="text" placeholder="Bir mesaj yazın...">
-                        <div class="chat-input-icons">
-                            <button><i class="fa-regular fa-face-smile"></i></button>
-                        </div>
-                    </div>
-                    <button class="send-btn" title="Gönder"><i class="fa-solid fa-paper-plane"></i></button>
-                </div>
-                
-            </div>
-            
-        </div>
-
-    </main>
-
-    <script src="translations.js?v=1776685628940"></script>
-    <script src="script.js?v=1776685628940"></script>
-
-<script src='excelExportUniversal.js'></script></body>
-
-</html>
-

@@ -1,258 +1,0 @@
-﻿<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kilit Ekranı - Makfa Muhasebe</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            font-family: 'Inter', sans-serif;
-            color: #ffffff;
-            overflow: hidden;
-        }
-
-        .lock-container {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 50px 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            width: 100%;
-            max-width: 400px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 3rem;
-            color: white;
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
-            border: 4px solid rgba(255, 255, 255, 0.1);
-        }
-
-        h2 {
-            margin: 0 0 5px 0;
-            font-weight: 600;
-            font-size: 1.5rem;
-            letter-spacing: 0.5px;
-        }
-
-        p {
-            margin: 0 0 30px 0;
-            color: #94a3b8;
-            font-size: 0.95rem;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-        }
-
-        .input-group i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-        }
-
-        input[type="password"] {
-            width: 100%;
-            padding: 15px 15px 15px 45px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.2);
-            color: #ffffff;
-            font-size: 1rem;
-            box-sizing: border-box;
-            outline: none;
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
-        }
-
-        input[type="password"]:focus {
-            border-color: #3b82f6;
-            background: rgba(0, 0, 0, 0.4);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        input[type="password"]::placeholder {
-            color: #64748b;
-        }
-
-        .unlock-btn {
-            width: 100%;
-            padding: 15px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .unlock-btn:hover {
-            background: #2563eb;
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -10px rgba(59, 130, 246, 0.8);
-        }
-
-        .back-link {
-            display: inline-block;
-            margin-top: 25px;
-            color: #64748b;
-            text-decoration: none;
-            font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-
-        .back-link:hover {
-            color: #cbd5e1;
-            text-decoration: underline;
-        }
-        
-        #error-msg {
-            color: #ef4444;
-            font-size: 0.85rem;
-            margin-top: -15px;
-            margin-bottom: 20px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-                            <header class="header">
-        <div class="header-left">
-            <div class="sidebar-toggle-box">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="logo-area">
-                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
-                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
-                <div class="header-lang-menu" id="header-lang-menu">
-                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
-                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
-                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
-                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
-                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
-                </div>
-            </div>
-            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
-            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
-            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
-            
-            <!-- Branch Switcher Dropdown -->
-            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
-                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
-                <div class="header-lang-menu" id="branch-dropdown-menu">
-                    <!-- Dynamic branches from JS -->
-                </div>
-            </div>
-
-            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
-            <div class="header-item user-item" onclick="toggleUserMenu(event)">
-                <i class="fa-solid fa-user"></i> 
-                <span>fevziye.mamak35@gmail.com</span>
-                <div class="user-dropdown-menu" id="user-dropdown-menu">
-                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
-                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
-                    <hr>
-                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="lock-container">
-        <div class="avatar">
-            <i class="fa-solid fa-user-lock"></i>
-        </div>
-        <h2>Fevziye Mamak</h2>
-        <p>fevziye.mamak35@gmail.com</p>
-
-        <form id="lockForm" onsubmit="checkPassword(event)">
-            <div class="input-group">
-                <i class="fa-solid fa-key"></i>
-                <input type="password" id="passwordInput" placeholder="Sistemi açmak için şifrenizi girin..." required autofocus>
-            </div>
-            
-            <div id="error-msg">Hatalı şifre, lütfen tekrar deneyin.</div>
-
-            <button type="submit" class="unlock-btn">
-                <span>Kilidi Aç</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
-            </button>
-        </form>
-
-        <!-- Optional: Link to a full login page if they are not Fevziye Mamak -->
-        <a href="index.html" class="back-link" style="display:none;">Farklı bir kullanıcı ile giriş yap</a>
-    </div>
-
-    <script>
-        function checkPassword(e) {
-            e.preventDefault();
-            const pass = document.getElementById('passwordInput').value;
-            const errorMsg = document.getElementById('error-msg');
-            
-            // Kullanıcı Fevziye35 şifresi girilmesini istedi
-            if (pass === "Fevziye35") {
-                // Şifre kabul edildi
-                
-                // Animasyonlu çıkış
-                document.querySelector('.lock-container').style.opacity = '0';
-                document.querySelector('.lock-container').style.transform = 'scale(0.9)';
-                document.querySelector('.lock-container').style.transition = 'all 0.4s ease';
-                
-                // Önceki sayfaya dön (veya Index.html'e)
-                setTimeout(() => {
-                    const referrer = document.referrer;
-                    if (referrer && referrer.includes(".html") && !referrer.includes("kilit_ekrani.html")) {
-                        window.location.href = referrer; // Geldiği sayfaya döndür
-                    } else {
-                        window.location.href = "index.html";
-                    }
-                }, 400);
-            } else {
-                errorMsg.style.display = "block";
-                document.getElementById('passwordInput').focus();
-            }
-        }
-    </script>
-
-<script src='excelExportUniversal.js'></script>\n<script src="translations.js?v=1776685628940"></script>\n<script src="script.js?v=1776685628940"></script>\n</body>
-</html>
-
