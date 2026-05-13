@@ -1,24 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Cleared for custom project styles in src/styles/global.css */
+@import './styles/global.css';
 
-@layer base {
-  /* Mavi linkleri ve alt çizgileri kökten çözer */
-  a {
-    color: inherit !important;
-    text-decoration: none !important;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: #f8fafc; /* Hafif gri arka plan */
-  }
+:root {
+  font-family: 'Inter', sans-serif;
 }
 
-/* Sidebar'ın içeriği ezmemesi için */
-main {
-  margin-left: 256px; /* Sidebar genişliği kadar boşluk */
+#root {
+  display: flex;
   width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }

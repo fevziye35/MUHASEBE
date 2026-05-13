@@ -1,106 +1,182 @@
-import React from 'react';
-
-import { Link, useLocation } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import logo from '../assets/logo.png';
 
-import {
-
-  LayoutDashboard, Users, Package, FileText,
-
-  Wallet, Banknote, Calendar, LogOut
-
-} from 'lucide-react';
-
-
-
-const Sidebar = () => {
-
+const Sidebar = ({ isCollapsed }) => {
+  const navigate = useNavigate();
   const { t } = useLanguage();
-
   const location = useLocation();
 
+  const handleLogout = (e) => {
+    if (e) e.preventDefault();
+    if (window.confirm(t('logout_confirm'))) {
+      localStorage.removeItem('isAuthenticated');
+      navigate('/login');
+    }
+  };
 
-
-  // EKSİK OLAN KISIM BURASI: menuItems tanımlanmalı
+  const isActive = (path) => {
+    if (path === '/' && location.pathname === '/') return true;
+    if (path !== '/' && location.pathname.startsWith(path)) return true;
+    return false;
+  };
 
   const menuItems = [
-
-    { key: 'home', path: '/', icon: <LayoutDashboard size={20} /> },
-
-    { key: 'customers', path: '/customers', icon: <Users size={20} /> },
-
-    { key: 'stocks', path: '/stocks', icon: <Package size={20} /> },
-
-    { key: 'sales', path: '/sales', icon: <FileText size={20} /> },
-
-    { key: 'invoices', path: '/invoices', icon: <FileText size={20} /> },
-
-    { key: 'cash', path: '/cash', icon: <Wallet size={20} /> },
-
-    { key: 'bank', path: '/bank', icon: <Banknote size={20} /> },
-
-    { key: 'agenda', path: '/agenda', icon: <Calendar size={20} /> },
-
+    { path: '/', label: t('home'), icon: 'fa-house' },
+    { path: '/satis-yap', label: t('sales'), icon: 'fa-cart-shopping' },
+    { path: '/cari-hesaplar', label: t('customers'), icon: 'fa-users' },
+    { path: '/stok-kartlari', label: t('stocks'), icon: 'fa-boxes-stacked' },
+    { path: '/faturalar', label: t('invoices'), icon: 'fa-file-invoice' },
+    { path: '/gelir-gider', label: t('income_expense'), icon: 'fa-chart-line' },
+    { path: '/kasa', label: t('cash'), icon: 'fa-cash-register' },
+    { path: '/banka', label: t('bank'), icon: 'fa-building-columns' },
+    { path: '/cek-senet', label: t('checks'), icon: 'fa-money-check' },
+    { path: '/taksit-takip', label: t('installments'), icon: 'fa-calendar-days' },
+    { path: '/teklif-siparis', label: t('quotes'), icon: 'fa-file-contract' },
+    { path: '/doviz-ayarlari', label: t('currency'), icon: 'fa-dollar-sign' },
+    { path: '/raporlar', label: t('reports'), icon: 'fa-file-lines' },
+    { path: '/mesajlar', label: t('messages'), icon: 'fa-envelope' },
+    { path: '/moduller', label: t('modules'), icon: 'fa-layer-group' },
   ];
 
-
-
   return (
-<div className="bg-[#1e293b] text-white w-64 min-h-screen p-6 flex flex-col shrink-0">
-
-      <div className="logo mb-10 px-2 font-bold text-2xl flex items-center gap-3 border-b border-gray-700 pb-6">
-
-        <div className="w-8 h-8 bg-blue-500 rounded-lg shrink-0"></div>
-
-        <span className="text-white tracking-wide">MAKFA GLOBAL</span>
-
+    <nav style={{ 
+        width: isCollapsed ? '80px' : '260px',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        zIndex: 1001,
+        background: '#1e2d40',
+        transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: '4px 0 24px rgba(0,0,0,0.15)',
+        borderRight: '1px solid rgba(255,255,255,0.05)'
+    }}>
+      {/* Logo Area */}
+      <div style={{ 
+          padding: isCollapsed ? '20px 0' : '24px 20px', 
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: isCollapsed ? 'center' : 'flex-start',
+          gap: '14px',
+          minHeight: '80px',
+          borderBottom: '1px solid rgba(255,255,255,0.08)'
+      }}>
+        <div style={{ 
+            width: '42px', 
+            height: '42px', 
+            borderRadius: '12px', 
+            background: 'rgba(255,255,255,0.05)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            flexShrink: 0,
+            border: '1px solid rgba(255,255,255,0.1)'
+        }}>
+            <img src={logo} alt="L" style={{ height: '24px', objectFit: 'contain', filter: 'brightness(1.5)' }} />
+        </div>
+        {!isCollapsed && (
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <span style={{ fontSize: '18px', fontWeight: '900', color: '#fff', letterSpacing: '-0.02em', lineHeight: 1.1 }}>MAKFA</span>
+                <span style={{ fontSize: '10px', fontWeight: '700', color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.1em', marginTop: '2px' }}>Enterprise</span>
+            </div>
+        )}
+      </div>
+      
+      {/* Menu Items */}
+      <div style={{ 
+          flex: 1, 
+          overflowY: 'auto', 
+          overflowX: 'hidden',
+          padding: '20px 14px',
+          scrollbarWidth: 'none'
+      }}>
+        <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          {menuItems.map((item) => {
+            const active = isActive(item.path);
+            return (
+              <li key={item.path}>
+                <Link to={item.path} style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '12px', 
+                    padding: isCollapsed ? '12px' : '12px 16px',
+                    justifyContent: isCollapsed ? 'center' : 'flex-start',
+                    color: active ? '#fff' : 'rgba(255,255,255,0.5)', 
+                    textDecoration: 'none',
+                    fontSize: '14px',
+                    fontWeight: active ? '700' : '500',
+                    borderRadius: '12px',
+                    background: active ? 'linear-gradient(135deg, #4f46e5 0%, #6366f1 100%)' : 'transparent',
+                    boxShadow: active ? '0 4px 12px rgba(79, 70, 229, 0.3)' : 'none',
+                    transition: 'all 0.2s ease',
+                    position: 'relative'
+                }}>
+                  <i className={`fa-solid ${item.icon}`} style={{ 
+                      fontSize: '18px', 
+                      width: '20px', 
+                      textAlign: 'center',
+                      color: active ? '#fff' : 'inherit'
+                  }}></i>
+                  {!isCollapsed && <span style={{ whiteSpace: 'nowrap' }}>{item.label}</span>}
+                  {active && !isCollapsed && (
+                      <div style={{ 
+                          position: 'absolute', right: '8px', width: '5px', height: '5px', 
+                          borderRadius: '50%', background: '#fff', opacity: 0.8 
+                      }}></div>
+                  )}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
-     
-
-      <nav className="flex-1 flex flex-col gap-2">
-
-        {menuItems.map((item) => (
-
-          <Link
-
-            key={item.key}
-
-            to={item.path}
-
-            className={`flex items-center gap-4 p-3 rounded-xl transition-all no-underline ${
-
-              location.pathname === item.path
-
-                ? 'bg-blue-600 shadow-lg text-white'
-
-                : 'hover:bg-gray-800 text-gray-300'
-
-            }`}
-
-            style={{ color: 'white', textDecoration: 'none' }}
-
-          >
-
-            <span className="flex-shrink-0">{item.icon}</span>
-
-            <span classame="font-medium text-[15px]">{t(item.key)}</span>
-          </Link>
-        ))}
-      </nav>
-      // Sidebar.jsx dosyanızın sonundaki olması gereken doğru yapı:
-      <div className="mt-auto pt-6 border-t border-gray-700">
-        <button 
-          className="flex items-center gap-4 p-3 w-full rounded-xl transition-colors border-none bg-transparent cursor-pointer hover:bg-red-900/20"
-          style={{ color: '#f87171' }}
-        >
-          <LogOut size={20} />
-          <span className="font-medium">{t('logout')}</span>
-        </button> {/* <-- 99. satır civarı burayı kontrol edin */}
-      </div> {/* <-- 100. satır */}
-    </div> // <-- 101. satır (Sidebar ana kapsayıcı kapanışı)
+      {/* Footer / User Area */}
+      <div style={{ 
+          padding: '20px 14px', 
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+          background: 'rgba(0,0,0,0.1)'
+      }}>
+        {!isCollapsed && (
+            <div style={{ 
+                padding: '12px 14px', 
+                background: 'rgba(255,255,255,0.03)', 
+                borderRadius: '12px',
+                marginBottom: '12px',
+                border: '1px solid rgba(255,255,255,0.05)'
+            }}>
+                <div style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>{t('oturum_acik')}</div>
+                <div style={{ fontSize: '14px', color: '#fff', fontWeight: '700' }}>{t('yonetici')}</div>
+            </div>
+        )}
+        <button onClick={handleLogout} style={{ 
+            width: '100%', 
+            padding: '12px',
+            background: 'rgba(239,68,68,0.1)', 
+            color: '#fca5a5', 
+            border: '1px solid rgba(239,68,68,0.15)', 
+            borderRadius: '12px', 
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: isCollapsed ? 'center' : 'flex-start',
+            gap: '12px',
+            fontWeight: '700',
+            fontSize: '13px',
+            transition: 'all 0.2s ease',
+            outline: 'none'
+        }} onMouseOver={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.2)'} 
+           onMouseOut={(e) => e.currentTarget.style.background = 'rgba(239,68,68,0.1)'}>
+          <i className="fa-solid fa-right-from-bracket"></i>
+          {!isCollapsed && <span>{t('logout')}</span>}
+        </button>
+      </div>
+    </nav>
   );
 };
 
-export default Sidebar
+export default Sidebar;

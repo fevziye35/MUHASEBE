@@ -1,119 +1,21 @@
-﻿<!DOCTYPE html>
-<html lang="tr" class="notranslate" translate="no">
+<!doctype html>
 <html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google" content="notranslate">
-    <title data-i18n="dashboard.page_title">Muhasebe Paneli</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="dashboard_modern.css">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAKFA CRM - Muhasebe ve İşletme Yönetimi</title>
+    <meta name="description" content="MAKFA CRM - Profesyonel muhasebe ve işletme yönetim sistemi" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* Sidebar'ın aşağı kadar uzanmasını garanti altına alalım */
-        body, html { margin: 0; padding: 0; height: 100%; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { min-height: 100vh; width: 260px; flex-shrink: 0; }
-        .main-content { flex-grow: 1; overflow-y: auto; }
-    </style>
-</head>
-<body>
-    <div class="app-container">
-        <nav class="sidebar">
-            <div class="sidebar-logo">
-                <a href="index.html"><img src="logo.png" alt="Logo"></a>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a href="index.html" class="active"><i class="fa-solid fa-house"></i> <span data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
-                <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış Yap</span></a></li>
-                <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari Hesaplar</span></a></li>
-                <li><a href="stok_kartlari.html"><i class="fa-solid fa-boxes-stacked"></i> <span data-i18n="sidebar.stock">Stok Kartları</span></a></li>
-                <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span data-i18n="sidebar.invoices">Faturalar</span></a></li>
-                <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-                <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="sidebar.cash">Kasa</span></a></li>
-                <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="sidebar.bank">Banka</span></a></li>
-                <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
-            </ul>
-        </nav>
-
-        <div class="main-content">
-            <header class="header">
-                <div class="header-left">
-                    <div class="sidebar-toggle-box"><i class="fa-solid fa-bars"></i></div>
-                    <div class="logo-area">
-                        <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA A.Ş.</span>
-                    </div>
-                </div>
-                <div class="header-right">
-                    <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
-                        <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Dil</span>
-                        <div class="header-lang-menu" id="header-lang-menu">
-                            <div class="header-lang-item" onclick="setLanguage('tr')">Türkçe</div>
-                            <div class="header-lang-item" onclick="setLanguage('en')">English</div>
-                        </div>
-                    </div>
-                    <div class="header-item user-item"><i class="fa-solid fa-user"></i> <span>Yönetici</span></div>
-                </div>
-            </header>
-
-            <main class="dash-container" style="padding: 20px;">
-                <div class="dash-welcome-banner">
-                    <div class="welcome-content">
-                        <div class="welcome-text">
-                            <h1 data-i18n="dashboard.welcome">Hoş Geldiniz!</h1>
-                            <p id="welcomeDate"></p>
-                        </div>
-                        <div class="welcome-clock" id="welcomeClock"></div>
-                    </div>
-                </div>
-
-                <div class="selection-section">
-                    <div class="section-header"><i class="fa-solid fa-grip"></i> <span data-i18n="dashboard.quick_access">Hızlı Erişim</span></div>
-                    <div class="content-box">
-                        <div class="dash-modules-grid">
-                            <a href="faturalar.html" class="dash-module-card mod-indigo">
-                                <div class="mod-icon"><i class="fa-solid fa-file-invoice"></i></div>
-                                <div class="mod-label"><span data-i18n="sidebar.invoices">Faturalar</span></div>
-                            </a>
-                            <a href="efatura.html" class="dash-module-card mod-violet">
-                                <div class="mod-icon"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                                <div class="mod-label"><span data-i18n="sidebar.einvoice">E-Fatura</span></div>
-                            </a>
-                            <a href="mesajlar.html" class="dash-module-card mod-blue">
-                                <div class="mod-icon"><i class="fa-solid fa-envelope"></i></div>
-                                <div class="mod-label"><span data-i18n="sidebar.messages">Mesajlar</span></div>
-                            </a>
-                            <a href="kisi_ekle.html" class="dash-module-card mod-teal">
-                                <div class="mod-icon"><i class="fa-solid fa-user-plus"></i></div>
-                                <div class="mod-label"><span data-i18n="satis.new_customer">Yeni Cari Ekle</span></div>
-                            </a>
-                            <a href="cari_hesaplar.html" class="dash-module-card mod-emerald">
-                                <div class="mod-icon"><i class="fa-solid fa-address-book"></i></div>
-                                <div class="mod-label"><span data-i18n="mega.customer_list">Cari Liste</span></div>
-                            </a>
-                            <a href="doviz_ayarlari.html" class="dash-module-card mod-slate">
-                                <div class="mod-icon"><i class="fa-solid fa-dollar-sign"></i></div>
-                                <div class="mod-label"><span data-i18n="sidebar.currency">Döviz</span></div>
-                            </a>
-                            <a href="kasa.html" class="dash-module-card mod-amber">
-                                <div class="mod-icon"><i class="fa-solid fa-wallet"></i></div>
-                                <div class="mod-label"><span data-i18n="sidebar.cash">Kasa</span></div>
-                            </a>
-                            <a href="gelir_gider_ekle.html" class="dash-module-card mod-rose">
-                                <div class="mod-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
-                                <div class="mod-label"><span data-i18n="word.gelir_gider_ekle">Gider Ekle</span></div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </div>
-    </div>
-
-   <script type="module" src="./translations.js"></script>
-   <script type="module" src="./dashboard_charts.js"></script>
-   <script type="module" src="./script.js"></script>
-   <script type="module" src="./excelExportUniversal.js"></script>
-</body>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- BURADAKİ translations.js SATIRINI TAMAMEN SİLDİK -->
+    
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
