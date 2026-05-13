@@ -1,1113 +1,0 @@
-﻿<!DOCTYPE html>
-<html lang="tr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sat&#305;&#351; Faturas&#305;</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="dashboard_modern.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .page-title {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .main-container {
-            display: flex;
-            gap: 20px;
-        }
-
-        .left-panel {
-            flex: 2;
-            background: #fff;
-            padding: 20px;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-
-        .right-panel {
-            flex: 1;
-            background: #fff;
-            border-radius: 4px;
-            /* border: 1px solid #ddd; */
-            /* Right panel looks like it has tabs and card style */
-        }
-
-        .tab-header {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-            margin-bottom: 15px;
-        }
-
-        .tab-item {
-            padding: 10px 20px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            font-weight: bold;
-            color: #1f3a60;
-            border-radius: 4px 4px 0 0;
-            cursor: pointer;
-        }
-
-        .tab-item.active {
-            background-color: #f7f9fa;
-            /* slightly different to show active state if needed */
-        }
-
-        .right-content {
-            padding: 15px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-top: none;
-            margin-top: -16px;
-            /* pull up to connect with tab */
-            border-radius: 0 4px 4px 4px;
-        }
-
-        /* Form Grid Layouts */
-        .form-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .form-label-sm {
-            display: block;
-            font-weight: bold;
-            font-size: 13px;
-            color: #1f3a60;
-            margin-bottom: 5px;
-        }
-
-        .form-input-sm {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 13px;
-            color: #555;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 13px;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-
-
-        .bottom-bar {
-            margin-top: 20px;
-            display: flex;
-            align-items: center;
-            gap: 0;
-            /* Connected input and button */
-        }
-
-        .barcode-input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-right: none;
-            border-radius: 4px 0 0 4px;
-            font-size: 14px;
-        }
-
-        .add-product-btn {
-            background-color: #1f3a60;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 0 4px 4px 0;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .add-product-btn:hover {
-            background-color: #2c5282;
-        }
-
-        /* Input Group for Invoice No */
-        .input-group-btn {
-            display: flex;
-        }
-
-        .input-group-btn input {
-            border-radius: 4px 0 0 4px;
-            border-right: none;
-        }
-
-        .input-group-btn button {
-            border: 1px solid #ccc;
-            background: #fff;
-            padding: 0 10px;
-            border-radius: 0 4px 4px 0;
-            cursor: pointer;
-            color: #333;
-        }
-
-        /* Product Table */
-        .product-table-container {
-            margin-top: 20px;
-            overflow-x: auto;
-        }
-
-        .product-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .product-table th {
-            text-align: left;
-            padding: 10px;
-            font-size: 13px;
-            font-weight: bold;
-            color: #333;
-            border-bottom: 1px solid #eee;
-        }
-
-        .product-table td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        /* Footer Section */
-        .footer-container {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .footer-left {
-            flex: 1;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .footer-right {
-            flex: 2;
-            background: #fff;
-            /* border: 1px solid #ddd; */
-            /* border-radius: 4px; */
-            /* padding: 15px; */
-        }
-
-        /* Totals Table */
-        .totals-table {
-            width: 100%;
-            font-size: 13px;
-        }
-
-        .totals-table td {
-            padding: 8px 15px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .totals-table td:first-child {
-            font-weight: bold;
-            color: #333;
-            width: 40%;
-        }
-
-        .totals-table td:last-child {
-            text-align: right;
-            font-weight: bold;
-        }
-
-        .totals-tabs {
-            display: flex;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .totals-tab {
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 13px;
-            border-right: 1px solid #ddd;
-            background: #f9f9f9;
-        }
-
-        .totals-tab.active {
-            background: #fff;
-            font-weight: bold;
-            border-bottom: 1px solid white;
-            margin-bottom: -1px;
-        }
-
-        /* Footer Right Form */
-        .footer-right-content {
-            padding: 15px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .description-grid {
-            margin-bottom: 15px;
-        }
-
-        .save-btn-container {
-            text-align: right;
-            margin-top: 20px;
-        }
-
-        .btn-save-lg {
-            background-color: #1f3a60;
-            color: white;
-            padding: 10px 30px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .btn-desc-save {
-            background-color: #5d6d7e;
-            color: white;
-            padding: 5px 15px;
-            border: none;
-            border-radius: 3px;
-            float: right;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-
-        .payment-row {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-            clear: both;
-        }
-
-        .payment-col {
-            flex: 1;
-        }
-
-        /* Manual Entry Form Styles */
-        .manual-product-form {
-            background-color: #f7f9fa;
-            /* Light grey background */
-            padding: 15px;
-            border: 1px solid #ddd;
-            margin-top: 10px;
-            border-top: none;
-            /* Connect to bar */
-        }
-
-        .manual-form-grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 5px;
-            font-size: 12px;
-            margin-bottom: 20px;
-        }
-
-        .manual-col {
-            overflow: hidden;
-        }
-
-        .manual-col strong {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .manual-form-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .right-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-dark-blue-sm {
-            background-color: #1f3a60;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .btn-dark-blue-sm:hover {
-            background-color: #2c5282;
-        }
-
-        .input-group-joined {
-            display: flex;
-        }
-
-        .input-joined-left {
-            border-right: 0;
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        .btn-joined-right {
-            border-radius: 0 4px 4px 0;
-        }
-
-        .modal-lg {
-            width: 80%;
-            max-width: 900px;
-        }
-
-        .close-modal-btn {
-            float: right;
-            font-size: 24px;
-            cursor: pointer;
-        }
-
-        .w-80-px {
-            width: 80px;
-        }
-
-        .stock-table-scroll {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .d-none {
-            display: none;
-        }
-    </style>
-</head>
-
-<body>
-                            <header class="header">
-        <div class="header-left">
-            <div class="sidebar-toggle-box">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="logo-area">
-                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
-                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
-                <div class="header-lang-menu" id="header-lang-menu">
-                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
-                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
-                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
-                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
-                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
-                </div>
-            </div>
-            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
-            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
-            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
-            
-            <!-- Branch Switcher Dropdown -->
-            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
-                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
-                <div class="header-lang-menu" id="branch-dropdown-menu">
-                    <!-- Dynamic branches from JS -->
-                </div>
-            </div>
-
-            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
-            <div class="header-item user-item" onclick="toggleUserMenu(event)">
-                <i class="fa-solid fa-user"></i> 
-                <span>fevziye.mamak35@gmail.com</span>
-                <div class="user-dropdown-menu" id="user-dropdown-menu">
-                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
-                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
-                    <hr>
-                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-logo">
-            <a href="index.html">
-                <img src="logo.png" alt="Logo">
-            </a>
-        </div>
-        <ul class="sidebar-menu">
-
-            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span
-                        data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
-            <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış
-                        Yap</span></a></li>
-            <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari
-                        Hesaplar</span></a></li>
-            <li><a href="stok_kartlari.html"><i class="fa-solid fa-boxes-stacked"></i> <span
-                        data-i18n="sidebar.stock">Stok Kartları</span></a></li>
-            <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span
-                        data-i18n="sidebar.invoices">Faturalar</span></a></li>
-            <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span
-                        data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-            <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span
-                        data-i18n="sidebar.cash">Kasa</span></a></li>
-            <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span
-                        data-i18n="sidebar.bank">Banka</span></a></li>
-            <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span
-                        data-i18n="sidebar.checks">Çek Senet</span></a></li>
-            <li><a href="taksit_takip.html"><i class="fa-solid fa-calendar-days"></i> <span
-                        data-i18n="sidebar.installments">Taksit
-                        Takip</span></a></li>
-            <li><a href="teklif_siparis.html"><i class="fa-solid fa-file-contract"></i> <span
-                        data-i18n="sidebar.offers">Teklif
-                        Sipariş</span></a></li>
-            <li><a href="doviz_ayarlari.html" id="doviz_settings_link"><i class="fa-solid fa-dollar-sign"></i> <span data-i18n="sidebar.currency">Döviz Ayarları</span></a></li>
-            
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-file-lines"></i> <span
-                        data-i18n="sidebar.reports">Raporlar</span> <i
-                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
-                <ul class="submenu">
-                    <li><a href="cari_raporu.html"><i class="fa-solid fa-users"></i> <span data-i18n="report.cari">Cari</span></a></li>
-                    <li><a href="toplu_stok_raporu.html"><i class="fa-solid fa-box-open"></i> <span data-i18n="report.stok">Stok</span></a></li>
-                    <li><a href="taksit_rapor.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="report.taksit">Taksit</span></a></li>
-                    <li><a href="satis_raporu.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="report.satis">Satış</span></a></li>
-                    <li><a href="kasa_raporu.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="report.kasa">Kasa</span></a></li>
-                    <li><a href="banka_raporu.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="report.banka">Banka</span></a></li>
-                    <li><a href="cek_raporu.html"><i class="fa-solid fa-copy"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
-                    <li><a href="gun_sonu_raporu.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.gun_sonu">Gün Sonu Raporu</span></a></li>
-                    <li><a href="kar_zarar_analizi.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.kar_zarar">Kâr Zarar Analizi</span></a></li>
-                    <li><a href="gelir_gider.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-                </ul>
-            </li>
-            <li><a href="mesajlar.html"><i class="fa-solid fa-envelope"></i> <span data-i18n="sidebar.messages">Mesajlar</span></a></li>
-            
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-layer-group"></i> <span
-                        data-i18n="sidebar.modules">Ek Modüller</span> <i
-                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
-                <ul class="submenu">
-                    <li><a href="personel_takip.html"><i class="fa-solid fa-user-clock"></i> <span data-i18n="word.personel_takip">Personel Takip</span></a></li>
-                    <li><a href="ajanda.html"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="word.ajanda">Ajanda</span></a></li>
-                    <li><a href="kisi_ekle.html"><i class="fa-solid fa-user-plus"></i> <span data-i18n="word.kisi_ekleme">Kişi Ekleme Paneli</span></a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-                                        
-
-        <div class="content-area" style="padding-top: 20px;">
-        <h2 class="page-title"><span data-i18n="sidebar.sales_invoice">Satış Faturası</span></h2>
-
-        <div class="main-container">
-            <!-- Left Panel: Customer Info -->
-            <div class="left-panel">
-                <div class="form-grid-2">
-                    <!-- Left Column of Left Panel -->
-                    <div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="word.unvan">&Uuml;nvan</span></label>
-                            <input type="text" id="unvan" class="form-input-sm" value="ali">
-                            <!-- Dummy value matching image -->
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="word.yetkili">Yetkili</span></label>
-                            <input type="text" id="yetkili" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="word.eposta">E-posta</span></label>
-                            <input type="email" id="eposta" class="form-input-sm" placeholder="-">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.adres">Adres</span></label>
-                            <textarea id="adres" class="form-input-sm" rows="3"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Right Column of Left Panel -->
-                    <div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.vergi_dairesi">Vergi Dairesi</span></label>
-                            <input type="text" id="vergiDairesi" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.vergi_no">Vergi No</span></label>
-                            <input type="text" id="vergiNo" class="form-input-sm" value="0">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="word.il">&Idot;l</span></label>
-                            <input type="text" id="il" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="word.ilce">&Idot;l&ccedil;e</span></label>
-                            <input type="text" id="ilce" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="word.ulke">&Uuml;lke</span></label>
-                            <select id="ulke" class="form-input-sm">
-                                <option value="T&uuml;rkiye" data-i18n="mega.turkiye">Türkiye</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Panel: Invoice Info -->
-            <div class="right-panel">
-                <div class="tab-header">
-                    <div class="tab-item active"><span data-i18n="mega.fatura_bilgileri">Fatura Bilgileri</span></div>
-                    <div class="tab-item"><span data-i18n="mega.detay_bilgiler">Detay Bilgiler</span></div>
-                </div>
-                <div class="right-content">
-                    <div class="form-grid-2">
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.fatura_tarihi">Fatura Tarihi</span></label>
-                            <input type="date" id="faturaTarihi" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.vade_tarihi">Vade Tarihi</span></label>
-                            <input type="date" id="vadeTarihi" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.saat">Saat</span></label>
-                            <input type="time" id="faturaSaat" class="form-input-sm">
-                        </div>
-                        <div class="mb-15">
-                            <label class="form-label-sm"><span data-i18n="mega.fatura_no">Fatura No</span></label>
-                            <div class="input-group-btn">
-                                <input type="text" id="faturaNo" class="form-input-sm">
-                                <button type="button" id="btnGenerateInvoiceNo" aria-label="Yeni Fatura Numaras&#305;"><i
-                                        class="fa-solid fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-grid-2 mb-15">
-                        <div>
-                            <select class="form-input-sm">
-                                <option data-i18n="mega.temel_fatura">TEMELFATURA</option>
-                                <option data-i18n="mega.ticari_fatura">TICARIFATURA</option>
-                            </select>
-                        </div>
-                        <div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" id="chkKdvDahil"> <label for="chkKdvDahil"><span data-i18n="mega.kdv_dahil">KDV Dahil</span></label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-grid-2 mb-15">
-                        <div>
-                            <select class="form-input-sm">
-                                <option data-i18n="mega.satis">SATIS</option>
-                                <option data-i18n="mega.iade">IADE</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="form-label-sm"><span data-i18n="mega.para_birimleri">Para Birimleri</span></label>
-                            <select class="form-input-sm">
-                                <option>TRY</option>
-                                <option>USD</option>
-                                <option>EUR</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mb-15">
-                        <label class="form-label-sm"><span data-i18n="mega.doviz_kuru">D&ouml;viz Kuru</span></label>
-                        <input type="number" class="form-input-sm" value="1">
-                    </div>
-
-
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-bar">
-            <!-- Barcode input and button wrapper -->
-            <input type="text" class="barcode-input" placeholder="Barkod..." data-i18n="mega.barkod">
-            <button class="add-product-btn" id="btnToggleManualForm"><span data-i18n="mega.urun_ekle">&Uuml;r&uuml;n Ekle</span></button>
-        </div>
-
-        <!-- Manual Product Entry Form -->
-        <div id="manualProductForm" class="manual-product-form d-none">
-            <div class="manual-form-grid">
-                <!-- Headers -->
-                <div class="manual-col"><strong data-i18n="mega.urun_hizmet">Ürün/Hizmet</strong></div>
-                <div class="manual-col"><strong data-i18n="word.miktar">Miktar</strong></div>
-                <div class="manual-col"><strong data-i18n="word.birim">Birim</strong></div>
-                <div class="manual-col"><strong data-i18n="word.birim_fiyat">Birim Fiyat</strong></div>
-                <div class="manual-col"><strong><span data-i18n="mega.kdv">KDV</span></strong></div>
-                <div class="manual-col"><strong data-i18n="mega.kdv_durumu">KDV Durumu</strong></div>
-                <div class="manual-col"><strong data-i18n="mega.iskonto_pct">İskonto (%)</strong></div>
-                <div class="manual-col"><strong data-i18n="word.isk">İskonto</strong></div>
-                <div class="manual-col"><strong data-i18n="mega.otv">ÖTV</strong></div>
-                <div class="manual-col"><strong data-i18n="mega.otv_durumu">ÖTV Durumu</strong></div>
-                <div class="manual-col"><strong data-i18n="word.toplam">Toplam</strong></div>
-                <div class="manual-col"><strong data-i18n="mega.genel_toplam">Genel Toplam</strong></div>
-
-                <!-- Inputs -->
-                <div class="manual-col"><input type="text" id="manualName" class="form-input-sm"
-                        placeholder="&Uuml;r&uuml;n Ara..."></div>
-                <div class="manual-col"><input type="number" id="manualQty" class="form-input-sm" value="1"></div>
-                <div class="manual-col">
-                    <select id="manualUnit" class="form-input-sm">
-                        <option data-i18n="word.adet">Adet</option>
-                        <option data-i18n="word.kg">Kg</option>
-                        <option data-i18n="word.ton">Ton</option>
-                        <option data-i18n="word.container">Container</option>
-                        <option data-i18n="word.carton">Carton</option>
-                        <option data-i18n="word.box">Box</option>
-                        <option data-i18n="word.net_ton">Net Ton</option>
-                        <option data-i18n="word.gross_ton">Gross Ton</option>
-                    </select>
-                </div>
-                <div class="manual-col"><input type="number" id="manualPrice" class="form-input-sm" value="0"></div>
-                <div class="manual-col"><input type="number" id="manualKdv" class="form-input-sm" value="0" step="any">
-                </div>
-                <div class="manual-col">
-                    <select id="manualKdvStatus" class="form-input-sm">
-                        <option value="dahil" data-i18n="mega.kdv_dahil">Kdv Dahil</option>
-                        <option value="haric" data-i18n="mega.kdv_haric">Kdv Hariç</option>
-                    </select>
-                </div>
-                <div class="manual-col"><input type="number" id="manualDiscRate" class="form-input-sm" value="0"></div>
-                <div class="manual-col">
-                    <select id="manualDiscType" class="form-input-sm">
-                        <option data-i18n="word.yuzde">Yüzde</option>
-                        <option data-i18n="word.tutar">Tutar</option>
-                    </select>
-                </div>
-                <div class="manual-col"><input type="number" id="manualOtv" class="form-input-sm" value="0"></div>
-                <div class="manual-col">
-                    <select id="manualOtvStatus" class="form-input-sm">
-                        <option data-i18n="mega.otv_dahil">Ötv Dahil</option>
-                        <option data-i18n="mega.otv_haric">Ötv Hariç</option>
-                    </select>
-                </div>
-                <div class="manual-col"><input type="number" id="manualTotal" class="form-input-sm" readonly></div>
-                <div class="manual-col"><input type="number" id="manualGrandTotal" class="form-input-sm" readonly></div>
-            </div>
-
-            <div class="manual-form-actions">
-                <button id="btnOpenStockModal" class="btn-dark-blue-sm" data-i18n="mega.stok_bul"><i class="fa-solid fa-search"></i> Stok
-                    Bul</button>
-                <div class="right-actions">
-                    <label class="fs-13" data-i18n="mega.depo_seciniz_label">Depo Seçiniz:</label>
-                    <select id="manualWarehouseSelect" class="form-input-sm w-150-px">
-                        <option data-i18n="mega.merkez">Merkez</option>
-                        <option data-i18n="mega.sube_1">Şube 1</option>
-                    </select>
-                    <button id="btnAddManual" class="btn-dark-blue-sm" data-i18n="mega.aksiyon_ekle"><i class="fa-solid fa-plus"></i> Ekle</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Product Table Headers -->
-        <div class="product-table-container">
-            <table class="product-table">
-                <thead>
-                    <tr>
-                        <th class="w-15-pct"><span data-i18n="word.ad">Ad</span></th>
-                        <th class="w-5-pct"><span data-i18n="mega.kdv">KDV</span></th>
-                        <th class="w-5-pct" data-i18n="mega.otv">ÖTV</th>
-                        <th class="w-10-pct"><span data-i18n="word.birim_fiyati">Birim Fiyatı</span></th>
-                        <th class="w-10-pct"><span data-i18n="word.miktar">Miktar</span></th>
-                        <th class="w-10-pct"><span data-i18n="word.toplam">Toplam</span></th>
-                        <th class="w-5-pct"><span data-i18n="word.isk_percent">İsk %</span></th>
-                        <th class="w-10-pct"><span data-i18n="word.isk">İsk</span></th>
-                        <th class="w-10-pct"><span data-i18n="word.g_toplam">G. Toplam</span></th>
-                        <th class="w-15-pct text-right"><span data-i18n="word.islemler">İşlemler</span></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Empty Body -->
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Footer Section -->
-        <div class="footer-container">
-            <!-- Footer Left: Totals -->
-            <div class="footer-left">
-                <div class="totals-tabs">
-                    <div class="totals-tab active"><span data-i18n="mega.tutarlar">Tutarlar</span></div>
-                    <div class="totals-tab"><span data-i18n="mega.toplu_iskonto">Toplu İskonto</span></div>
-                </div>
-                <table class="totals-table">
-                    <tr>
-                        <td><span data-i18n="word.toplam">Toplam</span></td>
-                        <td>0.0 &#8378;</td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="word.iskonto">İskonto</span></td>
-                        <td>0.0 &#8378;</td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="word.ara_toplam">Ara Toplam</span></td>
-                        <td>0.0 &#8378;</td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="mega.kdv_tutar">KDV Tutar</span></td>
-                        <td>0.0 &#8378;</td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="mega.otv_tutar">ÖTV Tutar</span></td>
-                        <td>0.0 &#8378;</td>
-                    </tr>
-                    <tr>
-                        <td data-i18n="mega.diger_vergiler">Diğer Vergiler Tutar</td>
-                        <td id="totalOtherTax">0.00 &#8378;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <span data-i18n="mega.tevkifat">Tevkifat</span>
-                        </td>
-                        <td>
-                            <select id="tevkifatSelect" class="form-input-sm w-100-px d-inline-block">
-                                <option value="0" data-i18n="word.yok">Yok</option>
-                                <option value="2">2/10</option>
-                                <option value="3">3/10</option>
-                                <option value="5">5/10</option>
-                                <option value="7">7/10</option>
-                                <option value="9">9/10</option>
-                            </select>
-                            <span id="tevkifatAmount">0.00 &#8378;</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><span data-i18n="mega.oran">Oran</span></td>
-                        <td id="tevkifatRateDisplay">-</td>
-                    </tr>
-                    <tr>
-                        <td class="border-top-2-ddd"><span data-i18n="word.g_toplam">G. Toplam</span></td>
-                        <td class="border-top-2-ddd" id="grandTotalDisplay">0.00 &#8378;</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Footer Right: Description & Payment -->
-            <div class="footer-right">
-                <div class="footer-right-content">
-                    <div class="form-grid-2">
-                        <div>
-                            <label class="form-label-sm"><span data-i18n="mega.aciklama_basligi">Açıklama Başlığı</span></label>
-                            <input type="text" id="descTitle" class="form-input-sm">
-                        </div>
-                        <div>
-                            <label class="form-label-sm"><span data-i18n="mega.aciklamalar">Açıklamalar</span></label>
-                            <select id="descSelect" class="form-input-sm">
-                                <option data-i18n="word.seciniz">Seçiniz...</option>
-                                <option data-i18n="mega.genel_aciklama">Genel Açıklama</option>
-                                <option data-i18n="mega.odeme_notu">Ödeme Notu</option>
-                                <option data-i18n="mega.teslimat_notu">Teslimat Notu</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mt-20">
-                        <label class="form-label-sm"><span data-i18n="mega.aciklama">Açıklama</span></label>
-                        <textarea id="descText" class="form-input-sm" rows="3"></textarea>
-                    </div>
-
-                    <div class="overflow-hidden">
-                        <button class="btn-desc-save"><span data-i18n="mega.aciklama_kaydet">Açıklama Kaydet</span></button>
-                    </div>
-
-                    <div class="payment-row">
-                        <div class="payment-col">
-                            <label class="form-label-sm"><span data-i18n="mega.odenen">Ödenen</span></label>
-                            <input type="number" id="paymentAmount" class="form-input-sm" value="0.00" step="any">
-                        </div>
-                        <div class="payment-col">
-                            <label class="form-label-sm"><span data-i18n="mega.depo_seciniz">Depo Seçiniz</span></label>
-                            <select id="warehouseSelect" class="form-input-sm">
-                                <option data-i18n="mega.merkez">Merkez</option>
-                                <option data-i18n="mega.sube_1">Şube 1</option>
-                            </select>
-                        </div>
-                        <div class="payment-col">
-                            <label class="form-label-sm"><span data-i18n="mega.kasa_seciniz">Kasa Seçiniz</span></label>
-                            <select id="safeSelect" class="form-input-sm">
-                                <option data-i18n="mega.merkez_kasa">Merkez Kasa</option>
-                                <option data-i18n="mega.sube_kasa">Şube Kasa</option>
-                            </select>
-                        </div>
-                        <div class="payment-col">
-                            <label class="form-label-sm"><span data-i18n="mega.odeme_sekli">Ödeme Şekli</span></label>
-                            <select id="paymentMethod" class="form-input-sm">
-                                <option data-i18n="word.nakit">Nakit</option>
-                                <option data-i18n="mega.kredi_karti">Kredi Kartı</option>
-                                <option data-i18n="mega.havale_eft">Havale/EFT</option>
-                                <option data-i18n="word.cek">Çek</option>
-                                <option data-i18n="word.senet">Senet</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="save-btn-container">
-            <button class="btn-save-lg">
-                <i class="fa-solid fa-save"></i> <span data-i18n="mega.kaydet">Kaydet</span>
-            </button>
-        </div>
-
-        <br><br>
-    </div>
-
-    <!-- Stock Finder Modal -->
-    <div id="stockModal" class="modal">
-        <div class="modal-content modal-lg">
-            <span class="close-modal close-modal-btn">&times;</span>
-            <h2 class="page-title">Stok Bul</h2>
-
-            <div class="mb-15">
-                <input type="text" id="stockSearchInput" class="form-input-sm w-100"
-                    placeholder="&Uuml;r&uuml;n ad&#305;, kodu veya barkod ile ara...">
-            </div>
-
-            <div class="stock-table-scroll">
-                <table class="product-table">
-                    <thead>
-                        <tr>
-                            <th class="w-80-px">Se&ccedil;im</th>
-                            <th>&Uuml;r&uuml;n Ad&#305;</th>
-                            <th>Stok Kodu</th>
-                            <th>Barkod</th>
-                            <th>Fiyat</th>
-                            <th>Bakiye</th>
-                        </tr>
-                    </thead>
-                    <tbody id="stockTableBody">
-                        <!-- Dynamic Content -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="text-right mt-20">
-                <button id="btnCloseModal" class="btn btn-secondary">Kapat</button>
-            </div>
-        </div>
-    </main>
-
-    <script src="translations.js?v=1776685628940"></script>
-    <script src="script.js?v=1776685628940"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initial setup: Extract params from URL and populate
-            const urlParams = new URLSearchParams(window.location.search);
-            const cariId = urlParams.get('cari_id');
-
-            if (cariId) {
-                const consumers = JSON.parse(localStorage.getItem('customers')) || [];
-                const customer = consumers.find(c => c.id == cariId);
-
-                if (customer) {
-                    document.getElementById('unvan').value = customer.cariAdi || '';
-                    document.getElementById('yetkili').value = customer.yetkili || '';
-                    document.getElementById('eposta').value = customer.email || '';
-                    document.getElementById('adres').value = customer.adres || '';
-
-                    document.getElementById('vergiDairesi').value = customer.vergiAdresi || '';
-                    document.getElementById('vergiNo').value = customer.vergiNo || '';
-
-                    document.getElementById('il').value = customer.il || '';
-                    document.getElementById('ilce').value = customer.ilce || '';
-                    document.getElementById('ulke').value = customer.ulke || 'T&uuml;rkiye';
-                }
-            }
-
-            // Set default dates to Today
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            const todayStr = `${year}-${month}-${day}`;
-
-            const hours = String(now.getHours()).padStart(2, '0');
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const timeStr = `${hours}:${minutes}`;
-
-            document.getElementById('faturaTarihi').value = todayStr;
-            document.getElementById('vadeTarihi').value = todayStr;
-            document.getElementById('faturaSaat').value = timeStr;
-
-            // Invoice Number Generation
-            document.getElementById('btnGenerateInvoiceNo').addEventListener('click', function () {
-                const prefix = 'SAT';
-                const randomNum = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-                const invoiceNo = `${prefix}-${year}${month}-${randomNum}`;
-                document.getElementById('faturaNo').value = invoiceNo;
-            });
-
-            // Re-use core logic (simplified for immediate functionality)
-            const productTableBody = document.querySelector('.product-table tbody');
-            if (productTableBody) productTableBody.innerHTML = '';
-
-            updateFooterTotals();
-
-            // Populate Country List (Brief)
-            const countries = ["T&uuml;rkiye", "ABD", "Almanya", "Birle&#351;ik Krall&#305;k", "&#199;in", "Fransa", "Hollanda", "&#304;talya", "Rusya"];
-            const ulkeSelect = document.getElementById('ulke');
-            ulkeSelect.innerHTML = '';
-            countries.forEach(country => {
-                const option = document.createElement('option');
-                option.value = country;
-                option.textContent = country;
-                if (country === 'T&uuml;rkiye') option.selected = true;
-                ulkeSelect.appendChild(option);
-            });
-
-            // --- Product Addition via Barcode ---
-            const barcodeInput = document.querySelector('.barcode-input');
-            const addProductBtn = document.querySelector('.add-product-btn');
-
-            if (addProductBtn) {
-                addProductBtn.addEventListener('click', () => {
-                    const code = barcodeInput.value.trim();
-                    if (code) {
-                        // Normally search in DB. Here dummy.
-                        const newRow = createTableRow({
-                            name: 'Barkodlu &Uuml;r&uuml;n ' + code,
-                            kdv: 18,
-                            otv: 0,
-                            price: 100,
-                            qty: 1
-                        });
-                        productTableBody.appendChild(newRow);
-                        barcodeInput.value = '';
-                        updateFooterTotals();
-                    }
-                });
-            }
-
-            function createTableRow(data) {
-                const tr = document.createElement('tr');
-                const total = data.price * data.qty;
-                tr.innerHTML = `
-                    <td>${data.name}</td>
-                    <td>${data.kdv}</td>
-                    <td>${data.otv}</td>
-                    <td>${formatCurrencyVal(data.price)}</td>
-                    <td>${data.qty}</td>
-                    <td>${formatCurrencyVal(total)}</td>
-                    <td>0</td>
-                    <td>0.00</td>
-                    <td>${formatCurrencyVal(total * (1 + data.kdv/100))}</td>
-                    <td class="text-right">
-                        <button class="action-btn btn-delete-row"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                `;
-                return tr;
-            }
-
-            function formatCurrencyVal(val) {
-                return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(val);
-            }
-
-            function updateFooterTotals() {
-                // Dummy for now
-            }
-
-            // ... rest of the logic ...
-            // (Previous view revealed up to 1236 lines. Reconstructing logic)
-
-            const btnToggleManualForm = document.getElementById('btnToggleManualForm');
-            const manualProductForm = document.getElementById('manualProductForm');
-
-            if (btnToggleManualForm) {
-                btnToggleManualForm.addEventListener('click', () => {
-                    manualProductForm.classList.toggle('d-none');
-                });
-            }
-
-            const btnAddManual = document.getElementById('btnAddManual');
-            if (btnAddManual) {
-                btnAddManual.addEventListener('click', () => {
-                    const name = document.getElementById('manualName').value;
-                    const qty = parseFloat(document.getElementById('manualQty').value) || 1;
-                    const price = parseFloat(document.getElementById('manualPrice').value) || 0;
-                    const kdv = parseFloat(document.getElementById('manualKdv').value) || 0;
-                    
-                    if (name) {
-                        const newRow = createTableRow({ name, qty, price, kdv, otv:0 });
-                        productTableBody.appendChild(newRow);
-                        updateFooterTotals();
-                        // Reset
-                        document.getElementById('manualName').value = '';
-                    }
-                });
-            }
-
-            // Description Logic
-            const descSelect = document.getElementById('descSelect');
-            function loadDescriptions() {
-                descSelect.innerHTML = '<option data-i18n="word.seciniz">Seçiniz...</option>';
-                const standard = ["Genel A&ccedil;&#305;klama", "&Ouml;deme Notu", "Teslimat Notu"];
-                standard.forEach(opt => {
-                    const option = document.createElement('option');
-                    option.value = opt;
-                    option.textContent = opt;
-                    descSelect.appendChild(option);
-                });
-            }
-            loadDescriptions();
-
-            function parseCurrency(str) {
-                if (!str) return 0;
-                if (typeof str === 'number') return str;
-                let clean = str.replace(/[?\s]/g, '');
-                clean = clean.replace(/\./g, '').replace(',', '.');
-                return parseFloat(clean) || 0;
-            }
-
-            // Save Logic
-            const btnSave = document.querySelector('.btn-save-lg');
-            if (btnSave) {
-                btnSave.addEventListener('click', () => {
-                    alert('Sat&#305;&#351; Faturas&#305; Ba&#351;ar&#305;yla Kaydedildi!');
-                    window.location.href = 'satis_faturasi.html';
-                });
-            }
-
-            // Stock Modal Logic
-            const modal = document.getElementById('stockModal');
-            const btnOpenStock = document.getElementById('btnOpenStockModal');
-            const spanClose = document.querySelector('.close-modal');
-            const btnCloseModal = document.getElementById('btnCloseModal');
-
-            if (btnOpenStock) {
-                btnOpenStock.addEventListener('click', () => {
-                    modal.style.display = 'block';
-                });
-            }
-
-            if (spanClose) spanClose.addEventListener('click', () => modal.style.display = 'none');
-            if (btnCloseModal) btnCloseModal.addEventListener('click', () => modal.style.display = 'none');
-            window.addEventListener('click', (e) => { if (e.target == modal) modal.style.display = 'none'; });
-
-        });
-    </script>
-
-<script src='excelExportUniversal.js'></script></body>
-
-</html>

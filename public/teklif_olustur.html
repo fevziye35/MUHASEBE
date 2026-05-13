@@ -1,974 +1,0 @@
-﻿<!DOCTYPE html>
-<html lang="tr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-i18n="word.teklif_siparis_baslik">Teklif Oluştur</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        .split-page-layout {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .top-panels {
-            display: flex;
-            gap: 20px;
-        }
-
-        .info-panel {
-            flex: 1;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .panel-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a2d4c;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 10px;
-        }
-
-        .form-group label {
-            font-size: 13px;
-            color: #666;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        /* Product Table Area */
-        .product-area {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-        }
-
-        .product-input-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            align-items: flex-end;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 6px;
-        }
-
-        .table-products th {
-            background-color: #f1f1f1;
-            color: #333;
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .table-products td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .totals-area {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        .totals-box {
-            width: 300px;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .total-row.grand-total {
-            font-weight: 700;
-            font-size: 18px;
-            color: #1a2d4c;
-            border-top: 1px solid #ccc;
-            padding-top: 8px;
-            margin-top: 8px;
-        }
-
-        .action-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 15px;
-            margin-top: 20px;
-            padding-bottom: 40px;
-        }
-
-        /* Calendar Dark Theme Mockup & Input Focus */
-        .date-input-container {
-            position: relative;
-        }
-
-        /* Basic input styling for table inputs */
-        .tbl-input {
-            width: 100%;
-            border: 1px solid transparent;
-            background: transparent;
-            padding: 5px;
-        }
-
-        .tbl-input:focus {
-            border: 1px solid #3498db;
-            background: white;
-            outline: none;
-        }
-
-        /* --- Modal Styles (Matching teklif_cari_sec) --- */
-        .selection-bar {
-            background-color: #e9ecef;
-            padding: 10px 20px;
-            border-radius: 5px 5px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #dee2e6;
-            margin-bottom: 0;
-        }
-
-        .selection-title {
-            font-weight: 600;
-            color: #495057;
-        }
-
-        .search-container {
-            position: relative;
-        }
-
-        .search-container input {
-            padding: 5px 30px 5px 10px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            min-width: 250px;
-        }
-
-        .search-container i {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-        }
-
-        /* --- PRINT STYLES --- */
-        #print-container {
-            display: none;
-        }
-
-        @media print {
-
-            /* Hide EVERYTHING by default */
-            body>* {
-                display: none !important;
-            }
-
-            /* Show ONLY Print Container */
-            #print-container,
-            #print-container * {
-                display: block !important;
-                visibility: visible !important;
-            }
-
-            /* But respect flex/tables inside container */
-            #print-container .print-logo-row {
-                display: flex !important;
-            }
-
-            #print-container .print-signature-area {
-                display: flex !important;
-            }
-
-            #print-container .print-info-grid {
-                display: flex !important;
-            }
-
-            /* If we use a class */
-            #print-container table {
-                display: table !important;
-            }
-
-            #print-container thread {
-                display: table-header-group !important;
-            }
-
-            #print-container tbody {
-                display: table-row-group !important;
-            }
-
-            #print-container tr {
-                display: table-row !important;
-            }
-
-            #print-container th,
-            #print-container td {
-                display: table-cell !important;
-            }
-
-            /* Position Print Container */
-            #print-container {
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                margin: 0;
-                padding: 0;
-                background: white;
-            }
-
-            /* Main Layout Adjustments */
-            body {
-                background: white;
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
-            /* Table Styling */
-            .table-products {
-                border-collapse: collapse;
-                width: 100%;
-                margin-top: 20px;
-            }
-
-            .table-products th {
-                background-color: #f1f1f1 !important;
-                color: black !important;
-                border: 1px solid #000;
-                padding: 8px;
-                text-align: left;
-            }
-
-            .table-products td {
-                border: 1px solid #000;
-                padding: 8px;
-                vertical-align: middle;
-            }
-
-            /* Totals Styling */
-            .totals-area {
-                display: flex !important;
-                justify-content: flex-end !important;
-            }
-
-            .totals-box {
-                width: 300px;
-                text-align: right;
-            }
-
-            .total-row {
-                display: flex !important;
-                justify-content: space-between !important;
-                margin-bottom: 5px;
-            }
-
-            .total-row span:last-child {
-                font-weight: 600;
-                font-size: 16px;
-            }
-
-            .total-row.grand-total span:last-child {
-                font-size: 24px;
-                font-weight: 800;
-            }
-        }
-    </style>
-</head>
-
-<body>
-                            <header class="header">
-        <div class="header-left">
-            <div class="sidebar-toggle-box">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-            <div class="logo-area">
-                <span class="brand-text" data-i18n="word.company_name">MAKFA GIDA ÜRÜNLERİ SANAYİ TİCARET ANONİM ŞİRKETİ</span>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="header-item header-lang-dropdown" onclick="toggleLanguageMenu(event)">
-                <i class="fa-solid fa-flag"></i> <span id="header-lang-text">Language</span>
-                <div class="header-lang-menu" id="header-lang-menu">
-                    <div class="header-lang-item" onclick="setLanguage('tr')"><i class="fa-solid fa-flag"></i> Türkçe</div>
-                    <div class="header-lang-item" onclick="setLanguage('en')"><i class="fa-solid fa-flag-usa"></i> English</div>
-                    <div class="header-lang-item" onclick="setLanguage('de')"><i class="fa-solid fa-flag"></i> Deutsch (Almanca)</div>
-                    <div class="header-lang-item" onclick="setLanguage('ru')"><i class="fa-solid fa-flag"></i> Русский (Русча)</div>
-                    <div class="header-lang-item" onclick="setLanguage('zh')"><i class="fa-solid fa-flag"></i> 中文 (Çince)</div>
-                </div>
-            </div>
-            <div class="header-item" style="cursor: pointer;" onclick="window.history.back()"><i class="fa-solid fa-reply"></i> <span data-i18n="header.back">Geri Dön</span></div>
-            <div class="header-item" style="cursor: pointer;" title="Ekranı Kilitle" onclick="window.location.href='kilit_ekrani.html'"><i class="fa-solid fa-lock"></i></div>
-            <div class="header-item"><i class="fa-solid fa-circle-info"></i></div>
-            
-            <!-- Branch Switcher Dropdown -->
-            <div class="header-item header-lang-dropdown" onclick="toggleBranchMenu(event)">
-                <i class="fa-solid fa-building"></i> <span id="header-branch-text">Merkez</span>
-                <div class="header-lang-menu" id="branch-dropdown-menu">
-                    <!-- Dynamic branches from JS -->
-                </div>
-            </div>
-
-            <div class="header-item" style="cursor: pointer;" onclick="window.location.href='ajanda.html'"><i class="fa-solid fa-calendar-days"></i> 2026</div>
-            <div class="header-item user-item" onclick="toggleUserMenu(event)">
-                <i class="fa-solid fa-user"></i> 
-                <span>fevziye.mamak35@gmail.com</span>
-                <div class="user-dropdown-menu" id="user-dropdown-menu">
-                    <div class="user-dropdown-item" onclick="window.location.href='profil.html'"><i class="fa-solid fa-user-gear"></i> <span data-i18n="user.profile">Profilim</span></div>
-                    <div class="user-dropdown-item" onclick="switchUser()"><i class="fa-solid fa-people-arrows"></i> <span data-i18n="user.switch">Kullanıcı Değiştir</span></div>
-                    <hr>
-                    <div class="user-dropdown-item logout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="user.logout">Çıkış Yap</span></div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-logo">
-            <a href="index.html">
-                <img src="logo.png" alt="Logo">
-            </a>
-        </div>
-        <ul class="sidebar-menu">
-
-            <li><a href="index.html"><i class="fa-solid fa-house"></i> <span
-                        data-i18n="sidebar.home">Giriş Ekranı</span></a></li>
-            <li><a href="satis_yap.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="sidebar.sales">Satış
-                        Yap</span></a></li>
-            <li><a href="cari_hesaplar.html"><i class="fa-solid fa-users"></i> <span data-i18n="sidebar.customers">Cari
-                        Hesaplar</span></a></li>
-            <li><a href="stok_kartlari.html"><i class="fa-solid fa-boxes-stacked"></i> <span
-                        data-i18n="sidebar.stock">Stok Kartları</span></a></li>
-            <li><a href="faturalar.html"><i class="fa-solid fa-file-invoice"></i> <span
-                        data-i18n="sidebar.invoices">Faturalar</span></a></li>
-            <li><a href="gelir_gider.html"><i class="fa-solid fa-chart-line"></i> <span
-                        data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-            <li><a href="kasa.html"><i class="fa-solid fa-cash-register"></i> <span
-                        data-i18n="sidebar.cash">Kasa</span></a></li>
-            <li><a href="banka_ozet.html"><i class="fa-solid fa-building-columns"></i> <span
-                        data-i18n="sidebar.bank">Banka</span></a></li>
-            <li><a href="cek_senet.html"><i class="fa-solid fa-money-check"></i> <span
-                        data-i18n="sidebar.checks">Çek Senet</span></a></li>
-            <li><a href="taksit_takip.html"><i class="fa-solid fa-calendar-days"></i> <span
-                        data-i18n="sidebar.installments">Taksit
-                        Takip</span></a></li>
-            <li><a href="teklif_siparis.html"><i class="fa-solid fa-file-contract"></i> <span
-                        data-i18n="sidebar.offers">Teklif
-                        Sipariş</span></a></li>
-            <li><a href="doviz_ayarlari.html" id="doviz_settings_link"><i class="fa-solid fa-dollar-sign"></i> <span data-i18n="sidebar.currency">Döviz Ayarları</span></a></li>
-            
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-file-lines"></i> <span
-                        data-i18n="sidebar.reports">Raporlar</span> <i
-                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
-                <ul class="submenu">
-                    <li><a href="cari_raporu.html"><i class="fa-solid fa-users"></i> <span data-i18n="report.cari">Cari</span></a></li>
-                    <li><a href="toplu_stok_raporu.html"><i class="fa-solid fa-box-open"></i> <span data-i18n="report.stok">Stok</span></a></li>
-                    <li><a href="taksit_rapor.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="report.taksit">Taksit</span></a></li>
-                    <li><a href="satis_raporu.html"><i class="fa-solid fa-cart-shopping"></i> <span data-i18n="report.satis">Satış</span></a></li>
-                    <li><a href="kasa_raporu.html"><i class="fa-solid fa-cash-register"></i> <span data-i18n="report.kasa">Kasa</span></a></li>
-                    <li><a href="banka_raporu.html"><i class="fa-solid fa-building-columns"></i> <span data-i18n="report.banka">Banka</span></a></li>
-                    <li><a href="cek_raporu.html"><i class="fa-solid fa-copy"></i> <span data-i18n="sidebar.checks">Çek Senet</span></a></li>
-                    <li><a href="gun_sonu_raporu.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.gun_sonu">Gün Sonu Raporu</span></a></li>
-                    <li><a href="kar_zarar_analizi.html"><i class="fa-solid fa-file-lines"></i> <span data-i18n="report.kar_zarar">Kâr Zarar Analizi</span></a></li>
-                    <li><a href="gelir_gider.html"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="sidebar.income_expense">Gelir Gider</span></a></li>
-                </ul>
-            </li>
-            <li><a href="mesajlar.html"><i class="fa-solid fa-envelope"></i> <span data-i18n="sidebar.messages">Mesajlar</span></a></li>
-            
-            <li class="has-submenu">
-                <a href="javascript:void(0)" class="submenu-toggle"><i class="fa-solid fa-layer-group"></i> <span
-                        data-i18n="sidebar.modules">Ek Modüller</span> <i
-                          class="fa-solid fa-chevron-right ms-auto arrow"></i></a>
-                <ul class="submenu">
-                    <li><a href="personel_takip.html"><i class="fa-solid fa-user-clock"></i> <span data-i18n="word.personel_takip">Personel Takip</span></a></li>
-                    <li><a href="ajanda.html"><i class="fa-solid fa-calendar-check"></i> <span data-i18n="word.ajanda">Ajanda</span></a></li>
-                    <li><a href="kisi_ekle.html"><i class="fa-solid fa-user-plus"></i> <span data-i18n="word.kisi_ekleme">Kişi Ekleme Paneli</span></a></li>
-                </ul>
-            </li>
-        </ul>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-                                        
-
-        <div class="p-20">
-            <h2 id="page-title" style="margin-bottom: 20px; font-weight: 600; font-size: 24px; color: #1a2d4c;" data-i18n="word.yeni_verilen_teklif">Yeni
-                Teklif</h2>
-
-            <div class="split-page-layout">
-
-                <!-- Top Panels -->
-                <div class="top-panels">
-
-                    <!-- Customer Info (Left) -->
-                    <div class="info-panel">
-                        <div class="panel-title"><span data-i18n="mega.cari_bilgileri">Cari Bilgileri</span></div>
-                        <div class="form-group">
-                            <label data-i18n="word.unvan">Ünvan</label>
-                            <input type="text" id="cust-title" class="form-control" readonly>
-                        </div>
-                        <div class="form-group">
-                            <label data-i18n="word.yetkili">Yetkili</label>
-                            <input type="text" id="cust-auth" class="form-control" readonly>
-                        </div>
-                        <div class="top-panels" style="gap: 10px;">
-                            <div class="form-group" style="flex:1">
-                                <label><span data-i18n="mega.eposta">E-Posta</span></label>
-                                <input type="text" id="cust-email" class="form-control" readonly
-                                    value="info@example.com">
-                            </div>
-                            <div class="form-group" style="flex:1">
-                                <label data-i18n="mega.vergi_no">Vergi Dairesi / No</label>
-                                <input type="text" id="cust-tax" class="form-control" readonly
-                                    value="Konak VD / 1234567890">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label><span data-i18n="mega.adres">Adres</span></label>
-                            <input type="text" id="cust-address" class="form-control" readonly value="İzmir, Türkiye">
-                        </div>
-                    </div>
-
-                    <!-- Quote Details (Right) -->
-                    <div class="info-panel">
-                        <div class="panel-title" data-i18n="report.islem_detaylari">İşlem Detayları</div>
-                        <div class="top-panels" style="gap: 10px;">
-                            <div class="form-group" style="flex:1">
-                                <label><span data-i18n="mega.tarih">Tarih</span></label>
-                                <input type="text" id="date-input" class="form-control" placeholder="GG.AA.YYYY">
-                            </div>
-                            <div class="form-group" style="flex:1">
-                                <label data-i18n="word.gecerlilik_tarihi">Geçerlilik Tarihi</label>
-                                <input type="text" id="due-date-input" class="form-control" placeholder="GG.AA.YYYY">
-                            </div>
-                        </div>
-                        <div class="top-panels" style="gap: 10px;">
-                            <div class="form-group" style="flex:1">
-                                <label><span data-i18n="mega.saat">Saat</span></label>
-                                <input type="time" id="time-input" class="form-control">
-                            </div>
-                            <div class="form-group" style="flex:1">
-                                <label data-i18n="word.belge_no">Belge No</label>
-                                <input type="text" class="form-control" value="T-2026-001">
-                            </div>
-                        </div>
-                        <div class="top-panels" style="gap: 10px;">
-                            <div class="form-group" style="flex:1">
-                                <label data-i18n="word.doviz">Döviz</label>
-                                <select class="form-control">
-                                    <option>TL</option>
-                                    <option>USD</option>
-                                    <option>EUR</option>
-                                </select>
-                            </div>
-                            <div class="form-group" style="flex:1">
-                                <label data-i18n="word.kur">Kur</label>
-                                <input type="number" class="form-control" value="1.0000">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Product Table -->
-                <div class="product-area">
-                    <div class="product-input-row">
-                        <div style="flex: 2;">
-                            <label style="font-size:12px; color:#666;" data-i18n="word.barkod_stok_adi">Barkod / Stok Adı</label>
-                            <input type="text" id="mainStockSearch" class="form-control" placeholder="Barkod okutun veya ürün arayın..." data-i18n-placeholder="word.barkod_stok_ara">
-                        </div>
-                        <button class="btn btn-dark" onclick="openStockModal()"><i class="fa-solid fa-plus"></i> <span data-i18n="word.urun_ekle">Ürün Ekle</span></button>
-                    </div>
-
-                    <table class="table table-products">
-                        <thead>
-                            <tr>
-                                <th data-i18n="word.stok_adi_kucuk">Stok Adı</th>
-                                <th style="width: 80px;" data-i18n="word.birim_kucuk">Birim</th>
-                                <th style="width: 80px;" data-i18n="word.miktar_kucuk">Miktar</th>
-                                <th style="width: 100px;" data-i18n="word.fiyat_kucuk">Fiyat</th>
-                                <th style="width: 60px;"><span data-i18n="mega.kdv">KDV</span></th>
-                                <th style="width: 60px;" data-i18n="word.iskonto_short">İsk. %</th>
-                                <th style="width: 100px;" data-i18n="word.tutar">Tutar</th>
-                                <th style="width: 40px;" class="no-print"></th>
-                            </tr>
-                        </thead>
-                        <tbody id="product-tbody">
-                            <!-- Rows will be added dynamically -->
-                        </tbody>
-                    </table>
-
-                    <div class="totals-area">
-                        <div class="totals-box">
-                            <div class="total-row">
-                                <span data-i18n="word.ara_toplam_colon">Ara Toplam:</span>
-                                <span id="sub-total">0,00 TL</span>
-                            </div>
-                            <div class="total-row">
-                                <span data-i18n="word.kdv_toplam_colon">KDV Toplam:</span>
-                                <span id="vat-total">0,00 TL</span>
-                            </div>
-                            <div class="total-row grand-total">
-                                <span data-i18n="word.genel_toplam_colon">Genel Toplam:</span>
-                                <span id="grand-total">0,00 TL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Print Signature Section -->
-                    <div class="print-footer" style="display: none;">
-                        <div class="print-amount-words">
-                            <strong>Yazı ile:</strong> <span id="amount-text">Yalnız YÜZYİRMİ Türk Lirası</span>
-                        </div>
-                        <div class="print-signature-area"
-                            style="display: flex; justify-content: space-between; margin-top: 50px;">
-                            <div style="text-align: center;">
-                                <p><strong>Teslim Eden</strong></p>
-                                <p>İmza</p>
-                            </div>
-                            <div style="text-align: center;">
-                                <p><strong>Teslim Alan</strong></p>
-                                <p>İmza / Kaşe</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Action Footer -->
-                <div class="action-footer">
-                    <button class="btn btn-danger" onclick="window.history.back()" data-i18n="word.vazgec">Vazgeç</button>
-                    <button class="btn btn-green" onclick="saveQuote()"><i class="fa-solid fa-check"></i>
-                        <span data-i18n="mega.kaydet">Kaydet</span></button>
-                    <button class="btn btn-info" onclick="saveAndPrint()"><i class="fa-solid fa-print"></i>
-                        <span data-i18n="word.kaydet_yazdir">Kaydet ve Yazdır</span></button>
-                </div>
-
-            </div>
-        </div>
-
-    </main>
-
-    <!-- Product Selection Modal -->
-    <div id="stockModal" class="modal">
-        <div class="modal-content" style="max-width: 900px; width: 90%;">
-            <div class="selection-bar">
-                <div class="selection-title"><i class="fa-solid fa-boxes-stacked"></i> Stok Listesi - Ürün Seçimi</div>
-                <div class="search-container">
-                    <input type="text" id="stockSearch" placeholder="Ürün Adı veya Barkod Ara..."
-                        onkeyup="filterStocks()">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </div>
-            </div>
-
-            <div style="max-height: 500px; overflow-y: auto;">
-                <table class="table" style="margin-top: 0; border-top: none;">
-                    <thead>
-                        <tr>
-                            <th style="width: 100px;"></th>
-                            <th>Stok Adı</th>
-                            <th>Birim</th>
-                            <th>Satış Fiyatı</th>
-                            <th>Mevcut Bakiye</th>
-                        </tr>
-                    </thead>
-                    <tbody id="stockTableBody">
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-            <div style="text-align: right; margin-top: 10px;">
-                <button class="btn btn-secondary" onclick="closeStockModal()">Kapat</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Print Container (Visible ONLY on print) -->
-    <div id="print-container">
-        <div class="print-header">
-            <div class="print-logo-row"
-                style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px;">
-                <div class="print-logo">
-                    <img src="logo.png" alt="MAKFA LOGO" style="height: 60px;">
-                </div>
-                <div>
-                    <h3 style="margin: 0; font-size: 18px; color: #1a2d4c;">MAKFA GIDA ÜRÜNLERİ SAN. TİC. A.Ş.</h3>
-                    <p style="margin: 5px 0 0; font-size: 12px; color: #555;">
-                        Adres: Organize Sanayi Bölgesi 1. Cadde No:5 İzmir<br>
-                        Tel: +90 232 123 45 67 | E-posta: info@makfa.com.tr
-                    </p>
-                </div>
-            </div>
-
-            <div class="print-title" style="text-align: center; margin-bottom: 20px;">
-                <h2 id="print-page-title"
-                    style="border: 1px solid #000; display: inline-block; padding: 5px 30px; border-radius: 4px;">TEKLİF
-                    / SİPARİŞ FORMU</h2>
-            </div>
-
-            <!-- Print Info Grid -->
-            <div style="display: flex; justify-content: space-between; gap: 20px; margin-bottom: 20px;">
-                <div style="flex: 1; border: 1px solid #000; padding: 10px; border-radius: 4px;">
-                    <strong
-                        style="display: block; border-bottom: 1px solid #000; margin-bottom: 5px; padding-bottom: 3px;">Sayın
-                        / Firma:</strong>
-                    <div id="print-cust-title" style="font-weight: 600;"></div>
-                    <div id="print-cust-auth" style="margin-top: 5px;"></div>
-                    <div id="print-cust-address" style="font-size: 12px; color: #333; margin-top: 5px;"></div>
-                    <div id="print-cust-tax" style="font-size: 12px; color: #333;"></div>
-                </div>
-                <div style="width: 250px; border: 1px solid #000; padding: 10px; border-radius: 4px;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                        <strong>Tarih:</strong> <span id="print-date"></span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
-                        <strong>Saat:</strong> <span id="print-time"></span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <strong>Belge No:</strong> <span>T-2026-001</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Print Product Table -->
-        <table class="table table-products" id="print-product-table">
-            <thead>
-                <tr>
-                    <th>Stok Adı</th>
-                    <th style="width: 80px;">Birim</th>
-                    <th style="width: 80px;">Miktar</th>
-                    <th style="width: 100px;">Fiyat</th>
-                    <th style="width: 60px;"><span data-i18n="mega.kdv">KDV</span></th>
-                    <th style="width: 100px;">Tutar</th>
-                </tr>
-            </thead>
-            <tbody id="print-product-tbody">
-                <!-- Populated by JS -->
-            </tbody>
-        </table>
-
-        <div class="totals-area" style="margin-top: 20px;">
-            <div class="totals-box">
-                <div class="total-row">
-                    <span>Ara Toplam:</span>
-                    <span id="print-sub-total">0,00 TL</span>
-                </div>
-                <div class="total-row">
-                    <span>KDV Toplam:</span>
-                    <span id="print-vat-total">0,00 TL</span>
-                </div>
-                <div class="total-row grand-total">
-                    <span>Genel Toplam:</span>
-                    <span id="print-grand-total">0,00 TL</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="print-footer" style="margin-top: 40px;">
-            <div class="print-amount-words">
-                <strong>Yazı ile:</strong> <span id="print-amount-text">Yalnız YÜZYİRMİ Türk Lirası</span>
-            </div>
-            <div class="print-signature-area" style="display: flex; justify-content: space-between; margin-top: 50px;">
-                <div style="text-align: center; width: 200px; border-top: 1px solid #000; padding-top: 5px;">
-                    <p><strong>Teslim Eden</strong></p>
-                    <p>İmza</p>
-                </div>
-                <div style="text-align: center; width: 200px; border-top: 1px solid #000; padding-top: 5px;">
-                    <p><strong>Teslim Alan</strong></p>
-                    <p>İmza / Kaşe</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function saveAndPrint() {
-            // First save (simulation)
-            alert("İşlem kaydedildi, yazdırma ekranı hazırlanıyor...");
-
-            // 1. Populate Header Info
-            document.getElementById('print-cust-title').textContent = document.getElementById('cust-title').value;
-            document.getElementById('print-cust-auth').textContent = document.getElementById('cust-auth').value;
-            document.getElementById('print-cust-address').textContent = document.getElementById('cust-address').value;
-            document.getElementById('print-cust-tax').textContent = document.getElementById('cust-tax').value;
-
-            document.getElementById('print-date').textContent = document.getElementById('date-input').value;
-            document.getElementById('print-time').textContent = document.getElementById('time-input').value;
-
-            // 2. Populate Product Table (Transfer inputs to static text)
-            const printTbody = document.getElementById('print-product-tbody');
-            printTbody.innerHTML = '';
-
-            document.querySelectorAll('#product-tbody tr').forEach(row => {
-                const name = row.cells[0].querySelector('input').value;
-                const unit = row.cells[1].querySelector('input').value;
-                const qty = row.querySelector('.qty').value;
-                const price = row.querySelector('.price').value;
-                const vat = row.querySelector('.vat').value;
-                const total = row.querySelector('.row-total').textContent;
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${name}</td>
-                    <td>${unit}</td>
-                    <td>${qty}</td>
-                    <td>${parseFloat(price).toFixed(2)}</td>
-                    <td>%${vat}</td>
-                    <td style="text-align: right;">${total}</td>
-                `;
-                printTbody.appendChild(tr);
-            });
-
-            // 3. Populate Totals
-            document.getElementById('print-sub-total').textContent = document.getElementById('sub-total').textContent;
-            document.getElementById('print-vat-total').textContent = document.getElementById('vat-total').textContent;
-            document.getElementById('print-grand-total').textContent = document.getElementById('grand-total').textContent;
-
-            // 4. Amount Text (Mockup)
-            // Ideally, convert grand total to text here.
-
-            // Trigger Print
-            window.print();
-        }
-    </script>
-
-    <script src="translations.js?v=1776685628940"></script>
-    <script src="script.js?v=1776685628940"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof applyTranslations === 'function') {
-                applyTranslations();
-            }
-        });
-        // Mock Stock Data
-        const stocks = [
-            { id: 101, name: "Pilavlık Pirinç 1kg", unit: "Adet", price: 45.00, stock: 150 },
-            { id: 102, name: "Kırmızı Mercimek 1kg", unit: "Adet", price: 35.00, stock: 200 },
-            { id: 103, name: "Nohut 1kg", unit: "Adet", price: 40.00, stock: 120 },
-            { id: 104, name: "Bulgur 1kg", unit: "Adet", price: 25.00, stock: 300 },
-            { id: 105, name: "Un 5kg", unit: "Adet", price: 85.00, stock: 80 },
-            { id: 106, name: "Toz Şeker 1kg", unit: "Adet", price: 32.00, stock: 250 },
-            { id: 107, name: "Ayçiçek Yağı 5L", unit: "Teneke", price: 210.00, stock: 60 },
-            { id: 108, name: "Zeytinyağı 1L", unit: "Şişe", price: 350.00, stock: 40 },
-            { id: 109, name: "Çay 1kg", unit: "Paket", price: 180.00, stock: 90 },
-            { id: 110, name: "Salça 830g", unit: "Kutu", price: 55.00, stock: 110 }
-        ];
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Load Customer Data
-            const customerData = localStorage.getItem('selectedCustomerForQuote');
-            if (customerData) {
-                const customer = JSON.parse(customerData);
-                document.getElementById('cust-title').value = customer.title || '';
-                document.getElementById('cust-auth').value = customer.auth || '';
-            }
-
-            // 2. Load Page Title from URL/LocalStorage
-            let type = localStorage.getItem('currentQuoteType');
-            const titleMap = {
-                'verilen_teklif': { i18n: 'word.yeni_verilen_teklif', fallback: 'Yeni Verilen Teklif' },
-                'alinan_teklif': { i18n: 'word.yeni_alinan_teklif', fallback: 'Yeni Alınan Teklif' },
-                'verilen_siparis': { i18n: 'word.yeni_verilen_siparis', fallback: 'Yeni Verilen Sipariş' },
-                'alinan_siparis': { i18n: 'word.yeni_alinan_siparis', fallback: 'Yeni Alınan Sipariş' }
-            };
-
-            if (type && titleMap[type]) {
-                const titleObj = titleMap[type];
-                const pageTitleEl = document.getElementById('page-title');
-                pageTitleEl.textContent = titleObj.fallback;
-                pageTitleEl.setAttribute('data-i18n', titleObj.i18n);
-                
-                const printTitleText = titleObj.fallback.toUpperCase() + ' FORMU';
-                document.getElementById('print-page-title').textContent = printTitleText;
-            }
-            
-            if (typeof applyTranslations === 'function') applyTranslations();
-
-            // 3. Set Default Date
-            const today = new Date();
-            const dateStr = today.toLocaleDateString('tr-TR');
-            document.getElementById('date-input').value = dateStr;
-            document.getElementById('due-date-input').value = dateStr;
-
-            const now = new Date();
-            const timeStr = String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
-            document.getElementById('time-input').value = timeStr;
-
-            // 4. Initial calculations
-            calculateTotals();
-        });
-
-        // --- Stock Modal Functions ---
-
-        function openStockModal() {
-            const modal = document.getElementById('stockModal');
-            modal.style.display = 'flex'; // Use flex for centering logic from CSS
-            renderStocks(stocks);
-            document.getElementById('stockSearch').value = '';
-            document.getElementById('stockSearch').focus();
-        }
-
-        function closeStockModal() {
-            document.getElementById('stockModal').style.display = 'none';
-        }
-
-        function renderStocks(data) {
-            const tbody = document.getElementById('stockTableBody');
-            tbody.innerHTML = '';
-            data.forEach(item => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><button class="btn btn-secondary" style="background-color: #ced4da; color: #495057; border: none; font-weight: 600; font-size: 13px;" onclick="selectStock(${item.id})"><i class="fa-solid fa-arrow-right"></i> Seç</button></td>
-                    <td>${item.name}</td>
-                    <td>${item.unit}</td>
-                    <td>${item.price.toFixed(2)} TL</td>
-                    <td>${item.stock}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        function filterStocks() {
-            const input = document.getElementById('stockSearch');
-            const filter = input.value.toUpperCase();
-            const filtered = stocks.filter(s =>
-                s.name.toUpperCase().includes(filter) ||
-                String(s.id).includes(filter)
-            );
-            renderStocks(filtered);
-        }
-
-        function selectStock(id) {
-            const item = stocks.find(s => s.id === id);
-            if (!item) return;
-
-            // Add row to main table
-            const tbody = document.getElementById('product-tbody');
-            const row = document.createElement('tr');
-            // Give inputs an ID or distinct class to focus later?
-            // Simple approach: append then find the input in this new row.
-
-            row.innerHTML = `
-                <td><input type="text" class="tbl-input" value="${item.name}"></td>
-                <td><input type="text" class="tbl-input" value="${item.unit}"></td>
-                <td><input type="number" class="tbl-input qty" value="" placeholder="1" onchange="calculateRow(this)"></td>
-                <td><input type="number" class="tbl-input price" value="${item.price.toFixed(2)}" onchange="calculateRow(this)"></td>
-                <td><input type="number" class="tbl-input vat" value="20" onchange="calculateRow(this)"></td>
-                <td><input type="number" class="tbl-input disc" value="0" onchange="calculateRow(this)"></td>
-                <td class="row-total">0.00</td>
-                <td class="no-print"><i class="fa-solid fa-trash" style="color:#e74c3c; cursor:pointer;" onclick="this.closest('tr').remove(); calculateTotals();"></i></td>
-            `;
-            tbody.appendChild(row);
-
-            closeStockModal();
-
-            // Focus on Quantity input of the new row
-            const qtyInput = row.querySelector('.qty');
-            if (qtyInput) {
-                qtyInput.focus();
-            }
-
-            calculateTotals();
-        }
-
-        // --- Standard Calculation Functions ---
-
-        function addProductRowMock() {
-            // Replaced by Modal, but keeping generic add for manual entry if needed, 
-            // OR modify the "Add Product" button to call openStockModal() instead.
-            openStockModal();
-        }
-
-        function calculateRow(input) {
-            const row = input.closest('tr');
-            const qty = parseFloat(row.querySelector('.qty').value) || 0;
-            const price = parseFloat(row.querySelector('.price').value) || 0;
-            const vat = parseFloat(row.querySelector('.vat').value) || 0;
-            const disc = parseFloat(row.querySelector('.disc').value) || 0;
-
-            let baseTotal = qty * price;
-            // Apply discount
-            if (disc > 0) {
-                baseTotal = baseTotal - (baseTotal * disc / 100);
-            }
-            // Apply VAT
-            const totalWithVat = baseTotal + (baseTotal * vat / 100);
-
-            row.querySelector('.row-total').textContent = totalWithVat.toFixed(2);
-            calculateTotals();
-        }
-
-        function calculateTotals() {
-            let subTotal = 0; // Pre-VAT
-            let vatTotal = 0;
-            let grandTotal = 0;
-
-            document.querySelectorAll('#product-tbody tr').forEach(row => {
-                const qty = parseFloat(row.querySelector('.qty').value) || 0;
-                const price = parseFloat(row.querySelector('.price').value) || 0;
-                const vat = parseFloat(row.querySelector('.vat').value) || 0;
-                const disc = parseFloat(row.querySelector('.disc').value) || 0;
-
-                let rowBase = qty * price;
-                if (disc > 0) rowBase -= (rowBase * disc / 100);
-
-                let rowVatAmt = rowBase * (vat / 100);
-                let rowTotal = rowBase + rowVatAmt;
-
-                subTotal += rowBase;
-                vatTotal += rowVatAmt;
-                grandTotal += rowTotal;
-            });
-
-            document.getElementById('sub-total').textContent = subTotal.toFixed(2) + ' TL';
-            document.getElementById('vat-total').textContent = vatTotal.toFixed(2) + ' TL';
-            document.getElementById('grand-total').textContent = grandTotal.toFixed(2) + ' TL';
-        }
-
-        function saveQuote() {
-            alert("İşlem başarıyla kaydedildi!");
-        }
-
-        // Close modal when clicking outside
-        window.onclick = function (event) {
-            const modal = document.getElementById('stockModal');
-            if (event.target == modal) {
-                closeStockModal();
-            }
-        }
-    </script>
-
-<script src='excelExportUniversal.js'></script></body>
-
-</html>
