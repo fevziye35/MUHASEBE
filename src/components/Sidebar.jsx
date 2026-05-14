@@ -24,6 +24,13 @@ const Sidebar = ({ isCollapsed }) => {
     return false;
   };
 
+  // Sidebar.jsx içinde
+const { i18n } = useTranslation();
+
+return (
+  <nav key={i18n.language} style={{ ... }}> 
+     {/* key={i18n.language} eklemek, dil değiştiğinde menüyü yeniler */}
+
   const menuItems = [
     { path: '/', label: t('sidebar.dashboard'), icon: 'fa-house' },
     { path: '/satis-yap', label: t('sidebar.sales'), icon: 'fa-cart-shopping' },
