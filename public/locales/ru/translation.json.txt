@@ -1,15 +1,14 @@
 {
   "sidebar": {
-    "dashboard": "Главная",
+    "dashboard": "Панель управления",
     "sales": "Продажи",
     "customers": "Клиенты",
     "stocks": "Склады",
     "invoices": "Счета",
     "income_expense": "Доходы и расходы",
     "kasa": "Касса",
-    "bank": "Bank",
+    "bank": "Банк",
     "checks": "Чеки",
-    "logout": "Выйти",
-    "logout_confirm": "Вы уверены, что хотите выйти?"
+    "logout": "Выход"
   }
 }
