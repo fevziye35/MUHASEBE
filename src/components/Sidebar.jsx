@@ -1,8 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-// i18n dosyasını doğrudan buraya da import edelim ki instance garantilensin
-import '../i18n'; 
+import { useTranslation, I18nextProvider } from 'react-i18next'; // I18nextProvider ekledik
+import i18n from '../i18n'; // i18n instance'ını doğrudan import ettik
+// ... diğer importlar
+
 import { useLanguage } from '../context/LanguageContext';
 import logo from '../assets/logo.png';
 

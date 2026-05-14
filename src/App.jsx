@@ -1,3 +1,4 @@
+import './i18n'; // i18n motorunu burada da zorunlu olarak çağırıyoruz
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MainLayout from './layout/MainLayout';
