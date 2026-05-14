@@ -1,25 +1,14 @@
-import { useTranslation } from 'react-i18next'; // En üste ekle
-
-// Sidebar fonksiyonu içine:
-const { t } = useTranslation();
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next'; // Bunu buraya ekle
 import { useLanguage } from '../context/LanguageContext';
 import logo from '../assets/logo.png';
 
 const Sidebar = ({ isCollapsed }) => {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t } = useTranslation(); // useLanguage yerine useTranslation kullanıyoruz
+  const { language } = useLanguage(); // Dil değişimini dinlemek için kalsın
   const location = useLocation();
-
-  const handleLogout = (e) => {
-    if (e) e.preventDefault();
-    if (window.confirm(t('logout_confirm'))) {
-      localStorage.removeItem('isAuthenticated');
-      navigate('/login');
-    }
-  };
 
   const isActive = (path) => {
     if (path === '/' && location.pathname === '/') return true;
