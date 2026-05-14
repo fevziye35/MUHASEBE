@@ -14,8 +14,9 @@ i18n
       escapeValue: false, 
     },
     backend: {
-      // Dosya yolunun doğruluğu çok önemli
-      loadPath: '/locales/{{lng}}/translation.json', 
+      // Başına nokta koyarak yolu './locales/...' şeklinde güncellemek 
+      // Vercel'in dosyayı bulmasını kolaylaştırır.
+      loadPath: './locales/{{lng}}/translation.json', 
     }
   });
 
