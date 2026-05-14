@@ -1,22 +1,21 @@
 import React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { useTranslation, I18nextProvider } from 'react-i18next'; // I18nextProvider ekledik
-import i18n from '../i18n'; // i18n instance'ını doğrudan import ettik
-// ... diğer importlar
-
+import { useTranslation } from 'react-i18next'; 
+// i18n dosyasını import ediyoruz
+import i18nInstance from '../i18n'; 
 import { useLanguage } from '../context/LanguageContext';
 import logo from '../assets/logo.png';
 
 const Sidebar = ({ isCollapsed }) => {
   const navigate = useNavigate();
-  // t fonksiyonunu alırken i18n instance'ını da alalım
-  const { t, i18n } = useTranslation(); 
+  // Burada i18n ismini kullanmıyoruz, sadece t fonksiyonunu alıyoruz
+  const { t } = useTranslation(); 
   const { language } = useLanguage();
   const location = useLocation();
 
-  // Eğer i18n instance'ı hala yüklenmediyse düzgün çalışması için zorlayalım
-  if (!i18n.isInitialized) {
-    return null; // veya basit bir yükleniyor ekranı
+  // import ettiğimiz instance üzerinden kontrol yapıyoruz
+  if (!i18nInstance.isInitialized) {
+    return null; 
   }
   
-  // Geri kalan kodun aynı kalabilir...
+  // Geri kalan menü elemanları ve JSX yapısı...
