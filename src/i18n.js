@@ -14,8 +14,11 @@ i18n
       escapeValue: false,
     },
     backend: {
-      // Baştaki noktayı kaldırıp slash ile başlatmak kök dizini garantiler
+      // Vercel'in public klasörüne her şartta ulaşması için:
       loadPath: '/locales/{{lng}}/translation.json',
+    },
+    react: {
+      useSuspense: false // Yükleme sırasında beyaz ekran hatasını önler
     }
   });
 

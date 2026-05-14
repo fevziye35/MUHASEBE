@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './i18n'; // ÖNEMLİ: App'ten önce en yukarıda olmalı
+import './i18n'; // Nokta ve eğik çizgiye dikkat!
 import './index.css';
 import App from './App.jsx';
 
