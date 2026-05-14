@@ -1,3 +1,8 @@
+import { useTranslation } from 'react-i18next'; // En üste ekle
+
+// Sidebar fonksiyonu içine:
+const { t } = useTranslation();
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
@@ -23,21 +28,15 @@ const Sidebar = ({ isCollapsed }) => {
   };
 
   const menuItems = [
-    { path: '/', label: t('home'), icon: 'fa-house' },
-    { path: '/satis-yap', label: t('sales'), icon: 'fa-cart-shopping' },
-    { path: '/cari-hesaplar', label: t('customers'), icon: 'fa-users' },
-    { path: '/stok-kartlari', label: t('stocks'), icon: 'fa-boxes-stacked' },
-    { path: '/faturalar', label: t('invoices'), icon: 'fa-file-invoice' },
-    { path: '/gelir-gider', label: t('income_expense'), icon: 'fa-chart-line' },
-    { path: '/kasa', label: t('cash'), icon: 'fa-cash-register' },
-    { path: '/banka', label: t('bank'), icon: 'fa-building-columns' },
-    { path: '/cek-senet', label: t('checks'), icon: 'fa-money-check' },
-    { path: '/taksit-takip', label: t('installments'), icon: 'fa-calendar-days' },
-    { path: '/teklif-siparis', label: t('quotes'), icon: 'fa-file-contract' },
-    { path: '/doviz-ayarlari', label: t('currency'), icon: 'fa-dollar-sign' },
-    { path: '/raporlar', label: t('reports'), icon: 'fa-file-lines' },
-    { path: '/mesajlar', label: t('messages'), icon: 'fa-envelope' },
-    { path: '/moduller', label: t('modules'), icon: 'fa-layer-group' },
+    { path: '/', label: t('sidebar.dashboard'), icon: 'fa-house' }, // 'home' yerine 'sidebar.dashboard'
+    { path: '/satis-yap', label: t('sidebar.sales'), icon: 'fa-cart-shopping' },
+    { path: '/cari-hesaplar', label: t('sidebar.customers'), icon: 'fa-users' },
+    { path: '/stok-kartlari', label: t('sidebar.stocks'), icon: 'fa-boxes-stacked' },
+    // ... diğerleri için de 'sidebar.' önekini ekle
+    { path: '/gelir-gider', label: t('sidebar.income_expense'), icon: 'fa-chart-line' },
+    { path: '/kasa', label: t('sidebar.kasa'), icon: 'fa-cash-register' },
+    { path: '/banka', label: t('sidebar.bank'), icon: 'fa-building-columns' },
+    { path: '/cek-senet', label: t('sidebar.checks'), icon: 'fa-money-check' },
   ];
 
   return (
