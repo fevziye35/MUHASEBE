@@ -4,19 +4,18 @@ import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n
-  .use(Backend) // JSON dosyalarını yüklemek için
-  .use(LanguageDetector) // Tarayıcı dilini algılamak için
-  .use(initReactI18next) // React ile bağlantı kurmak için
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
-    fallbackLng: 'tr', // Dil bulunamazsa Türkçe göster
-    debug: true, // Hataları konsolda görmek için
+    fallbackLng: 'tr',
+    debug: true,
     interpolation: {
-      escapeValue: false, 
+      escapeValue: false,
     },
     backend: {
-      // Başına nokta koyarak yolu './locales/...' şeklinde güncellemek 
-      // Vercel'in dosyayı bulmasını kolaylaştırır.
-      loadPath: './locales/{{lng}}/translation.json', 
+      // Baştaki noktayı kaldırıp slash ile başlatmak kök dizini garantiler
+      loadPath: '/locales/{{lng}}/translation.json',
     }
   });
 

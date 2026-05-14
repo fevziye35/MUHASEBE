@@ -3,9 +3,13 @@
     "dashboard": "Главная",
     "sales": "Продажи",
     "customers": "Клиенты",
+    "stocks": "Склады",
+    "invoices": "Счета",
     "income_expense": "Доходы и расходы",
     "kasa": "Касса",
-    "bank": "Банк",
-    "checks": "Чеки"
+    "bank": "Bank",
+    "checks": "Чеки",
+    "logout": "Выйти",
+    "logout_confirm": "Вы уверены, что хотите выйти?"
   }
 }
