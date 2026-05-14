@@ -1,0 +1,11 @@
+{
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "sales": "Sales",
+    "customers": "Customers",
+    "income_expense": "Income & Expense",
+    "kasa": "Cash",
+    "bank": "Bank",
+    "checks": "Checks"
+  }
+}

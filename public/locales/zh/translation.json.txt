@@ -1,0 +1,11 @@
+{
+  "sidebar": {
+    "dashboard": "仪表板",
+    "sales": "销售额",
+    "customers": "客户",
+    "income_expense": "收入与支出",
+    "kasa": "现金",
+    "bank": "银行",
+    "checks": "支票"
+  }
+}

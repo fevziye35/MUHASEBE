@@ -1,0 +1,11 @@
+{
+  "sidebar": {
+    "dashboard": "Instrumententafel",
+    "sales": "Verkäufe",
+    "customers": "Kunden",
+    "income_expense": "Einnahmen & Ausgaben",
+    "kasa": "Kasse",
+    "bank": "Bank",
+    "checks": "Schecks"
+  }
+}

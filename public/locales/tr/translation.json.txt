@@ -1,0 +1,11 @@
+{
+  "sidebar": {
+    "dashboard": "Panel",
+    "sales": "Satışlar",
+    "customers": "Müşteriler",
+    "income_expense": "Gelir & Gider",
+    "kasa": "Kasa",
+    "bank": "Banka",
+    "checks": "Çekler"
+  }
+}
